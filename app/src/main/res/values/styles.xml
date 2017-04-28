@@ -17,4 +17,9 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="myRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ic_check_circle</item>
+        <item name="android:indeterminateDrawable">@drawable/ic_check_circle</item>
+    </style>
+
 </resources>

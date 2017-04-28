@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Lift</string>
     <string name="action_settings">Settings</string>
+    <string name="workoutawork1">Squats</string>
+    <string name="workoutawork2">Bench</string>
+    <string name="workoutawork3">Barbell Row</string>
+    <string name="workoutbwork1">Squats</string>
+    <string name="workoutbwork2">Overhead Press</string>
+    <string name="workoutbwork3">Deadlift</string>
+    <string name="doneSet">Done Set</string>
+    <string name="maxNumOfReps">5</string>
+    <string name="maxNumOfSets">5</string>
 </resources>

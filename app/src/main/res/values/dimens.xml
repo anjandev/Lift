@@ -1,3 +1,7 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="dist_between_prog">25dp</dimen>
+    <dimen name="dist_above_section">15dp</dimen>
+
+
 </resources>
