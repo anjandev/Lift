@@ -17,6 +17,11 @@ public class Excersize {
     public int weight;
     public int setsDone;
 
+    // UI Elements related to excersize
+    public int seekSets;
+    public int seekReps;
+    public int weightUI;
+
     public void doneSet(int setNum, int repsDone){
         this.set_reps(setNum, repsDone);
         setsDone = setsDone + 1;
@@ -40,11 +45,28 @@ public class Excersize {
 
     }
 
-    public Excersize(String excersize_sName){
+    public int get_seekSets(){
+        return seekSets;
+    }
+
+    public int get_seekReps(){
+        return seekReps;
+    }
+
+    public int get_weightUI(){
+        return weightUI;
+    }
+
+
+    public Excersize(String excersize_sName, int seekSets1, int seekReps1, int weightUI1){
 
         this.excersizeName = excersize_sName;
 
         this.setsDone = 0;
+
+        this.seekSets = seekSets1;
+        this.seekReps = seekReps1;
+        this.weightUI = weightUI1;
 
         // zero data in array
         for(int i = 0; i < NUM_OF_SETS; i++){
