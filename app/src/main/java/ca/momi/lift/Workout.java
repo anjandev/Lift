@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 
@@ -33,7 +32,12 @@ public class Workout extends AppCompatActivity {
         SeekBar numOfReps = (SeekBar) findViewById(excersize.get_seekReps());
         EditText weight = (EditText) findViewById(excersize.get_weightUI());
 
-        if(numOfSets.getProgress() == 0){
+        String sWeight = weight.getText().toString();
+
+        if(sWeight.matches("")){
+            Snackbar.make(view, "Please enter a weight before pressing done set", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        }
+        else if(numOfSets.getProgress() == 0){
             // set weight here too. Check if empty field
             excersize.doneSet(numOfSets.getProgress(), numOfReps.getProgress());
             numOfSets.setProgress(numOfSets.getProgress() + 1);
