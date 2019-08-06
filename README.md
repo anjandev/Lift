@@ -1,6 +1,7 @@
 # Lift
 A weight lifting tracking app that respects your freedoms.
-*This program is under heavy development and not ready for everyday use*
+
+**This program is under heavy development and not ready for everyday use**
 
 ## Support
 Please note: Github is merely a mirror. The main git repo, issue tracker, and mailing list exists on sr.ht.
