@@ -1,6 +1,19 @@
 # Lift
 A weight lifting tracking app that respects your freedoms.
 
+## Support
+Please note: Github is merely a mirror. The main git repo, issue tracker, and mailing list exists on sr.ht.
+I will still accept pull requests on github!
+
+Main Git:
+[https://git.sr.ht/~anjan/lift](https://git.sr.ht/~anjan/lift)
+
+Issue Tracker:
+[https://todo.sr.ht/~anjan/lift](https://todo.sr.ht/~anjan/lift)
+
+Mailing List:
+[https://lists.sr.ht/~anjan/lift](https://lists.sr.ht/~anjan/lift)
+
 
 ## License
 ![GNU GPLv3 Image](https://www.gnu.org/graphics/gplv3-or-later.png)
