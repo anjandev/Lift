@@ -8,12 +8,24 @@
     tools:context="ca.momi.lift.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <DatePicker
-        android:id="@+id/datePicker"
+    <CalendarView
+        android:id="@+id/cal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/edDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="editDate"
+        android:text="Edit Date"
+        app:layout_constraintStart_toStartOf="@+id/cal"
+        app:layout_constraintTop_toBottomOf="@+id/cal" />
 </android.support.constraint.ConstraintLayout>

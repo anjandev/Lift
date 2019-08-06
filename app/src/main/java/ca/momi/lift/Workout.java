@@ -1,13 +1,29 @@
 package ca.momi.lift;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.icu.util.Calendar;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -124,6 +140,66 @@ public class Workout extends AppCompatActivity {
         this.ids.put("barbellRowRepsSeekBar",R.id.barbellRowRepsSeekBar);
     }
 
+
+
+
+    public void checkStoragePermissionAndWrite(Activity thisActivity, String fileName, String text) {
+
+        String state = Environment.getExternalStorageState();
+
+        if (!Environment.MEDIA_MOUNTED.equals(state)){
+            Log.d(TAG, "Error: external storage is unavailable");
+            return;
+        }
+        if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            Log.d(TAG, "Error: external storage is read only.");
+            return;
+        }
+        Log.d(TAG, "External storage is not read only or unavailable");
+
+
+
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(thisActivity,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(thisActivity,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(thisActivity,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        1);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+
+
+            try {
+                ExternalStore.writeTextToExtStorage(fileName, text);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // Permission has already been granted
+
+            try {
+                ExternalStore.writeTextToExtStorage(fileName, text);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO: Add plate calculator
@@ -137,5 +213,29 @@ public class Workout extends AppCompatActivity {
             excersizes.put(workoutA[i], new Excersize(workoutA[i], ids.get(workoutA[i] + "setSeekbar"), ids.get(workoutA[i] + "RepsSeekBar"), ids.get(workoutA[i] + "Weight")));
         }
 
+        long day = getIntent().getLongExtra("day", 0);
+        long month = getIntent().getLongExtra("month", 0);
+        long year = getIntent().getLongExtra("year", 0);
+
+        final String dateString = year + "-" + month + "-" + day;
+
+        Button doneWork = (Button) findViewById(R.id.doneWork);
+
+        TextView bDate = (TextView) findViewById(R.id.date);
+
+        bDate.setText(dateString);
+
+        doneWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String workoutSessionText = "* Workout\n"
+                                          + "SCHEDULED: <" + dateString + ">\n";
+                for(int i = 0; i < NUM_OF_WORKOUTS; i++) {
+                    // TODO: To generalize. Change workoutA to something else
+                    workoutSessionText += ExternalStore.makeExcersizeString(excersizes.get(workoutA[i]));
+                }
+                checkStoragePermissionAndWrite((Activity) v.getContext(),  dateString, workoutSessionText);
+            }
+        });
     }
 }

@@ -10,4 +10,5 @@
     <string name="doneSet">Done Set</string>
     <string name="maxNumOfReps">5</string>
     <string name="maxNumOfSets">5</string>
+    <string name="doneWork">Done Workout</string>
 </resources>
