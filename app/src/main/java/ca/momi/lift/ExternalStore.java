@@ -16,15 +16,8 @@
 
 package ca.momi.lift;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.Manifest.permission;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -73,10 +66,14 @@ public class ExternalStore {
         }
     }
 
-    public static String makeExcersizeString(Excersize excersize){
-        return excersize.excersizeName + "\n"+
-                excersize.weight + "\n" +
-                excersize.sets+ "\n";
+    static public String makeExcersizeString(Excersize excersize){
+        String post = excersize.excersizeName + "\n";
+
+        for(int i =0; i < excersize.setsDone; i++) {
+            post += "Rep " + i + " = " + excersize.curset[i].weight + excersize.uom + " done "
+                    + excersize.curset[i].reps + " reps\n";
+        }
+        return post;
     }
 
 

@@ -17,15 +17,12 @@ package ca.momi.lift;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.icu.util.Calendar;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,11 +31,7 @@ import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.widget.TextView;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +49,7 @@ public class Workout extends AppCompatActivity {
     public static Map<String, Integer> ids = new HashMap<String, Integer>();
 
 
+
     private void doneSet(View view, int excersizeIdx) {
         Excersize excersize = excersizes.get(workoutA[excersizeIdx]);
 
@@ -70,13 +64,13 @@ public class Workout extends AppCompatActivity {
         }
         else if(numOfSets.getProgress() == 0){
             // set weight here too. Check if empty field
-            excersize.doneSet(numOfSets.getProgress(), numOfReps.getProgress());
+            excersize.doneSet(numOfSets.getProgress(), numOfReps.getProgress(), Float.parseFloat(weight.getText().toString()));
             numOfSets.setProgress(numOfSets.getProgress() + 1);
             numOfSets.refreshDrawableState();
 
         }
         else if(numOfSets.getProgress() < numOfSets.getMax()){
-            excersize.doneSet(numOfSets.getProgress(), numOfReps.getProgress());
+            excersize.doneSet(numOfSets.getProgress(), numOfReps.getProgress(), Float.parseFloat(weight.getText().toString()));
             numOfSets.setProgress(numOfSets.getProgress() + 1);
             numOfSets.refreshDrawableState();
             // TODO: Add timer
@@ -225,7 +219,8 @@ public class Workout extends AppCompatActivity {
         mapIds();
 
         for(int i = 0; i < NUM_OF_WORKOUTS; i++) {
-            excersizes.put(workoutA[i], new Excersize(workoutA[i], ids.get(workoutA[i] + "setSeekbar"), ids.get(workoutA[i] + "RepsSeekBar"), ids.get(workoutA[i] + "Weight")));
+            excersizes.put(workoutA[i], new Excersize(workoutA[i], ids.get(workoutA[i] + "setSeekbar"),
+                           ids.get(workoutA[i] + "RepsSeekBar"), ids.get(workoutA[i] + "Weight")));
         }
 
         long day = getIntent().getLongExtra("day", 0);
