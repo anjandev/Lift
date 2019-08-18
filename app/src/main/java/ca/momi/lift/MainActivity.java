@@ -101,9 +101,10 @@ public class MainActivity extends AppCompatActivity {
                 int idx = (routinesRadGroup.getCheckedRadioButtonId());
 
                 AssignedExcers assExcersize = new AssignedExcers(program);
-                String[] routine = assExcersize.getExcersizes(assExcersize.routineDescriber[idx-1]);
+                RadioButton selectedOption = (RadioButton) findViewById(idx);
+                String[] routine = assExcersize.getExcersizes((String) selectedOption.getText());
 
-                workoutIntent.putExtra("RoutineName", assExcersize.routineDescriber[idx-1]);
+                workoutIntent.putExtra("RoutineName", (String) selectedOption.getText());
                 workoutIntent.putExtra("Excersizes", routine);
                 workoutIntent.putExtra("program", program);
 
