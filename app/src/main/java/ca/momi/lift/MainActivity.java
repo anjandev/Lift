@@ -41,28 +41,16 @@ import static java.lang.Long.parseLong;
 
 public class MainActivity extends AppCompatActivity {
 
-    public String program = "5x5";
-    public AssignedExcers[] routineDescriber = new AssignedExcers[2];
+    public String program = "madcow";
 
     private void setRadioGroup(){
 
         RadioGroup routinesRadGroup = (RadioGroup) findViewById(R.id.routines);
+        AssignedExcers assExcersize = new AssignedExcers(this.program);
 
-
-        if (program == "5x5") {
-            routineDescriber[0] = new AssignedExcers("Bench Press, Barbell Row");
-            routineDescriber[1] = new AssignedExcers("Overhead Press, Deadlift");
-        }
-        else if (program == "madcow") {
-            routineDescriber = new AssignedExcers[3];
-            routineDescriber[0] = new AssignedExcers("Day 1");
-            routineDescriber[1] = new AssignedExcers("Day 2");
-            routineDescriber[2] = new AssignedExcers("Day 3");
-        }
-
-        for(int i = 0; i < routineDescriber.length; i++){
+        for(int i = 0; i < assExcersize.routineDescriber.length; i++){
             RadioButton button = new RadioButton(this);
-            button.setText(routineDescriber[i].name);
+            button.setText(assExcersize.routineDescriber[i]);
             routinesRadGroup.addView(button);
         }
     }
@@ -111,8 +99,11 @@ public class MainActivity extends AppCompatActivity {
 
                 RadioGroup routinesRadGroup = (RadioGroup) findViewById(R.id.routines);
                 int idx = (routinesRadGroup.getCheckedRadioButtonId());
-                AssignedExcers routine = (routineDescriber[idx-1]);
-                workoutIntent.putExtra("Excersizes", routine.excersizes);
+
+                AssignedExcers assExcersize = new AssignedExcers(program);
+                String[] routine = assExcersize.getExcersizes(assExcersize.routineDescriber[idx-1]);
+
+                workoutIntent.putExtra("Excersizes", routine);
 
                 if(selectedDay[0] == 0 && selectedMonth[0] == 0 & selectedYear[0] == 0){
                     final long date = wCal.getDate();

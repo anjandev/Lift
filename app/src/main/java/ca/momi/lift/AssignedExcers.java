@@ -16,9 +16,25 @@ package ca.momi.lift;
 
 public class AssignedExcers {
     public String name;
-    public String[] excersizes = new String[3];
+    public String program;
 
-    public AssignedExcers(String sentName) {
+    public String[] excersizes = new String[3];
+    public String[] routineDescriber = new String[2];
+
+    public int workoutOptionsnum;
+
+    public int nextRoutineIdx(int curRoutine) {
+
+        if (curRoutine + 1 > workoutOptionsnum) {
+            return 1;
+        }
+        else {
+            return curRoutine +1;
+        }
+
+    }
+
+    public String[] getExcersizes(String sentName){
         this.name = sentName;
 
         switch(name) {
@@ -48,5 +64,23 @@ public class AssignedExcers {
                 excersizes[2] = "Bent-over Row";
                 break;
         }
+        return excersizes;
+    }
+
+
+    public AssignedExcers(String program) {
+        this.program = program;
+        if(program.equals("5x5")) {
+            workoutOptionsnum = 2;
+            routineDescriber[0] = "Bench Press, Barbell Row";
+            routineDescriber[1] = "Overhead Press, Deadlift";
+        } else if (program.equals("madcow")) {
+            workoutOptionsnum = 3;
+            String[] newRoutineDescriber = new String[3];
+            newRoutineDescriber[0] = "Day 1";
+            newRoutineDescriber[1] = "Day 2";
+            newRoutineDescriber[2] = "Day 3";
+            routineDescriber = newRoutineDescriber;
         }
     }
+}
