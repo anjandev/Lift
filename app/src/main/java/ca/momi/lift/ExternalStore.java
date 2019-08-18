@@ -26,6 +26,8 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ExternalStore {
     // Access org storage files
@@ -82,21 +84,31 @@ public class ExternalStore {
         return post;
     }
 
-    static public void getLastWorkoutProperties() {
+    static public LastWorkout getLastWorkoutProperties() {
         // TODO: Error checking if folder doesnt exist
         File path = new File(Environment.getExternalStorageDirectory() + "/Lift");
         File[] files = path.listFiles();
+        if (files.length == 0) {
+            return null;
+        }
+
         Arrays.sort(files);
 
         File lastWorkoutFile = files[files.length-1];
 
         StringBuilder content = new StringBuilder();
 
+        String firstLine = null;
+
         try {
             BufferedReader br = new BufferedReader(new FileReader(lastWorkoutFile));
             String curline;
 
             while ((curline = br.readLine()) != null) {
+                if(firstLine == null) {
+                    firstLine = curline;
+                }
+
                 content.append(curline);
                 content.append('\n');
             }
@@ -105,6 +117,11 @@ public class ExternalStore {
         catch (IOException e) {
             //TODO: ADD error handling
         }
+
+
+        // TODO: This might be bug when user defines workouts. Tell user they can only define workouts with certain syntax
+        return new LastWorkout(firstLine.substring(2));
+
     }
 
 }

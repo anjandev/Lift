@@ -27,8 +27,8 @@ public class AssignedExcers {
 
     public int nextRoutineIdx(int curRoutine) {
 
-        if (curRoutine + 1 > workoutOptionsnum) {
-            return 1;
+        if (curRoutine + 1 >= workoutOptionsnum) {
+            return 0;
         }
         else {
             return curRoutine +1;

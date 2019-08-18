@@ -18,6 +18,7 @@ package ca.momi.lift;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -34,9 +35,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
+import static ca.momi.lift.ExternalStore.getLastWorkoutProperties;
 import static java.lang.Long.parseLong;
 
 public class MainActivity extends AppCompatActivity {
@@ -126,11 +129,36 @@ public class MainActivity extends AppCompatActivity {
         });
 
         setRadioGroup();
+        setNextWorkout();
 
-
-        ExternalStore.getLastWorkoutProperties();
     }
 
+    private void setNextWorkout () {
+
+        LastWorkout latestwork = ExternalStore.getLastWorkoutProperties();
+        RadioGroup routinesRadGroup = (RadioGroup) findViewById(R.id.routines);
+
+        setRadioButtonsNotClickable(routinesRadGroup);
+
+        if (latestwork == null) {
+            // no last workout
+            RadioButton nextButton = (RadioButton) routinesRadGroup.getChildAt(0);
+            nextButton.setChecked(true);
+            return;
+        }
+        AssignedExcers assExcersize = new AssignedExcers(program);
+        int curIdx = Arrays.asList(assExcersize.routineDescriber).indexOf(latestwork.routineName);
+        int nextIdx = assExcersize.nextRoutineIdx(curIdx);
+
+        RadioButton nextButton = (RadioButton) routinesRadGroup.getChildAt(nextIdx);
+        nextButton.setChecked(true);
+    }
+
+    private void setRadioButtonsNotClickable(RadioGroup group) {
+        for(int i=0; i < group.getChildCount(); i++) {
+            group.getChildAt(i).setClickable(false);
+        }
+    }
 
 
     @Override
