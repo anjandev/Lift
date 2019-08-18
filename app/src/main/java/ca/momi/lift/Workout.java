@@ -19,51 +19,48 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.print.PrintAttributes;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.Layout;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.widget.TextView;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.net.ProtocolException;
 
 public class Workout extends AppCompatActivity {
     // for debugging
     private static final String TAG = Workout.class.getSimpleName();
-    static public final int NUM_OF_WORKOUTS = 3;
 
-    // Provided that the Map should be shared across every instance of your class, then you need to make it static. You then use a static initialiser block to instantiate and populate it:
-    // https://stackoverflow.com/questions/33775273/how-to-declare-hashmap-in-global-and-add-values-into-it-only-for-the-first-time
-    // The static initializer is a static {} block of code inside java class, and run only one time before the constructor or main method is called.
-    // "Final" will not allow the variable to be changed
-    static final String[] workoutA = {"squat", "bench", "barbellRow"};
-    public static Map<String, Excersize> excersizes = new HashMap<String, Excersize>();
-    public static Map<String, Integer> ids = new HashMap<String, Integer>();
+    Excersize[] listOfExcersizes;
 
+    private void didSet(View view, Excersize excersize) {
 
-
-    private void doneSet(View view, int excersizeIdx) {
-        Excersize excersize = excersizes.get(workoutA[excersizeIdx]);
-
-        SeekBar numOfSets = (SeekBar) findViewById(excersize.get_seekSets());
-        SeekBar numOfReps = (SeekBar) findViewById(excersize.get_seekReps());
-        EditText weight = (EditText) findViewById(excersize.get_weightUI());
+        SeekBar numOfSets = excersize.seekSets;
+        SeekBar numOfReps = excersize.seekReps;
+        EditText weight = excersize.weightUI;
 
         String sWeight = weight.getText().toString();
 
         if(sWeight.matches("")){
-            Snackbar.make(view, "Please enter a weight before pressing done set", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            Snackbar.make(view, "Please enter a weight before pressing done Set", Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
         else if(numOfSets.getProgress() == 0){
-            // set weight here too. Check if empty field
+            // Set weight here too. Check if empty field
             excersize.doneSet(numOfSets.getProgress(), numOfReps.getProgress(), Float.parseFloat(weight.getText().toString()));
             numOfSets.setProgress(numOfSets.getProgress() + 1);
             numOfSets.refreshDrawableState();
@@ -76,81 +73,9 @@ public class Workout extends AppCompatActivity {
             // TODO: Add timer
         }
         else{
-            Snackbar.make(view, "You're done your five sets for " + workoutA[excersizeIdx], Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            Snackbar.make(view, "You're done your five sets for " + excersize.excersizeName, Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
     }
-
-    // Mapping the ids of the ui elements is not independant of number of excersizes and names of
-    // excersizes.
-    // TODO: write a more general algorithm for this
-    public void doneSquat(View view) {
-        this.doneSet(view, 0);
-    }
-
-    public void doneBench(View view) {
-        this.doneSet(view, 1);
-    }
-
-    public void donebarbellRow(View view) {
-        this.doneSet(view, 2);
-    }
-
-    /* private void setSeekBarChangeListen(int excersizeIdx, SeekBar setSeekBar){
-
-        final Excersize excersize = excersizes.get(workoutA[excersizeIdx]);
-        final SeekBar numOfReps = (SeekBar)findViewById(ids.get(workoutA[excersizeIdx] + "RepsSeekBar"));
-
-        setSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
-                int progress;
-                if(progresValue > excersize.get_setsDone()) {
-                    progress = excersize.get_setsDone();
-                }
-                else{
-                    progress = progresValue;
-
-
-                }
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-
-        });
-    }*/
-
-
-    // Mapping the ids of the ui elements is not independant of number of excersizes and names of
-    // excersizes.
-    // TODO: write a more general algorithm for this
-    private void mapIds(){
-        // Create mapping of elements and ids
-        // Map<String, Integer> ids = new HashMap<String, Integer>();
-        this.ids.put("squatsetSeekbar",R.id.squatSetSeekbar);
-        this.ids.put("squatWeight",R.id.squatWeight);
-        this.ids.put("squatRepsSeekBar",R.id.squatRepsSeekBar);
-
-        this.ids.put("benchsetSeekbar",R.id.benchSetSeekbar);
-        this.ids.put("benchWeight",R.id.benchWeight);
-        this.ids.put("benchRepsSeekBar",R.id.benchRepsSeekBar);
-
-        this.ids.put("barbellRowsetSeekbar",R.id.barbellRowSetSeekBar);
-        this.ids.put("barbellRowWeight",R.id.barbellRowWeight);
-        this.ids.put("barbellRowRepsSeekBar",R.id.barbellRowRepsSeekBar);
-    }
-
-
-
 
     public void checkStoragePermissionAndWrite(Activity thisActivity, String fileName, String text) {
 
@@ -209,6 +134,108 @@ public class Workout extends AppCompatActivity {
 
     }
 
+    private void createExcerUI(final Excersize excer, LinearLayout ll) {
+
+        final int MARGIN_TOP = 8;
+        final int MARGIN_LEFT = 8;
+        final int MARGIN_BOTTOM = 0;
+        final int MARGIN_RIGHT = 0;
+
+        LinearLayout header = new LinearLayout(this);
+
+
+        TextView title = new TextView(this);
+        title.setText(excer.excersizeName);
+        RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        titleParams.addRule(RelativeLayout.BELOW, R.id.date);
+        title.setIncludeFontPadding(true);
+
+        titleParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
+
+        header.addView(title, titleParams);
+
+
+        EditText weight = new EditText(this);
+        RelativeLayout.LayoutParams weightParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        weightParams.addRule(RelativeLayout.RIGHT_OF, title.getId());
+        weightParams.addRule(RelativeLayout.ALIGN_TOP, title.getId());
+        weightParams.addRule(RelativeLayout.ALIGN_BOTTOM, title.getId());
+
+        weightParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
+
+        weight.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+        header.addView(weight, weightParams);
+
+
+        RelativeLayout.LayoutParams headerParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        headerParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
+
+        ll.addView(header,headerParams);
+
+
+        LinearLayout setsHolder = new LinearLayout(this);
+        SeekBar setsUI = new SeekBar(this);
+
+        RelativeLayout.LayoutParams setsParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        setsParams.addRule(RelativeLayout.BELOW, header.getId());
+        setsParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
+        setsUI.setMax(excer.NUM_OF_SETS);
+
+        setsHolder.addView(setsUI,setsParams);
+        ll.addView(setsHolder,setsParams);
+
+
+        LinearLayout repsHolder = new LinearLayout(this);
+        SeekBar repsUI = new SeekBar(this);
+        RelativeLayout.LayoutParams repsParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        repsParams.addRule(RelativeLayout.BELOW, setsHolder.getId());
+        repsParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
+        repsUI.setMax(excer.NUM_OF_REPS);
+        repsUI.setProgress(excer.NUM_OF_REPS);
+
+
+        Button doneSet = new Button(this);
+        RelativeLayout.LayoutParams doneSetParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        doneSetParams.addRule(RelativeLayout.RIGHT_OF, repsUI.getId());
+        doneSetParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
+
+        doneSet.setText("Done Set");
+        doneSet.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  didSet(v, excer);
+              }
+        });
+
+
+        repsHolder.addView(repsUI,repsParams);
+
+        ll.addView(repsHolder);
+
+        ll.addView(doneSet,doneSetParams);
+
+        excer.setUI(setsUI, repsUI, weight, title,doneSet);
+    }
+
+    private void assignExcerAddUI(String[] slistOfExcersizes){
+        listOfExcersizes = new Excersize[slistOfExcersizes.length];
+
+        for(int i = 0; i < slistOfExcersizes.length; i++) {
+            listOfExcersizes[i] = new Excersize(slistOfExcersizes[i]);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO: Add plate calculator
@@ -216,36 +243,39 @@ public class Workout extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workouta);
 
-        mapIds();
-
-        for(int i = 0; i < NUM_OF_WORKOUTS; i++) {
-            excersizes.put(workoutA[i], new Excersize(workoutA[i], ids.get(workoutA[i] + "setSeekbar"),
-                           ids.get(workoutA[i] + "RepsSeekBar"), ids.get(workoutA[i] + "Weight")));
-        }
+        String[] slistOfExcersizes = getIntent().getStringArrayExtra("Excersizes");
 
         long day = getIntent().getLongExtra("day", 0);
         long month = getIntent().getLongExtra("month", 0);
         long year = getIntent().getLongExtra("year", 0);
 
         final String dateString = year + "-" + month + "-" + day;
-
-        Button doneWork = (Button) findViewById(R.id.doneWork);
-
         TextView bDate = (TextView) findViewById(R.id.date);
-
         bDate.setText(dateString);
 
-        doneWork.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String workoutSessionText = "* Workout\n"
-                                          + "SCHEDULED: <" + dateString + ">\n";
-                for(int i = 0; i < NUM_OF_WORKOUTS; i++) {
-                    // TODO: To generalize. Change workoutA to something else
-                    workoutSessionText += ExternalStore.makeExcersizeString(excersizes.get(workoutA[i]));
-                }
-                checkStoragePermissionAndWrite((Activity) v.getContext(),  dateString, workoutSessionText);
-            }
-        });
+        LinearLayout ll = (LinearLayout) findViewById(R.id.stuff);
+        assignExcerAddUI(slistOfExcersizes);
+
+        for (int i =0; i < listOfExcersizes.length; i++) {
+            createExcerUI(listOfExcersizes[i], ll);
+        }
+
+        Button doneWork = new Button(this);
+        doneWork.setText("Done Workout");
+        ll.addView(doneWork);
+
+
+
+         doneWork.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 String workoutSessionText = "* Workout\n"
+                                           + "SCHEDULED: <" + dateString + ">\n";
+                 for(int i = 0; i < listOfExcersizes.length; i++) {
+                     workoutSessionText += ExternalStore.makeExcersizeString(listOfExcersizes[i]);
+                 }
+                 checkStoragePermissionAndWrite((Activity) v.getContext(),  dateString, workoutSessionText);
+             }
+         });
     }
 }

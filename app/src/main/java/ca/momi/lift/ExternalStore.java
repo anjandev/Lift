@@ -50,8 +50,10 @@ public class ExternalStore {
 
     public static void writeTextToExtStorage(String fileName, String text) throws IOException {
         File path = new File(Environment.getExternalStorageDirectory()+ "/Lift");
-        if (!path.mkdirs()) {
-            Log.e(TAG, "Directory not created");
+        if (!path.isDirectory()) {
+            if (!path.mkdirs()) {
+                Log.e(TAG, "Directory not created");
+            }
         }
 
         File file = new File(path, fileName + ".txt");
@@ -67,10 +69,10 @@ public class ExternalStore {
     }
 
     static public String makeExcersizeString(Excersize excersize){
-        String post = excersize.excersizeName + "\n";
+        String post = "- " + excersize.excersizeName + "\n";
 
         for(int i =0; i < excersize.setsDone; i++) {
-            post += "Rep " + i + " = " + excersize.curset[i].weight + excersize.uom + " done "
+            post += "   - Rep " + i + " = " + excersize.curset[i].weight + excersize.uom + " done "
                     + excersize.curset[i].reps + " reps\n";
         }
         return post;

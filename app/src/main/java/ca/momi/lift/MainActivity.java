@@ -30,6 +30,8 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 
 import java.util.Calendar;
@@ -38,6 +40,32 @@ import java.util.Date;
 import static java.lang.Long.parseLong;
 
 public class MainActivity extends AppCompatActivity {
+
+    public String program = "5x5";
+    public AssignedExcers[] routineDescriber = new AssignedExcers[2];
+
+    private void setRadioGroup(){
+
+        RadioGroup routinesRadGroup = (RadioGroup) findViewById(R.id.routines);
+
+
+        if (program == "5x5") {
+            routineDescriber[0] = new AssignedExcers("Bench Press, Barbell Row");
+            routineDescriber[1] = new AssignedExcers("Overhead Press, Deadlift");
+        }
+        else if (program == "madcow") {
+            routineDescriber = new AssignedExcers[3];
+            routineDescriber[0] = new AssignedExcers("Day 1");
+            routineDescriber[1] = new AssignedExcers("Day 2");
+            routineDescriber[2] = new AssignedExcers("Day 3");
+        }
+
+        for(int i = 0; i < routineDescriber.length; i++){
+            RadioButton button = new RadioButton(this);
+            button.setText(routineDescriber[i].name);
+            routinesRadGroup.addView(button);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +108,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent workoutIntent = new Intent(MainActivity.this, Workout.class);
+
+                RadioGroup routinesRadGroup = (RadioGroup) findViewById(R.id.routines);
+                int idx = (routinesRadGroup.getCheckedRadioButtonId());
+                AssignedExcers routine = (routineDescriber[idx-1]);
+                workoutIntent.putExtra("Excersizes", routine.excersizes);
+
                 if(selectedDay[0] == 0 && selectedMonth[0] == 0 & selectedYear[0] == 0){
                     final long date = wCal.getDate();
                     final String dateString = DateFormat.format("yyyy-MM-dd", new Date(date)).toString();
@@ -96,6 +130,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(workoutIntent);
             }
         });
+
+        setRadioGroup();
 
     }
 

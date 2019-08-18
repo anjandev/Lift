@@ -15,6 +15,11 @@
 
 package ca.momi.lift;
 
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.TextView;
+
 /**
  * Created by anjan on 4/28/2017.
  */
@@ -24,23 +29,26 @@ public class Excersize {
     public final String uom = "lb";
 
     public static int NUM_OF_SETS = 5;
+    public static int NUM_OF_REPS = 5;
 
-    public set curset[];
+    public Set curset[];
 
     public String excersizeName;
     public int setsDone;
 
     // UI Elements related to excersize
-    public int seekSets;
-    public int seekReps;
-    public int weightUI;
+    public TextView textUI;
+    public SeekBar seekSets;
+    public SeekBar seekReps;
+    public EditText weightUI;
+    public Button doneSetUI;
 
 
-    public set[] makeSets() {
-        set setObj[] = new set[NUM_OF_SETS];
+    public Set[] makeSets() {
+        Set setObj[] = new Set[NUM_OF_SETS];
 
         for(int i = 0; i < NUM_OF_SETS; i++){
-            setObj[i] = new set();
+            setObj[i] = new Set();
         }
         return setObj;
 
@@ -57,30 +65,25 @@ public class Excersize {
         this.curset[setNum].weight = weightDone;
     }
 
-    public set get_set(int setNum){
-        // given a setNum. Return the set
+    public Set get_set(int setNum){
+        // given a setNum. Return the Set
         return this.curset[setNum];
     }
 
-    public int get_seekSets(){
-        return this.seekSets;
+    public void setUI(SeekBar seekSets1, SeekBar seekReps1, EditText weightUI1, TextView textUI1, Button doneSetUI){
+        this.textUI = textUI1;
+        this.seekSets = seekSets1;
+        this.seekReps = seekReps1;
+        this.weightUI = weightUI1;
+        this.doneSetUI = doneSetUI;
     }
 
-    public int get_seekReps(){ return seekReps; }
 
-    public int get_weightUI(){ return weightUI; }
-
-
-    public Excersize(String excersize_sName, int seekSets1, int seekReps1, int weightUI1){
+    public Excersize(String excersize_sName){
 
         this.excersizeName = excersize_sName;
 
         this.setsDone = 0;
-
-        // TODO: generalize this
-        this.seekSets = seekSets1;
-        this.seekReps = seekReps1;
-        this.weightUI = weightUI1;
 
         this.curset = makeSets();
 

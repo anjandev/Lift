@@ -16,7 +16,7 @@
 
 package ca.momi.lift;
 
-public class set {
+public class Set {
     public float weight;
     public int reps;
 
@@ -24,7 +24,5 @@ public class set {
         weight = sentweight;
     }
 
-    public void setReps (int sentreps){
-        reps = sentreps;
-    }
+    public void setReps (int sentreps){ reps = sentreps; }
 }
