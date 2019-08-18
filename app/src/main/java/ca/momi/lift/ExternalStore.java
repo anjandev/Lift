@@ -19,9 +19,13 @@ package ca.momi.lift;
 import android.os.Environment;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class ExternalStore {
     // Access org storage files
@@ -78,5 +82,29 @@ public class ExternalStore {
         return post;
     }
 
+    static public void getLastWorkoutProperties() {
+        // TODO: Error checking if folder doesnt exist
+        File path = new File(Environment.getExternalStorageDirectory() + "/Lift");
+        File[] files = path.listFiles();
+        Arrays.sort(files);
+
+        File lastWorkoutFile = files[files.length-1];
+
+        StringBuilder content = new StringBuilder();
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(lastWorkoutFile));
+            String curline;
+
+            while ((curline = br.readLine()) != null) {
+                content.append(curline);
+                content.append('\n');
+            }
+            br.close();
+        }
+        catch (IOException e) {
+            //TODO: ADD error handling
+        }
+    }
 
 }

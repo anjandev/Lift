@@ -103,7 +103,9 @@ public class MainActivity extends AppCompatActivity {
                 AssignedExcers assExcersize = new AssignedExcers(program);
                 String[] routine = assExcersize.getExcersizes(assExcersize.routineDescriber[idx-1]);
 
+                workoutIntent.putExtra("RoutineName", assExcersize.routineDescriber[idx-1]);
                 workoutIntent.putExtra("Excersizes", routine);
+                workoutIntent.putExtra("program", program);
 
                 if(selectedDay[0] == 0 && selectedMonth[0] == 0 & selectedYear[0] == 0){
                     final long date = wCal.getDate();
@@ -124,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
 
         setRadioGroup();
 
+
+        ExternalStore.getLastWorkoutProperties();
     }
 
 

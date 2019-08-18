@@ -244,12 +244,15 @@ public class Workout extends AppCompatActivity {
         setContentView(R.layout.activity_workouta);
 
         String[] slistOfExcersizes = getIntent().getStringArrayExtra("Excersizes");
+        final String routineName = getIntent().getStringExtra("RoutineName");
+
+        final String programName = getIntent().getStringExtra("program");
 
         long day = getIntent().getLongExtra("day", 0);
         long month = getIntent().getLongExtra("month", 0);
         long year = getIntent().getLongExtra("year", 0);
 
-        final String dateString = year + "-" + month + "-" + day;
+        final String dateString = year + "-" + appendZero(String.valueOf(month)) + "-" + appendZero(String.valueOf(day));
         TextView bDate = (TextView) findViewById(R.id.date);
         bDate.setText(dateString);
 
@@ -269,13 +272,24 @@ public class Workout extends AppCompatActivity {
          doneWork.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 String workoutSessionText = "* Workout\n"
+                 String workoutSessionText = "* " + routineName + "\n"
                                            + "SCHEDULED: <" + dateString + ">\n";
+
+                 workoutSessionText += "- Program: " + programName + "\n";
                  for(int i = 0; i < listOfExcersizes.length; i++) {
                      workoutSessionText += ExternalStore.makeExcersizeString(listOfExcersizes[i]);
                  }
                  checkStoragePermissionAndWrite((Activity) v.getContext(),  dateString, workoutSessionText);
              }
          });
+    }
+
+    private String appendZero(String original){
+        if(original.length() == 1){
+            return "0" + original;
+        }
+        else {
+            return original;
+        }
     }
 }

@@ -15,6 +15,8 @@
 package ca.momi.lift;
 
 public class AssignedExcers {
+    // This file holds all the logic on what to do with a workout's failure, how to increase weights, routines etc.
+
     public String name;
     public String program;
 
