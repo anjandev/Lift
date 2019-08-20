@@ -43,6 +43,8 @@ public class Workout extends AppCompatActivity {
 
     Excersize[] listOfExcersizes;
 
+    private  WorkTimer currentWorkTimer;
+
     private void didSet(View view, Excersize excersize) {
 
         SeekBar numOfSets = excersize.seekSets;
@@ -54,19 +56,17 @@ public class Workout extends AppCompatActivity {
         if(sWeight.matches("")){
             Snackbar.make(view, "Please enter a weight before pressing done Set", Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
-        else if(numOfSets.getProgress() == 0){
-            // Set weight here too. Check if empty field
-            excersize.doneSet(numOfReps.getProgress(), Float.parseFloat(weight.getText().toString()));
-            numOfSets.setProgress(numOfSets.getProgress() + 1);
-            numOfSets.refreshDrawableState();
-
-        }
         else if(numOfSets.getProgress() < numOfSets.getMax()){
             excersize.doneSet(numOfReps.getProgress(), Float.parseFloat(weight.getText().toString()));
             numOfSets.setProgress(numOfSets.getProgress() + 1);
             numOfSets.refreshDrawableState();
-            // TODO: Add timer
+
+            final View finalView =view;
+            WorkTimer work = new WorkTimer(finalView, currentWorkTimer);
+
+            currentWorkTimer = work;
         }
+
         else{
             String sets;
             if (excersize.numOfSets == 1){

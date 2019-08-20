@@ -31,6 +31,12 @@ public class AssignedExcers {
     public int workoutOptionsnum;
 
 
+    public long[] rest(){
+        final long MINUTE_TO_MILLI = 60*1000;
+        long[] A = {Math.round(1.50*MINUTE_TO_MILLI), 3*MINUTE_TO_MILLI};
+        return A;
+    }
+
     public int getSets (String excersize){
         if (this.program.equals("5x5")){
             if (excersize.equals("Deadlift")) {
