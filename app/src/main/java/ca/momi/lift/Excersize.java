@@ -20,6 +20,9 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by anjan on 4/28/2017.
  */
@@ -31,10 +34,10 @@ public class Excersize {
     // This is the number of sets and reps need to perform in order to consider excersize as "done"
     // and allow progress.
     // TODO: Add condition if madcow. Put in initialization
-    public int NUM_OF_SETS = 5;
-    public int[] NUM_OF_REPS = {5,5,5,5,5};
+    public int numOfSets;
+    public int[] numOfReps;
 
-    public Set curset[];
+    public List<Set> curset;
 
     public String excersizeName;
     public int setsDone;
@@ -47,11 +50,13 @@ public class Excersize {
     public Button doneSetUI;
 
 
-    public Set[] makeSets() {
-        Set setObj[] = new Set[NUM_OF_SETS];
+    public List<Set> makeSets() {
 
-        for(int i = 0; i < NUM_OF_SETS; i++){
-            setObj[i] = new Set();
+        List<Set> setObj = new ArrayList<>();
+
+        for(int i = 0; i < numOfSets; i++){
+            Set current = new Set();
+            setObj.add(current);
         }
         return setObj;
 
@@ -61,14 +66,18 @@ public class Excersize {
         this.set_reps(this.setsDone, repsDone, weightDone);
         this.setsDone = setsDone + 1;
         // why cant i do this
-        // seekReps.setMax(NUM_OF_REPS[setsDone]);
-        // seekReps.setProgress(NUM_OF_REPS[setsDone]);
+        // seekReps.setMax(numOfReps[setsDone]);
+        // seekReps.setProgress(numOfReps[setsDone]);
     }
 
     private void set_reps(int setNum, int repsDone, float weightDone){
         // write reps to file memory
-        this.curset[setNum].reps = repsDone;
-        this.curset[setNum].weight = weightDone;
+        Set currentSet = new Set();
+
+        currentSet.reps = repsDone;
+        currentSet.weight = weightDone;
+
+        curset.add(currentSet);
     }
 
     public void setUI(SeekBar seekSets1, SeekBar seekReps1, EditText weightUI1, TextView textUI1, Button doneSetUI){
@@ -88,5 +97,9 @@ public class Excersize {
 
         this.curset = makeSets();
 
+
+        AssignedExcers assignedExcers = new AssignedExcers(MainActivity.program);
+        numOfReps = assignedExcers.getReps(excersize_sName);
+        numOfSets = assignedExcers.getSets(excersize_sName);
     }
 }

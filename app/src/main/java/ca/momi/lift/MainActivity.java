@@ -39,7 +39,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public String program = "5x5";
+    public static String program = "5x5";
 
     private void setRadioGroup(){
 

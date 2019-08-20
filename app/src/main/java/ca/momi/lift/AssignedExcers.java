@@ -30,15 +30,41 @@ public class AssignedExcers {
 
     public int workoutOptionsnum;
 
+
+    public int getSets (String excersize){
+        if (this.program.equals("5x5")){
+            if (excersize.equals("Deadlift")) {
+                return 1;
+            } else {
+                return 5;
+            }
+        }
+        return 0;
+    }
+
+    public int[] getReps (String excersize){
+        if (this.program.equals("5x5")){
+            if (excersize.equals("Deadlift")) {
+                int[] A = {5};
+                return A;
+            } else {
+                int[] A = {5, 5, 5, 5, 5};
+                return A;
+            }
+        }
+
+        return null;
+    }
+
     private boolean successfulExcer(Excersize excer) {
         // Check if you did all sets and you did all reps for all sets
 
-        if (excer.setsDone != excer.NUM_OF_SETS){
+        if (excer.setsDone != excer.numOfSets){
             return false;
         }
 
-        for (int i = 0; i < excer.NUM_OF_SETS; i++){
-            if(excer.NUM_OF_REPS[i] != excer.curset[i].reps){
+        for (int i = 0; i < excer.numOfSets; i++){
+            if(excer.numOfReps[i] != excer.curset.get(i).reps){
                 return false;
             }
         }
@@ -175,9 +201,9 @@ public class AssignedExcers {
         NextExcersize newEx;
         if (lastWorkout.program.equals("5x5")) {
             if (successfulExcer(curEx)){
-                newEx = new NextExcersize(curEx.excersizeName, curEx.curset[0].weight + getWeightInc());
+                newEx = new NextExcersize(curEx.excersizeName, curEx.curset.get(0).weight + getWeightInc());
             } else {
-                newEx = new NextExcersize(curEx.excersizeName, curEx.curset[0].weight);
+                newEx = new NextExcersize(curEx.excersizeName, curEx.curset.get(0).weight);
 
             }
             return newEx;

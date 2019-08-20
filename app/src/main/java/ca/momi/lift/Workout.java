@@ -19,20 +19,15 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Environment;
-import android.print.PrintAttributes;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.Layout;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.support.design.widget.Snackbar;
@@ -40,7 +35,6 @@ import android.util.Log;
 import android.widget.TextView;
 
 import java.io.IOException;
-import java.net.ProtocolException;
 import java.util.List;
 
 public class Workout extends AppCompatActivity {
@@ -74,7 +68,14 @@ public class Workout extends AppCompatActivity {
             // TODO: Add timer
         }
         else{
-            Snackbar.make(view, "You're done your five sets for " + excersize.excersizeName, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            String sets;
+            if (excersize.numOfSets == 1){
+                sets = "set";
+            } else{
+                sets = "sets";
+
+            }
+            Snackbar.make(view, "You're done your " + excersize.numOfSets + " "+ sets + " for " + excersize.excersizeName, Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
     }
 
@@ -189,7 +190,7 @@ public class Workout extends AppCompatActivity {
 
         setsParams.addRule(RelativeLayout.BELOW, header.getId());
         setsParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
-        setsUI.setMax(excer.NUM_OF_SETS);
+        setsUI.setMax(excer.numOfSets);
 
         setsHolder.addView(setsUI,setsParams);
         ll.addView(setsHolder,setsParams);
@@ -202,8 +203,8 @@ public class Workout extends AppCompatActivity {
 
         repsParams.addRule(RelativeLayout.BELOW, setsHolder.getId());
         repsParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
-        repsUI.setMax(excer.NUM_OF_REPS[0]);
-        repsUI.setProgress(excer.NUM_OF_REPS[0]);
+        repsUI.setMax(excer.numOfReps[0]);
+        repsUI.setProgress(excer.numOfReps[0]);
 
 
         Button doneSet = new Button(this);
