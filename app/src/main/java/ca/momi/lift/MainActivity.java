@@ -34,6 +34,7 @@ import android.widget.RadioGroup;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -125,11 +126,12 @@ public class MainActivity extends AppCompatActivity {
         setRadioGroup();
         setNextWorkout();
 
+
     }
 
     private void setNextWorkout () {
 
-        LastWorkout latestwork = ExternalStore.getLastWorkoutProperties();
+        LastWorkout latestwork = ExternalStore.getLastWorkoutProperties(0);
         RadioGroup routinesRadGroup = (RadioGroup) findViewById(R.id.routines);
 
         setRadioButtonsNotClickable(routinesRadGroup);

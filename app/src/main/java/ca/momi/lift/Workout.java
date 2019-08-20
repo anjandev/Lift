@@ -41,6 +41,7 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.net.ProtocolException;
+import java.util.List;
 
 public class Workout extends AppCompatActivity {
     // for debugging
@@ -61,13 +62,13 @@ public class Workout extends AppCompatActivity {
         }
         else if(numOfSets.getProgress() == 0){
             // Set weight here too. Check if empty field
-            excersize.doneSet(numOfSets.getProgress(), numOfReps.getProgress(), Float.parseFloat(weight.getText().toString()));
+            excersize.doneSet(numOfReps.getProgress(), Float.parseFloat(weight.getText().toString()));
             numOfSets.setProgress(numOfSets.getProgress() + 1);
             numOfSets.refreshDrawableState();
 
         }
         else if(numOfSets.getProgress() < numOfSets.getMax()){
-            excersize.doneSet(numOfSets.getProgress(), numOfReps.getProgress(), Float.parseFloat(weight.getText().toString()));
+            excersize.doneSet(numOfReps.getProgress(), Float.parseFloat(weight.getText().toString()));
             numOfSets.setProgress(numOfSets.getProgress() + 1);
             numOfSets.refreshDrawableState();
             // TODO: Add timer
@@ -134,7 +135,7 @@ public class Workout extends AppCompatActivity {
 
     }
 
-    private void createExcerUI(final Excersize excer, LinearLayout ll) {
+    private void createExcerUI(final Excersize excer, LinearLayout ll, AssignedExcers.NextExcersize weightMeta) {
 
         final int MARGIN_TOP = 8;
         final int MARGIN_LEFT = 8;
@@ -160,6 +161,7 @@ public class Workout extends AppCompatActivity {
         RelativeLayout.LayoutParams weightParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
 
+        weight.setText(String.valueOf(weightMeta.excersizeWeight));
         weightParams.addRule(RelativeLayout.RIGHT_OF, title.getId());
         weightParams.addRule(RelativeLayout.ALIGN_TOP, title.getId());
         weightParams.addRule(RelativeLayout.ALIGN_BOTTOM, title.getId());
@@ -200,8 +202,8 @@ public class Workout extends AppCompatActivity {
 
         repsParams.addRule(RelativeLayout.BELOW, setsHolder.getId());
         repsParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
-        repsUI.setMax(excer.NUM_OF_REPS);
-        repsUI.setProgress(excer.NUM_OF_REPS);
+        repsUI.setMax(excer.NUM_OF_REPS[0]);
+        repsUI.setProgress(excer.NUM_OF_REPS[0]);
 
 
         Button doneSet = new Button(this);
@@ -259,8 +261,12 @@ public class Workout extends AppCompatActivity {
         LinearLayout ll = (LinearLayout) findViewById(R.id.stuff);
         assignExcerAddUI(slistOfExcersizes);
 
+        List<AssignedExcers.NextExcersize>  metaNext = new AssignedExcers(programName).nextRoutineWeights();
+
+
+
         for (int i =0; i < listOfExcersizes.length; i++) {
-            createExcerUI(listOfExcersizes[i], ll);
+            createExcerUI(listOfExcersizes[i], ll, getNextExcersizeMeta(metaNext, listOfExcersizes[i].excersizeName));
         }
 
         Button doneWork = new Button(this);
@@ -282,6 +288,19 @@ public class Workout extends AppCompatActivity {
                  checkStoragePermissionAndWrite((Activity) v.getContext(),  dateString, workoutSessionText);
              }
          });
+    }
+
+    private AssignedExcers.NextExcersize getNextExcersizeMeta(List<AssignedExcers.NextExcersize> excersizes, String excerName){
+
+        int finalI = 0;
+
+        for (int i = 0; i < excersizes.size(); i++ ) {
+            if(excerName.equals(excersizes.get(i).excersizeName)){
+                finalI = i;
+                break;
+            }
+        }
+        return excersizes.get(finalI);
     }
 
     private String appendZero(String original){

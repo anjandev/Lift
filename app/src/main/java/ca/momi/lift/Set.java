@@ -24,5 +24,4 @@ public class Set {
         weight = sentweight;
     }
 
-    public void setReps (int sentreps){ reps = sentreps; }
 }

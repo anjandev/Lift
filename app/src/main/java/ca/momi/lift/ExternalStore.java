@@ -83,7 +83,9 @@ public class ExternalStore {
         return post;
     }
 
-    static public LastWorkout getLastWorkoutProperties() {
+    static public LastWorkout getLastWorkoutProperties(int lastNum) {
+        // Gets last workout number properties. If lastNum = 0, it's the latest saved workout.
+
         // TODO: Error checking if folder doesnt exist
         File path = new File(Environment.getExternalStorageDirectory() + "/Lift");
         File[] files = path.listFiles();
@@ -93,7 +95,11 @@ public class ExternalStore {
 
         Arrays.sort(files);
 
-        File lastWorkoutFile = files[files.length-1];
+        if (files.length-1-lastNum < 0) {
+            return null;
+        }
+
+        File lastWorkoutFile = files[files.length-1-lastNum];
 
         StringBuilder content = new StringBuilder();
 
@@ -119,7 +125,7 @@ public class ExternalStore {
 
 
         // TODO: This might be bug when user defines workouts. Tell user they can only define workouts with certain syntax
-        return new LastWorkout(firstLine.substring(2));
+        return new LastWorkout(firstLine.substring(2), content.toString());
 
     }
 

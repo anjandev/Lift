@@ -26,10 +26,13 @@ import android.widget.TextView;
 
 public class Excersize {
 
-    public final String uom = "lb";
+    public static final String uom = "lb";
 
-    public static int NUM_OF_SETS = 5;
-    public static int NUM_OF_REPS = 5;
+    // This is the number of sets and reps need to perform in order to consider excersize as "done"
+    // and allow progress.
+    // TODO: Add condition if madcow. Put in initialization
+    public int NUM_OF_SETS = 5;
+    public int[] NUM_OF_REPS = {5,5,5,5,5};
 
     public Set curset[];
 
@@ -54,20 +57,18 @@ public class Excersize {
 
     }
 
-    public void doneSet(int setNum, int repsDone, float weightDone){
-        this.set_reps(setNum, repsDone, weightDone);
+    public void doneSet(int repsDone, float weightDone){
+        this.set_reps(this.setsDone, repsDone, weightDone);
         this.setsDone = setsDone + 1;
+        // why cant i do this
+        // seekReps.setMax(NUM_OF_REPS[setsDone]);
+        // seekReps.setProgress(NUM_OF_REPS[setsDone]);
     }
 
     private void set_reps(int setNum, int repsDone, float weightDone){
         // write reps to file memory
         this.curset[setNum].reps = repsDone;
         this.curset[setNum].weight = weightDone;
-    }
-
-    public Set get_set(int setNum){
-        // given a setNum. Return the Set
-        return this.curset[setNum];
     }
 
     public void setUI(SeekBar seekSets1, SeekBar seekReps1, EditText weightUI1, TextView textUI1, Button doneSetUI){
