@@ -34,6 +34,7 @@ import android.widget.RadioGroup;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -91,10 +92,14 @@ public class MainActivity extends AppCompatActivity {
 
                 AssignedExcers assExcersize = new AssignedExcers(program);
                 RadioButton selectedOption = (RadioButton) findViewById(idx);
-                String[] routine = assExcersize.getExcersizes((String) selectedOption.getText());
+                List<String> excersizes = assExcersize.getExcersizes((String) selectedOption.getText());
+
+                String[] excersizesArr = new String[excersizes.size()];
+                excersizesArr = excersizes.toArray(excersizesArr);
+
 
                 workoutIntent.putExtra("RoutineName", (String) selectedOption.getText());
-                workoutIntent.putExtra("Excersizes", routine);
+                workoutIntent.putExtra("Excersizes", excersizesArr);
                 workoutIntent.putExtra("program", program);
 
                 if(selectedDay[0] == 0 && selectedMonth[0] == 0 & selectedYear[0] == 0 || !DEBUGMODE){

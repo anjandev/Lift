@@ -24,7 +24,7 @@ public class AssignedExcers {
     public String program;
 
     // TODO: Change these to arraylists
-    public String[] excersizes = new String[3];
+    public List<String> excersizes = new ArrayList<>();
     public List<String> routineDescriber = new ArrayList<>();
 
 
@@ -100,7 +100,7 @@ public class AssignedExcers {
         return null;
     }
 
-    private List<NextExcersize> begExcer (String[] excersizes){
+    private List<NextExcersize> begExcer (List<String> excersizes){
         // quick function to initialize multiple excercise when user hasnt put a value before
         List<NextExcersize> lExcersizes = new ArrayList<>();
 
@@ -135,7 +135,7 @@ public class AssignedExcers {
             if (lastwork == null) {
                 // beginning regiment
 
-                String[] sNextExcersizes = getExcersizes((new AssignedExcers("5x5")).routineDescriber.get(0));
+                List<String> sNextExcersizes = getExcersizes((new AssignedExcers("5x5")).routineDescriber.get(0));
 
                 nextExcersizes = begExcer(sNextExcersizes);
 
@@ -160,11 +160,11 @@ public class AssignedExcers {
             if (secondlastwork == null) {
                 // beginning regiment
 
-                String[] sNextExcersizes = getExcersizes((new AssignedExcers("5x5")).routineDescriber.get(1));
+                List<String> sNextExcersizes = getExcersizes((new AssignedExcers("5x5")).routineDescriber.get(1));
 
                 nextExcersizes = begExcer(sNextExcersizes);
 
-                if (successfulExcer(findExcersize(sNextExcersizes[0], lastwork.excersizesDone))) {
+                if (successfulExcer(findExcersize(sNextExcersizes.get(0), lastwork.excersizesDone))) {
                     nextExcersizes.get(0).excersizeWeight = 45 + getWeightInc();
                     if (Excersize.uom.equals("kg")) {
                         nextExcersizes.get(0).excersizeWeight = 20 + getWeightInc();
@@ -190,10 +190,10 @@ public class AssignedExcers {
                 return nextExcersizes;
             }
         }
-        String[] sNextExcersizes = getExcersizes((new AssignedExcers("5x5")).routineDescriber.get(nextRoutineIdx(lastwork.routineIdx)));
-        nextExcersizes.add(checkandIncWeight(sNextExcersizes[0],lastwork));
-        nextExcersizes.add(checkandIncWeight(sNextExcersizes[1],secondlastwork));
-        nextExcersizes.add(checkandIncWeight(sNextExcersizes[2],secondlastwork));
+        List<String> sNextExcersizes = getExcersizes((new AssignedExcers("5x5")).routineDescriber.get(nextRoutineIdx(lastwork.routineIdx)));
+        nextExcersizes.add(checkandIncWeight(sNextExcersizes.get(0),lastwork));
+        nextExcersizes.add(checkandIncWeight(sNextExcersizes.get(1),secondlastwork));
+        nextExcersizes.add(checkandIncWeight(sNextExcersizes.get(2),secondlastwork));
 
         // TODO: Check if weight should be decremented
         return nextExcersizes;
@@ -230,35 +230,42 @@ public class AssignedExcers {
 
     }
 
-    public String[] getExcersizes(String sentName){
+    public List<String> getExcersizes(String sentName){
         this.name = sentName;
 
-        switch(name) {
-            case "Bench Press, Barbell Row":
-                excersizes[0] = "Squat";
-                excersizes[1] = "Bench Press";
-                excersizes[2] = "Bent-over Row";
+        switch(program) {
+            case "5x5":
+                switch (name) {
+                    case "Bench Press, Barbell Row":
+                        excersizes.add("Squat");
+                        excersizes.add("Bench Press");
+                        excersizes.add("Bent-over Row");
+                        break;
+                    case "Overhead Press, Deadlift":
+                        excersizes.add("Squat");
+                        excersizes.add("Overhead Press");
+                        excersizes.add("Deadlift");
+                        break;
+                }
                 break;
-            case "Overhead Press, Deadlift":
-                excersizes[0] = "Squat";
-                excersizes[1] = "Overhead Press";
-                excersizes[2] = "Deadlift";
-                break;
-            case "Day 1":
-                excersizes[0] = "Squat";
-                excersizes[1] = "Bench Press";
-                excersizes[2] = "Bent-over Row";
-                break;
-            case "Day 2":
-                excersizes[0] = "Squat";
-                excersizes[1] = "Overhead Press";
-                excersizes[2] = "Deadlift";
-                break;
-            case "Day 3":
-                excersizes[0] = "Squat";
-                excersizes[1] = "Bench Press";
-                excersizes[2] = "Bent-over Row";
-                break;
+            case "madcow":
+                switch (name) {
+                    case "Day 1":
+                        excersizes.add("Squat");
+                        excersizes.add("Bench Press");
+                        excersizes.add("Bent-over Row");
+                        break;
+                    case "Day 2":
+                        excersizes.add("Squat");
+                        excersizes.add("Overhead Press");
+                        excersizes.add("Deadlift");
+                        break;
+                    case "Day 3":
+                        excersizes.add("Squat");
+                        excersizes.add("Bench Press");
+                        excersizes.add("Bent-over Row");
+                        break;
+                }
         }
         return excersizes;
     }
@@ -275,7 +282,10 @@ public class AssignedExcers {
             routineDescriber.add("Day 2");
             routineDescriber.add("Day 3");
         } else if (program.equals("531BBB")) {
-
+            routineDescriber.add("Day 1");
+            routineDescriber.add("Day 2");
+            routineDescriber.add("Day 3");
+            routineDescriber.add("Day 4");
         }
 
         workoutOptionsnum = routineDescriber.size();
