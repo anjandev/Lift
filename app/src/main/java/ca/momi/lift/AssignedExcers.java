@@ -25,7 +25,7 @@ public class AssignedExcers {
 
     // TODO: Change these to arraylists
     public String[] excersizes = new String[3];
-    public String[] routineDescriber = new String[2];
+    public List<String> routineDescriber = new ArrayList<>();
 
 
     public int workoutOptionsnum;
@@ -135,7 +135,7 @@ public class AssignedExcers {
             if (lastwork == null) {
                 // beginning regiment
 
-                String[] sNextExcersizes = getExcersizes((new AssignedExcers("5x5")).routineDescriber[0]);
+                String[] sNextExcersizes = getExcersizes((new AssignedExcers("5x5")).routineDescriber.get(0));
 
                 nextExcersizes = begExcer(sNextExcersizes);
 
@@ -160,7 +160,7 @@ public class AssignedExcers {
             if (secondlastwork == null) {
                 // beginning regiment
 
-                String[] sNextExcersizes = getExcersizes((new AssignedExcers("5x5")).routineDescriber[1]);
+                String[] sNextExcersizes = getExcersizes((new AssignedExcers("5x5")).routineDescriber.get(1));
 
                 nextExcersizes = begExcer(sNextExcersizes);
 
@@ -190,7 +190,7 @@ public class AssignedExcers {
                 return nextExcersizes;
             }
         }
-        String[] sNextExcersizes = getExcersizes((new AssignedExcers("5x5")).routineDescriber[nextRoutineIdx(lastwork.routineIdx)]);
+        String[] sNextExcersizes = getExcersizes((new AssignedExcers("5x5")).routineDescriber.get(nextRoutineIdx(lastwork.routineIdx)));
         nextExcersizes.add(checkandIncWeight(sNextExcersizes[0],lastwork));
         nextExcersizes.add(checkandIncWeight(sNextExcersizes[1],secondlastwork));
         nextExcersizes.add(checkandIncWeight(sNextExcersizes[2],secondlastwork));
@@ -266,17 +266,18 @@ public class AssignedExcers {
 
     public AssignedExcers(String program) {
         this.program = program;
+
         if(program.equals("5x5")) {
-            workoutOptionsnum = 2;
-            routineDescriber[0] = "Bench Press, Barbell Row";
-            routineDescriber[1] = "Overhead Press, Deadlift";
+            routineDescriber.add("Bench Press, Barbell Row");
+            routineDescriber.add("Overhead Press, Deadlift");
         } else if (program.equals("madcow")) {
-            workoutOptionsnum = 3;
-            String[] newRoutineDescriber = new String[3];
-            newRoutineDescriber[0] = "Day 1";
-            newRoutineDescriber[1] = "Day 2";
-            newRoutineDescriber[2] = "Day 3";
-            routineDescriber = newRoutineDescriber;
+            routineDescriber.add("Day 1");
+            routineDescriber.add("Day 2");
+            routineDescriber.add("Day 3");
+        } else if (program.equals("531BBB")) {
+
         }
+
+        workoutOptionsnum = routineDescriber.size();
     }
 }

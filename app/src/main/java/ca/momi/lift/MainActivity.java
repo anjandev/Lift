@@ -47,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
         RadioGroup routinesRadGroup = (RadioGroup) findViewById(R.id.routines);
         AssignedExcers assExcersize = new AssignedExcers(this.program);
 
-        for(int i = 0; i < assExcersize.routineDescriber.length; i++){
+        for(int i = 0; i < assExcersize.routineDescriber.size(); i++){
             RadioButton button = new RadioButton(this);
-            button.setText(assExcersize.routineDescriber[i]);
+            button.setText(assExcersize.routineDescriber.get(i));
             routinesRadGroup.addView(button);
         }
     }
