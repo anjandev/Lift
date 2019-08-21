@@ -14,3 +14,4 @@ tasks:
       export ANDROID_SDK_ROOT=~/android
       cd lift
       ./gradlew
+      ./gradlew build
