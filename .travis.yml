@@ -12,5 +12,10 @@ android:
     - android-25
     - build-tools-28.0.3
 
-  licenses:
-    - 'android-sdk-license-.+'
+before_script:
+  # Prepare pre-accepted licenses to not be promted at installation
+  - mkdir -p "$ANDROID_HOME/licenses"
+  - cp ./google-licenses/* "$ANDROID_HOME/licenses/"
+
+licenses:
+  - 'android-sdk-license-.+'
