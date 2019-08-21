@@ -125,7 +125,11 @@ public class ExternalStore {
 
 
         // TODO: This might be bug when user defines workouts. Tell user they can only define workouts with certain syntax
-        return new LastWorkout(firstLine.substring(2), content.toString());
+        LastWorkout lastwork = new LastWorkout(firstLine.substring(2), content.toString());
+        if (lastwork.program != MainActivity.program) {
+            return null;
+        }
+        return lastwork;
 
     }
 

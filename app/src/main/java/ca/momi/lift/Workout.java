@@ -314,9 +314,7 @@ public class Workout extends AppCompatActivity {
         LinearLayout ll = (LinearLayout) findViewById(R.id.stuff);
         assignExcerAddUI(slistOfExcersizes);
 
-        List<AssignedExcers.NextExcersize>  metaNext = new AssignedExcers(programName).nextRoutineWeights();
-
-
+        List<AssignedExcers.NextExcersize>  metaNext = new AssignedExcers(programName).nextRoutineWeightsCheck(slistOfExcersizes);
 
         for (int i =0; i < listOfExcersizes.length; i++) {
             createExcerUI(listOfExcersizes[i], ll, getNextExcersizeMeta(metaNext, listOfExcersizes[i].excersizeName));

@@ -100,6 +100,6 @@ public class Excersize {
 
         AssignedExcers assignedExcers = new AssignedExcers(MainActivity.program);
         numOfReps = assignedExcers.getReps(excersize_sName);
-        numOfSets = assignedExcers.getSets(excersize_sName);
+        numOfSets = numOfReps.length;
     }
 }

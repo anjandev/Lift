@@ -19,7 +19,6 @@ package ca.momi.lift;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
@@ -39,9 +38,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static String program = "5x5";
+    public static String program = "531BBB";
 
-    public static Boolean DEBUGMODE = false;
+    public static Boolean DEBUGMODE = true;
 
     private void setRadioGroup(){
 
