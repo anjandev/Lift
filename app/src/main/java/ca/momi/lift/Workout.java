@@ -185,24 +185,40 @@ public class Workout extends AppCompatActivity {
         LinearLayout setsHolder = new LinearLayout(this);
         SeekBar setsUI = new SeekBar(this);
 
-        RelativeLayout.LayoutParams setsParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        setsUI.setEnabled(false);
 
-        setsParams.addRule(RelativeLayout.BELOW, header.getId());
-        setsParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
+        RelativeLayout.LayoutParams setsTextParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        setsTextParams.addRule(RelativeLayout.BELOW, header.getId());
+        setsTextParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
+
+        RelativeLayout.LayoutParams setsSlideParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        setsSlideParams.addRule(RelativeLayout.BELOW, setsHolder.getId());
+        setsSlideParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
+
         setsUI.setMax(excer.numOfSets);
 
-        setsHolder.addView(setsUI,setsParams);
-        ll.addView(setsHolder,setsParams);
 
+        TextView setsLabel = new TextView(this);
+        setsLabel.setText("Sets");
+
+        setsHolder.addView(setsLabel,setsTextParams);
+        setsHolder.addView(setsUI,setsSlideParams);
+        ll.addView(setsHolder);
 
         LinearLayout repsHolder = new LinearLayout(this);
         SeekBar repsUI = new SeekBar(this);
-        RelativeLayout.LayoutParams repsParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,
+        RelativeLayout.LayoutParams repsLabelParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
+        repsLabelParams.addRule(RelativeLayout.BELOW, setsHolder.getId());
+        repsLabelParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
 
-        repsParams.addRule(RelativeLayout.BELOW, setsHolder.getId());
-        repsParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
+        RelativeLayout.LayoutParams repsSlideParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        repsSlideParams.addRule(RelativeLayout.BELOW, setsHolder.getId());
+        repsSlideParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
+
         repsUI.setMax(excer.numOfReps[0]);
         repsUI.setProgress(excer.numOfReps[0]);
 
@@ -222,7 +238,11 @@ public class Workout extends AppCompatActivity {
         });
 
 
-        repsHolder.addView(repsUI,repsParams);
+        TextView repsLabel = new TextView(this);
+        repsLabel.setText("Reps");
+
+        repsHolder.addView(repsLabel,repsLabelParams);
+        repsHolder.addView(repsUI,repsSlideParams);
 
         ll.addView(repsHolder);
 

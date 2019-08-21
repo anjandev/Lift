@@ -34,12 +34,13 @@ import android.widget.RadioGroup;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
 
     public static String program = "5x5";
+
+    public static Boolean DEBUGMODE = false;
 
     private void setRadioGroup(){
 
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 workoutIntent.putExtra("Excersizes", routine);
                 workoutIntent.putExtra("program", program);
 
-                if(selectedDay[0] == 0 && selectedMonth[0] == 0 & selectedYear[0] == 0){
+                if(selectedDay[0] == 0 && selectedMonth[0] == 0 & selectedYear[0] == 0 || !DEBUGMODE){
                     final long date = wCal.getDate();
                     final String dateString = DateFormat.format("yyyy-MM-dd", new Date(date)).toString();
                     workoutIntent.putExtra("year", Long.parseLong((String) dateString.subSequence(0, 4)));
@@ -125,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
 
         setRadioGroup();
         setNextWorkout();
-
 
     }
 
