@@ -128,7 +128,9 @@ public class MainActivity extends AppCompatActivity {
         LastWorkout latestwork = ExternalStore.getLastWorkoutProperties(0);
         RadioGroup routinesRadGroup = (RadioGroup) findViewById(R.id.routines);
 
-        setRadioButtonsNotClickable(routinesRadGroup);
+        if(!DEBUGMODE) {
+            setRadioButtonsNotClickable(routinesRadGroup);
+        }
 
         if (latestwork == null) {
             // no last workout
