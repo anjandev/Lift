@@ -1,7 +1,26 @@
 # Lift
 A weight lifting tracking app that respects your freedoms.
 
-**This program is under heavy development and not ready for everyday use**
+![Homepage](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373276.png)
+![Done Set of workout](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373282.png)
+![Done Set of workout](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373372.png)
+![Waited 1.5 min](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373372.png)
+![Data saved to external storage](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373377.png)
+
+## Features
+**This program is under heavy development**
+- Google's proprietary "play-services" not required
+- Internet connectivity not required
+- Program's progression and daily routine is handled by the app
+    - Currently 5x5 is supported. Looking to support madcow and 5/3/1
+- Weight lifting data is saved as plain text org files 
+  - Allows user to use standard unix tools to manipulate and sync with programs
+    like [https://syncthing.net/](syncthing)
+- Timer for how to long to rest for. Beeps at 1.5 minute intervals.
+
+Overall, I am designing this app for inclusion in fdroid when it's done.
+[F-droid inclusion policy](https://f-droid.org/en/docs/Inclusion_Policy/)
+
 
 ## Support
 Please note: Github is merely a mirror. The main git repo, issue tracker, and mailing list exists on sr.ht.
