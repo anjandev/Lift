@@ -13,6 +13,9 @@ A weight lifting tracking app that respects your freedoms.
 - Internet connectivity not required
 - Program's progression and daily routine is handled by the app
     - Currently 5x5 is supported. Looking to support madcow and 5/3/1
+    - Right now, you must change the program variable in the MainActivity.java
+      file and recompile to do a different program. I am working on programing
+      in settings so that you can change on the fly. 
 - Weight lifting data is saved as plain text org files 
   - Allows user to use standard unix tools to manipulate and sync with programs
     like [syncthing](https://syncthing.net/)
