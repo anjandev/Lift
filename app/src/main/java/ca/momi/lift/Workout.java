@@ -199,16 +199,32 @@ public class Workout extends AppCompatActivity {
 
         setsUI.setMax(excer.numOfSets);
 
+        TextView setsNum = new TextView(this);
+        setsNum.setText(String.valueOf(0));
+
+        final TextView finalSetsNum = setsNum;
+        setsUI.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+            @Override
+            public  void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser){
+                finalSetsNum.setText(String.valueOf(progress));
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) { }
+        });
+
 
         TextView setsLabel = new TextView(this);
         setsLabel.setText("Sets");
 
         setsHolder.addView(setsLabel,setsTextParams);
+        setsHolder.addView(setsNum,setsTextParams);
         setsHolder.addView(setsUI,setsSlideParams);
         ll.addView(setsHolder);
 
         LinearLayout repsHolder = new LinearLayout(this);
-        SeekBar repsUI = new SeekBar(this);
+        final SeekBar repsUI = new SeekBar(this);
         RelativeLayout.LayoutParams repsLabelParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         repsLabelParams.addRule(RelativeLayout.BELOW, setsHolder.getId());
@@ -241,7 +257,23 @@ public class Workout extends AppCompatActivity {
         TextView repsLabel = new TextView(this);
         repsLabel.setText("Reps");
 
+        TextView repsNum = new TextView(this);
+        repsNum.setText(String.valueOf(excer.numOfReps[0]));
+        final TextView finalrepNum = repsNum;
+
+        repsUI.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+            @Override
+            public  void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser){
+                finalrepNum.setText(String.valueOf(progress));
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) { }
+        });
+
         repsHolder.addView(repsLabel,repsLabelParams);
+        repsHolder.addView(repsNum,repsLabelParams);
         repsHolder.addView(repsUI,repsSlideParams);
 
         ll.addView(repsHolder);
