@@ -15,7 +15,7 @@ A weight lifting tracking app that respects your freedoms.
     - Currently 5x5 is supported. Looking to support madcow and 5/3/1
 - Weight lifting data is saved as plain text org files 
   - Allows user to use standard unix tools to manipulate and sync with programs
-    like [https://syncthing.net/](syncthing)
+    like [syncthing](https://syncthing.net/)
 - Timer for how to long to rest for. Beeps at 1.5 minute intervals.
 
 Overall, I am designing this app for inclusion in fdroid when it's done.
