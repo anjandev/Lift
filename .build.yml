@@ -14,4 +14,4 @@ tasks:
       export ANDROID_SDK_ROOT=~/android
       cd lift
       ./gradlew
-      ./gradlew --warning-mode all
+      ./gradlew --warning-mode all build
