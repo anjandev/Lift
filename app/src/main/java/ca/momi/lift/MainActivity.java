@@ -61,16 +61,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Do Nothing.
-                // TODO: Always make the addition today
-            }
-        });
-
-
         final CalendarView wCal = (CalendarView) findViewById(R.id.cal);
         Button bEditDate = (Button) findViewById(R.id.edDate);
 
