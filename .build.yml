@@ -1,0 +1,18 @@
+image: archlinux
+packages:
+  - gradle
+sources:
+  - https://git.sr.ht/~anjan/lift
+secrets:
+  -  88e37d5a-6a50-4a14-b9d5-a944dc17bf50
+triggers:
+  - action: email
+    condition: always
+    to: Anjandev Momi <anjan@momi.ca>
+tasks:
+  - setup: |
+      mkdir ~/android
+      export ANDROID_SDK_ROOT=~/android
+  - build: |
+      cd lift
+      ./gradlew
