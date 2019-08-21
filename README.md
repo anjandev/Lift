@@ -1,11 +1,11 @@
 # Lift
 A weight lifting tracking app that respects your freedoms.
 
-![Homepage](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373276.png)
-![Done Set of workout](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373282.png)
-![Done Set of workout](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373372.png)
-![Waited 1.5 min](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373372.png)
-![Data saved to external storage](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373377.png)
+[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373276.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373276.png)
+[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373282.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373282.png)
+[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373372.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373372.png)
+[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373372.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373372.png)
+[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373377.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373377.png)
 
 ## Features
 **This program is under heavy development**
