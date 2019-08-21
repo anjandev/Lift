@@ -10,8 +10,7 @@ triggers:
     condition: always
     to: Anjandev Momi <anjan@momi.ca>
 tasks:
-  - setup: |
-      export ANDROID_SDK_ROOT=~/android
   - build: |
+      export ANDROID_SDK_ROOT=~/android
       cd lift
       ./gradlew
