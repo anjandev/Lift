@@ -65,9 +65,10 @@ public class Excersize {
     public void doneSet(int repsDone, float weightDone){
         this.set_reps(this.setsDone, repsDone, weightDone);
         this.setsDone = setsDone + 1;
-        // why cant i do this
-        // seekReps.setMax(numOfReps[setsDone]);
-        // seekReps.setProgress(numOfReps[setsDone]);
+        if (seekReps != null & setsDone < numOfReps.length) {
+            seekReps.setMax(numOfReps[setsDone]);
+            seekReps.setProgress(numOfReps[setsDone]);
+        }
     }
 
     private void set_reps(int setNum, int repsDone, float weightDone){
