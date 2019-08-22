@@ -31,6 +31,14 @@ public class AssignedExcers {
     public int workoutOptionsnum;
 
 
+    public static List<String> routNames () {
+        List<String> routineNames = new ArrayList<>();
+        routineNames.add("5x5");
+        routineNames.add("531BBB");
+        // routineNames.add("madcow");
+        return routineNames;
+    }
+
     public long[] rest(){
         final long MINUTE_TO_MILLI = 60*1000;
         long[] A = {Math.round(1.50*MINUTE_TO_MILLI), 3*MINUTE_TO_MILLI};

@@ -16,7 +16,9 @@
 
 package ca.momi.lift;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -38,33 +40,28 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static String program = "531BBB";
+    final static String PREFERENCE_FILE_KEY = "myAppPreference";
+
+    public static String program;
 
     public static Boolean DEBUGMODE = true;
 
-    private void setRadioGroup(){
-
-        RadioGroup routinesRadGroup = (RadioGroup) findViewById(R.id.routines);
-        AssignedExcers assExcersize = new AssignedExcers(this.program);
-
-        for(int i = 0; i < assExcersize.routineDescriber.size(); i++){
-            RadioButton button = new RadioButton(this);
-            button.setText(assExcersize.routineDescriber.get(i));
-            routinesRadGroup.addView(button);
-        }
+    private void getProgram(Context context){
+          SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
+          program = sharedPref.getString("program","531BBB");
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final CalendarView wCal = (CalendarView) findViewById(R.id.cal);
-        Button bEditDate = (Button) findViewById(R.id.edDate);
+        getProgram(getBaseContext());
 
-        long date = wCal.getDate();
+        final CalendarView wCal = findViewById(R.id.cal);
+        Button bEditDate = findViewById(R.id.edDate);
 
         final long[] selectedYear = {0};
         final long[] selectedMonth = {0};
@@ -86,11 +83,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent workoutIntent = new Intent(MainActivity.this, Workout.class);
 
-                RadioGroup routinesRadGroup = (RadioGroup) findViewById(R.id.routines);
+                RadioGroup routinesRadGroup = findViewById(R.id.routines);
                 int idx = (routinesRadGroup.getCheckedRadioButtonId());
 
                 AssignedExcers assExcersize = new AssignedExcers(program);
-                RadioButton selectedOption = (RadioButton) findViewById(idx);
+                RadioButton selectedOption = findViewById(idx);
                 List<String> excersizes = assExcersize.getExcersizes((String) selectedOption.getText());
 
                 String[] excersizesArr = new String[excersizes.size()];
@@ -118,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        setRadioGroup();
+        RadioGroup routinesRadGroup = findViewById(R.id.routines);
+        radioUtils.setRadioGroup(routinesRadGroup, (new AssignedExcers(this.program)).routineDescriber, this);
         setNextWorkout();
 
     }
@@ -126,10 +124,10 @@ public class MainActivity extends AppCompatActivity {
     private void setNextWorkout () {
 
         LastWorkout latestwork = ExternalStore.getLastWorkoutProperties(0);
-        RadioGroup routinesRadGroup = (RadioGroup) findViewById(R.id.routines);
+        RadioGroup routinesRadGroup = findViewById(R.id.routines);
 
         if(!DEBUGMODE) {
-            setRadioButtonsNotClickable(routinesRadGroup);
+            radioUtils.setRadioButtonsNotClickable(routinesRadGroup);
         }
 
         if (latestwork == null) {
@@ -144,12 +142,6 @@ public class MainActivity extends AppCompatActivity {
 
         RadioButton nextButton = (RadioButton) routinesRadGroup.getChildAt(nextIdx);
         nextButton.setChecked(true);
-    }
-
-    private void setRadioButtonsNotClickable(RadioGroup group) {
-        for(int i=0; i < group.getChildCount(); i++) {
-            group.getChildAt(i).setClickable(false);
-        }
     }
 
 
@@ -169,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent settingIntent = new Intent(MainActivity.this, settings.class);
+            startActivity(settingIntent);
             return true;
         }
 

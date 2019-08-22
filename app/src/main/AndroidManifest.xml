@@ -3,11 +3,11 @@
 <!--Copyright (C) <2019> <Anjandev Momi>-->
 <!--email: anjan@momi.ca-->
 
-<!--This program is free software: you can redistribute it and/or modify it under the terms of the-->
+<!--Lift is free software: you can redistribute it and/or modify it under the terms of the-->
 <!--GNU General Public License as published by the Free Software Foundation, either version 3 of-->
 <!--the License, or (at your option) any later version.-->
 
-<!--This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;-->
+<!--Lift is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;-->
 <!--without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.-->
 <!--See the GNU General Public License for more details.-->
 
@@ -17,7 +17,7 @@
     package="ca.momi.lift">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -26,6 +26,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".settings"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -36,12 +37,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Workout"
+            android:parentActivityName=".MainActivity">
 
-        <activity android:name=".Workout" android:parentActivityName=".MainActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
     </application>
+
 </manifest>

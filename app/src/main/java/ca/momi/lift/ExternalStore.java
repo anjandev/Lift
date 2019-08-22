@@ -89,6 +89,9 @@ public class ExternalStore {
         // TODO: Error checking if folder doesnt exist
         File path = new File(Environment.getExternalStorageDirectory() + "/Lift");
         File[] files = path.listFiles();
+        if (files == null) {
+            return null;
+        }
         if (files.length == 0) {
             return null;
         }
