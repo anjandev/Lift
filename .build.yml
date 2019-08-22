@@ -23,4 +23,4 @@ tasks:
   - deploy: |
       cd lift/app/build/outputs/apk/release
       sshopts="-o StrictHostKeyChecking=no"
-      rsync --rsh="ssh $sshopts" -rP . ${deploy}:/srv/http/android
+      rsync --rsh="ssh $sshopts" -rP . ${deploy}:/srv/http/android/android
