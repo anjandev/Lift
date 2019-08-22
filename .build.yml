@@ -1,6 +1,7 @@
 image: debian/buster
 packages:
   - gradle
+  - rsync
 sources:
   - https://git.sr.ht/~anjan/lift
 environment:
