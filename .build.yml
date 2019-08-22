@@ -3,8 +3,12 @@ packages:
   - gradle
 sources:
   - https://git.sr.ht/~anjan/lift
+environment:
+  deploy: deploy@momi.ca
 secrets:
-  -  88e37d5a-6a50-4a14-b9d5-a944dc17bf50
+  - 88e37d5a-6a50-4a14-b9d5-a944dc17bf50
+  - b0ee6bc9-84d5-4962-a8cb-fc0a9e002bfa
+  - 336f1246-50a2-464a-b3fe-1b54cba37a45
 triggers:
   - action: email
     condition: always
@@ -15,3 +19,7 @@ tasks:
       cd lift
       ./gradlew
       ./gradlew --warning-mode all build
+  - deploy: |
+      cd lift/app/build/outputs/apk/release
+      sshopts="-o StrictHostKeyChecking=no"
+      rsync --rsh="ssh $sshopts" -rP . ${deploy}:/srv/http/android
