@@ -18,6 +18,7 @@ package ca.momi.lift;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.media.ToneGenerator;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -41,9 +42,8 @@ public class Workout extends AppCompatActivity {
     // for debugging
     private static final String TAG = Workout.class.getSimpleName();
 
-    Excersize[] listOfExcersizes;
-
     private  WorkTimer currentWorkTimer;
+    Excersize[] listOfExcersizes;
 
     private void didSet(View view, Excersize excersize) {
 
@@ -136,7 +136,7 @@ public class Workout extends AppCompatActivity {
 
     }
 
-    private void createExcerUI(final Excersize excer, LinearLayout ll, AssignedExcers.NextExcersize weightMeta) {
+    private void createExcerUI(final Excersize excer, LinearLayout ll) {
 
         final int MARGIN_TOP = 8;
         final int MARGIN_LEFT = 8;
@@ -162,7 +162,7 @@ public class Workout extends AppCompatActivity {
         RelativeLayout.LayoutParams weightParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-        weight.setText(String.valueOf(weightMeta.excersizeWeight));
+        weight.setText(String.valueOf(excer.setsToDo.get(0).weight));
         weightParams.addRule(RelativeLayout.RIGHT_OF, title.getId());
         weightParams.addRule(RelativeLayout.ALIGN_TOP, title.getId());
         weightParams.addRule(RelativeLayout.ALIGN_BOTTOM, title.getId());
@@ -283,13 +283,6 @@ public class Workout extends AppCompatActivity {
         excer.setUI(setsUI, repsUI, weight, title,doneSet);
     }
 
-    private void assignExcerAddUI(String[] slistOfExcersizes){
-        listOfExcersizes = new Excersize[slistOfExcersizes.length];
-
-        for(int i = 0; i < slistOfExcersizes.length; i++) {
-            listOfExcersizes[i] = new Excersize(slistOfExcersizes[i]);
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -308,22 +301,30 @@ public class Workout extends AppCompatActivity {
         long year = getIntent().getLongExtra("year", 0);
 
         final String dateString = year + "-" + appendZero(String.valueOf(month)) + "-" + appendZero(String.valueOf(day));
-        TextView bDate = (TextView) findViewById(R.id.date);
+        TextView bDate = findViewById(R.id.date);
         bDate.setText(dateString);
 
-        LinearLayout ll = (LinearLayout) findViewById(R.id.stuff);
-        assignExcerAddUI(slistOfExcersizes);
+        LinearLayout ll = findViewById(R.id.stuff);
+        listOfExcersizes = new Excersize[slistOfExcersizes.length];
+        List<NextExcersize>  metaNext = new AssignedExcers(programName).nextRoutineWeightsCheck(slistOfExcersizes, this.getBaseContext());
 
-        List<AssignedExcers.NextExcersize>  metaNext = new AssignedExcers(programName).nextRoutineWeightsCheck(slistOfExcersizes);
 
-        for (int i =0; i < listOfExcersizes.length; i++) {
-            createExcerUI(listOfExcersizes[i], ll, getNextExcersizeMeta(metaNext, listOfExcersizes[i].excersizeName));
+        for (int i =0; i < slistOfExcersizes.length; i++) {
+            Excersize excer = new Excersize(slistOfExcersizes[i]);
+            for (int idx=0; idx < metaNext.size(); idx++){
+                if (metaNext.get(idx).excersizeName.equals(slistOfExcersizes[i])){
+                    excer.setSetsWeightToDo(metaNext.get(idx).excersizeWeight);
+                    break;
+                }
+            }
+            listOfExcersizes[i] = (excer);
+
+            createExcerUI(listOfExcersizes[i], ll);
         }
 
         Button doneWork = new Button(this);
         doneWork.setText("Done Workout");
         ll.addView(doneWork);
-
 
 
          doneWork.setOnClickListener(new View.OnClickListener() {
@@ -341,18 +342,6 @@ public class Workout extends AppCompatActivity {
          });
     }
 
-    private AssignedExcers.NextExcersize getNextExcersizeMeta(List<AssignedExcers.NextExcersize> excersizes, String excerName){
-
-        int finalI = 0;
-
-        for (int i = 0; i < excersizes.size(); i++ ) {
-            if(excerName.equals(excersizes.get(i).excersizeName)){
-                finalI = i;
-                break;
-            }
-        }
-        return excersizes.get(finalI);
-    }
 
     private String appendZero(String original){
         if(original.length() == 1){

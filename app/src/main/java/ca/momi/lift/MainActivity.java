@@ -33,7 +33,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -137,7 +136,13 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         AssignedExcers assExcersize = new AssignedExcers(program);
-        int curIdx = Arrays.asList(assExcersize.routineDescriber).indexOf(latestwork.routineName);
+        int curIdx = -1;
+
+        for (int i = 0; i < assExcersize.routineDescriber.size(); i++){
+            if (assExcersize.routineDescriber.get(i).equals(latestwork.routineName)){
+                curIdx = i;
+            }
+        }
         int nextIdx = assExcersize.nextRoutineIdx(curIdx);
 
         RadioButton nextButton = (RadioButton) routinesRadGroup.getChildAt(nextIdx);

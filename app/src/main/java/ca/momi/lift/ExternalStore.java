@@ -25,8 +25,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ExternalStore {
     // Access org storage files
@@ -83,6 +81,15 @@ public class ExternalStore {
         return post;
     }
 
+    static public int getNumLastWorkoutFiles(){
+        File path = new File(Environment.getExternalStorageDirectory() + "/Lift");
+        File[] files = path.listFiles();
+        if (files == null) {
+            return 0;
+        }
+        return files.length;
+    }
+
     static public LastWorkout getLastWorkoutProperties(int lastNum) {
         // Gets last workout number properties. If lastNum = 0, it's the latest saved workout.
 
@@ -129,7 +136,7 @@ public class ExternalStore {
 
         // TODO: This might be bug when user defines workouts. Tell user they can only define workouts with certain syntax
         LastWorkout lastwork = new LastWorkout(firstLine.substring(2), content.toString());
-        if (lastwork.program != MainActivity.program) {
+        if (!lastwork.program.equals(MainActivity.program)) {
             return null;
         }
         return lastwork;

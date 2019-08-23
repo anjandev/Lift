@@ -35,9 +35,12 @@ public class Excersize {
     // and allow progress.
     // TODO: Add condition if madcow. Put in initialization
     public int numOfSets;
+    public List<Set> setsToDo = new ArrayList<>();
+    // TODO: remove these
     public int[] numOfReps;
 
-    public List<Set> curset;
+    // This variable holds the info for the sets done
+    public List<Set> curset = new ArrayList<>();
 
     public String excersizeName;
     public int setsDone;
@@ -49,29 +52,19 @@ public class Excersize {
     public EditText weightUI;
     public Button doneSetUI;
 
-
-    public List<Set> makeSets() {
-
-        List<Set> setObj = new ArrayList<>();
-
-        for(int i = 0; i < numOfSets; i++){
-            Set current = new Set();
-            setObj.add(current);
-        }
-        return setObj;
-
-    }
-
     public void doneSet(int repsDone, float weightDone){
-        this.set_reps(this.setsDone, repsDone, weightDone);
+        this.set_reps(repsDone, weightDone);
         this.setsDone = setsDone + 1;
         if (seekReps != null & setsDone < numOfReps.length) {
             seekReps.setMax(numOfReps[setsDone]);
             seekReps.setProgress(numOfReps[setsDone]);
         }
+        if (weightUI != null & setsDone < setsToDo.size()) {
+            weightUI.setText(String.valueOf(setsToDo.get(setsDone).weight));
+        }
     }
 
-    private void set_reps(int setNum, int repsDone, float weightDone){
+    private void set_reps(int repsDone, float weightDone){
         // write reps to file memory
         Set currentSet = new Set();
 
@@ -90,17 +83,23 @@ public class Excersize {
     }
 
 
+    public void setSetsWeightToDo(double[] weight){
+        for (int i = 0; i < numOfReps.length; i++){
+            Set tempSet = new Set();
+            tempSet.reps = numOfReps[i];
+            tempSet.weight = weight[i];
+            setsToDo.add(tempSet);
+        }
+    }
+
     public Excersize(String excersize_sName){
 
         this.excersizeName = excersize_sName;
 
         this.setsDone = 0;
 
-        this.curset = makeSets();
-
-
         AssignedExcers assignedExcers = new AssignedExcers(MainActivity.program);
-        numOfReps = assignedExcers.getReps(excersize_sName);
+        numOfReps = assignedExcers.getReps(excersizeName);
         numOfSets = numOfReps.length;
     }
 }

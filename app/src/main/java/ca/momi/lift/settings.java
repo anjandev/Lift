@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 public class settings extends AppCompatActivity {
 
@@ -47,15 +48,67 @@ public class settings extends AppCompatActivity {
 
                 RadioButton selectedRadio = findViewById(programGroup.getCheckedRadioButtonId());
 
+                if (selectedRadio.getText().equals("531BBB") & (textEmpty((TextView) findViewById(R.id.begSquat))
+                   | textEmpty((TextView) findViewById(R.id.begDeadLift))
+                   | textEmpty((TextView) findViewById(R.id.begOverhead))
+                   | textEmpty((TextView) findViewById(R.id.begBench)))) {
+                    Snackbar.make(view, "Please enter a starting weight for Squat, Overhead press, " +
+                            " bench, and Deadlift", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    return;
+                }
+
                 SharedPreferences sharedPref = view.getContext().getSharedPreferences(
                                                MainActivity.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString("program", selectedRadio.getText().toString());
+
+                if(selectedRadio.getText().equals("531BBB")){
+                    editor.putString("Squat1RM", ((TextView) findViewById(R.id.begSquat)).getText().toString());
+                    editor.putString("Deadlift1RM", ((TextView) findViewById(R.id.begDeadLift)).getText().toString());
+                    editor.putString("Overhead Press1RM", ((TextView) findViewById(R.id.begOverhead)).getText().toString());
+                    editor.putString("Bench Press1RM", ((TextView) findViewById(R.id.begBench)).getText().toString());
+                }
+
                 editor.commit();
                 System.exit(0);
             }
         });
 
+
+        programGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                Button selectedButton = findViewById(radioGroup.getCheckedRadioButtonId());
+                if(selectedButton.getText().toString().equals("531BBB")){
+                    setWeightBBB531Visible(true);
+                } else {
+                    setWeightBBB531Visible(false);
+                }
+            }
+
+        });
+
+        setWeightBBB531Visible(false);
+
+    }
+
+
+    private boolean textEmpty (TextView textInput) {
+        return textInput.getText().toString().equals("");
+    }
+
+    private void setWeightBBB531Visible (boolean setVisi){
+        if (setVisi) {
+            findViewById(R.id.begSquat).setVisibility(View.VISIBLE);
+            findViewById(R.id.begDeadLift).setVisibility(View.VISIBLE);
+            findViewById(R.id.begOverhead).setVisibility(View.VISIBLE);
+            findViewById(R.id.begBench).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.begSquat).setVisibility(View.INVISIBLE);
+            findViewById(R.id.begDeadLift).setVisibility(View.INVISIBLE);
+            findViewById(R.id.begOverhead).setVisibility(View.INVISIBLE);
+            findViewById(R.id.begBench).setVisibility(View.INVISIBLE);
+        }
     }
 
 }

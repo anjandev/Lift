@@ -13,15 +13,15 @@
 //  You should have received a copy of the GNU General Public License along with this program.
 //  If not, see <https://www.gnu.org/licenses/>.
 
-
 package ca.momi.lift;
 
-public class Set {
-    public double weight;
-    public int reps;
+public class NextExcersize {
+    public String excersizeName;
+    public double[] excersizeWeight;
 
-    public void setWeight (float sentweight){
-        weight = sentweight;
+
+    NextExcersize(String excer, double[] weight){
+        excersizeName = excer;
+        excersizeWeight = weight;
     }
-
 }

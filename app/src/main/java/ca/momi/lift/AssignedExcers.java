@@ -14,6 +14,7 @@
 //  If not, see <https://www.gnu.org/licenses/>.
 package ca.momi.lift;
 
+import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,9 @@ public class AssignedExcers {
 
 
     public int workoutOptionsnum;
+
+    public static final double smallestWeightLb = 5;
+    public static final double smallestWeightKg = 2.5;
 
 
     public static List<String> routNames () {
@@ -56,7 +60,7 @@ public class AssignedExcers {
             }
         }
         if (this.program.equals("531BBB")) {
-            if(excersize.substring(8).equals("Supplement")) {
+            if(Routine531BBB.isSupplement(excersize)) {
                 int[] A = {10, 10, 10, 10, 10};
                 return A;
             } else if(excersize.equals("Assistance")){
@@ -87,17 +91,7 @@ public class AssignedExcers {
         return true;
     }
 
-    public class NextExcersize {
-        public String excersizeName;
-        public double excersizeWeight;
 
-
-        NextExcersize(String excer, double weight){
-            excersizeName = excer;
-            excersizeWeight = weight;
-        }
-    }
-    
     
     private Excersize findExcersize(String excersizeName, List<Excersize> excersizes){
         // Given list of excersizes, returns excersize with matching routName
@@ -109,143 +103,140 @@ public class AssignedExcers {
         return null;
     }
 
-    private List<NextExcersize> begExcer (List<String> excersizes){
-        // quick function to initialize multiple excercise when user hasnt put a value before
-        List<NextExcersize> lExcersizes = new ArrayList<>();
+ //   private List<NextExcersize> begExcer (List<String> excersizes){
+ //       // quick function to initialize multiple excercise when user hasnt put a value before
+ //       List<NextExcersize> lExcersizes = new ArrayList<>();
 
-        for (String excersize : excersizes) {
-            NextExcersize curEx = new NextExcersize("", 0);
-            curEx.excersizeName = excersize;
-            lExcersizes.add(curEx);
-        }
+ //       for (String excersize : excersizes) {
+ //           NextExcersize curEx = new NextExcersize("", 0);
+ //           curEx.excersizeName = excersize;
+ //           lExcersizes.add(curEx);
+ //       }
 
-        return lExcersizes;
-    }
+ //       return lExcersizes;
+ //   }
 
     private double getWeightInc(){
         // TODO: Add more complex increments. IE. User doesnt have 5 lb weights.
 
         if(Excersize.uom == "lb"){
-            return 5;
+            return smallestWeightLb;
         }
 
         // Must be kg
-        return 2.5;
+        return smallestWeightKg;
     }
 
 
-    public List<NextExcersize> nextRoutineWeightsCheck(String[] sExcersizes){
-        List<NextExcersize> nextRoutWeight = this.nextRoutineWeights();
+    public List<NextExcersize> nextRoutineWeightsCheck(String[] sExcersizes, Context context){
+        List<NextExcersize> nextRoutWeight = this.nextRoutineWeights(context);
 
-        if (nextRoutWeight != null){
+       //if (nextRoutWeight != null){
             return nextRoutWeight;
-        }
+       //}
 
-        List<NextExcersize> emptyNextRoutWeights = new ArrayList<>();
+       // List<NextExcersize> emptyNextRoutWeights = new ArrayList<>();
 
-        for(int i=0; i< sExcersizes.length; i++){
-            emptyNextRoutWeights.add(new NextExcersize(sExcersizes[i], 0));
-        }
-        return emptyNextRoutWeights;
+       // for(int i=0; i< sExcersizes.length; i++){
+       //     emptyNextRoutWeights.add(new NextExcersize(sExcersizes[i], 0));
+       // }
+       // return emptyNextRoutWeights;
     }
 
-    public List<NextExcersize> nextRoutineWeights(){
+    public List<NextExcersize> nextRoutineWeights(Context context){
         List<NextExcersize> nextExcersizes = new ArrayList<>();
         LastWorkout lastwork = ExternalStore.getLastWorkoutProperties(0);
         LastWorkout secondlastwork = ExternalStore.getLastWorkoutProperties(1);
 
         // TODO: Add program checking
-        if (program.equals("5x5")) {
-            // Check if weight should be incremented
-            if (lastwork == null) {
-                // beginning regiment
-
-                List<String> sNextExcersizes = getExcersizes((new AssignedExcers("5x5")).routineDescriber.get(0));
-
-                nextExcersizes = begExcer(sNextExcersizes);
-
-                if (Excersize.uom.equals("lb")) {
-                    nextExcersizes.get(0).excersizeWeight = 45;
-                    nextExcersizes.get(1).excersizeWeight = 45;
-                    nextExcersizes.get(2).excersizeWeight = 65;
-                }
-
-                final double LB_TO_KG = 2.2;
-
-                if (Excersize.uom.equals("kg")) {
-                    nextExcersizes.get(0).excersizeWeight = Math.round(nextExcersizes.get(0).excersizeWeight / LB_TO_KG);
-                    nextExcersizes.get(1).excersizeWeight = Math.round(nextExcersizes.get(1).excersizeWeight / LB_TO_KG);
-                    nextExcersizes.get(2).excersizeWeight = Math.round(nextExcersizes.get(2).excersizeWeight / LB_TO_KG);
-                }
-
-                return nextExcersizes;
-            }
-
-
-            if (secondlastwork == null) {
-                // beginning regiment
-
-                List<String> sNextExcersizes = getExcersizes((new AssignedExcers("5x5")).routineDescriber.get(1));
-
-                nextExcersizes = begExcer(sNextExcersizes);
-
-                if (successfulExcer(findExcersize(sNextExcersizes.get(0), lastwork.excersizesDone))) {
-                    nextExcersizes.get(0).excersizeWeight = 45 + getWeightInc();
-                    if (Excersize.uom.equals("kg")) {
-                        nextExcersizes.get(0).excersizeWeight = 20 + getWeightInc();
-                    }
-                } else {
-                    nextExcersizes.get(0).excersizeWeight = 45;
-                    if (Excersize.uom.equals("kg")) {
-                        nextExcersizes.get(0).excersizeWeight = 20;
-                    }
-                }
-
-
-                if (Excersize.uom.equals("lb")) {
-                    nextExcersizes.get(1).excersizeWeight = 45;
-                    nextExcersizes.get(2).excersizeWeight = 95;
-                }
-
-                if (Excersize.uom.equals("kg")) {
-                    nextExcersizes.get(1).excersizeWeight = Math.round(nextExcersizes.get(1).excersizeWeight);
-                    nextExcersizes.get(2).excersizeWeight = 40;
-                }
-
-                return nextExcersizes;
-            }
-        List<String> sNextExcersizes = getExcersizes((new AssignedExcers("5x5")).routineDescriber.get(nextRoutineIdx(lastwork.routineIdx)));
-        nextExcersizes.add(checkandIncWeight(sNextExcersizes.get(0),lastwork));
-        nextExcersizes.add(checkandIncWeight(sNextExcersizes.get(1),secondlastwork));
-        nextExcersizes.add(checkandIncWeight(sNextExcersizes.get(2),secondlastwork));
-
-        // TODO: Check if weight should be decremented
-        return nextExcersizes;
-        } else if (program.equals("531BBB")) {
-            // I dont wanna program the weight increase logic yet
-        }
-        return null;
+//        if (program.equals("5x5")) {
+//            // Check if weight should be incremented
+//            if (lastwork == null) {
+//                // beginning regiment
+//
+//                List<String> sNextExcersizes = getExcersizes((new AssignedExcers("5x5")).routineDescriber.get(0));
+//
+//                nextExcersizes = begExcer(sNextExcersizes);
+//
+//                if (Excersize.uom.equals("lb")) {
+//                    nextExcersizes.get(0).excersizeWeight = 45;
+//                    nextExcersizes.get(1).excersizeWeight = 45;
+//                    nextExcersizes.get(2).excersizeWeight = 65;
+//                }
+//
+//                final double LB_TO_KG = 2.2;
+//
+//                if (Excersize.uom.equals("kg")) {
+//                    nextExcersizes.get(0).excersizeWeight = Math.round(nextExcersizes.get(0).excersizeWeight / LB_TO_KG);
+//                    nextExcersizes.get(1).excersizeWeight = Math.round(nextExcersizes.get(1).excersizeWeight / LB_TO_KG);
+//                    nextExcersizes.get(2).excersizeWeight = Math.round(nextExcersizes.get(2).excersizeWeight / LB_TO_KG);
+//                }
+//
+//                return nextExcersizes;
+//            }
+//
+//
+//            if (secondlastwork == null) {
+//                // beginning regiment
+//
+//                List<String> sNextExcersizes = getExcersizes((new AssignedExcers("5x5")).routineDescriber.get(1));
+//
+//                nextExcersizes = begExcer(sNextExcersizes);
+//
+//                if (successfulExcer(findExcersize(sNextExcersizes.get(0), lastwork.excersizesDone))) {
+//                    nextExcersizes.get(0).excersizeWeight = 45 + getWeightInc();
+//                    if (Excersize.uom.equals("kg")) {
+//                        nextExcersizes.get(0).excersizeWeight = 20 + getWeightInc();
+//                    }
+//                } else {
+//                    nextExcersizes.get(0).excersizeWeight = 45;
+//                    if (Excersize.uom.equals("kg")) {
+//                        nextExcersizes.get(0).excersizeWeight = 20;
+//                    }
+//                }
+//
+//
+//                if (Excersize.uom.equals("lb")) {
+//                    nextExcersizes.get(1).excersizeWeight = 45;
+//                    nextExcersizes.get(2).excersizeWeight = 95;
+//                }
+//
+//                if (Excersize.uom.equals("kg")) {
+//                    nextExcersizes.get(1).excersizeWeight = Math.round(nextExcersizes.get(1).excersizeWeight);
+//                    nextExcersizes.get(2).excersizeWeight = 40;
+//                }
+//
+//                return nextExcersizes;
+//            }
+//        List<String> sNextExcersizes = getExcersizes((new AssignedExcers("5x5")).routineDescriber.get(nextRoutineIdx(lastwork.routineIdx)));
+//        nextExcersizes.add(checkandIncWeight(sNextExcersizes.get(0),lastwork));
+//        nextExcersizes.add(checkandIncWeight(sNextExcersizes.get(1),secondlastwork));
+//        nextExcersizes.add(checkandIncWeight(sNextExcersizes.get(2),secondlastwork));
+//
+//        // TODO: Check if weight should be decremented
+//        return nextExcersizes;
+            return Routine531BBB.nextRoutineWeights(context);
     }
 
-    private NextExcersize checkandIncWeight(String excerName, LastWorkout lastWorkout){
-        List<Excersize> excersizes = lastWorkout.excersizesDone;
+  //  private NextExcersize checkandIncWeight(String excerName, LastWorkout lastWorkout){
+  //      List<Excersize> excersizes = lastWorkout.excersizesDone;
 
-        Excersize curEx = findExcersize(excerName, excersizes);
+  //      Excersize curEx = findExcersize(excerName, excersizes);
 
-        NextExcersize newEx;
-        if (lastWorkout.program.equals("5x5")) {
-            if (successfulExcer(curEx)){
-                newEx = new NextExcersize(curEx.excersizeName, curEx.curset.get(0).weight + getWeightInc());
-            } else {
-                newEx = new NextExcersize(curEx.excersizeName, curEx.curset.get(0).weight);
+  //      NextExcersize newEx;
+  //      if (lastWorkout.program.equals("5x5")) {
+  //          if (successfulExcer(curEx)){
+  //              newEx = new NextExcersize(curEx.excersizeName, curEx.curset.get(0).weight + getWeightInc());
+  //          } else {
+  //              newEx = new NextExcersize(curEx.excersizeName, curEx.curset.get(0).weight);
 
-            }
-            return newEx;
-        }
-        else {
-            return null;
-        }
-    }
+  //          }
+  //          return newEx;
+  //      }
+  //      else {
+  //          return null;
+  //      }
+  //  }
 
     public int nextRoutineIdx(int curRoutine) {
 
