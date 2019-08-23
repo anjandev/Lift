@@ -9,6 +9,7 @@ A weight lifting tracking app that respects your freedoms.
 
 ## Features
 **This program is under heavy development**
+
 - Google's proprietary "play-services" not required
 - Internet connectivity not required
 - Program's progression and daily routine is handled by the app
