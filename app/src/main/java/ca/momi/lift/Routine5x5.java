@@ -77,9 +77,9 @@ public class Routine5x5 {
 
             if (successfulExcer(findExcersize(sNextExcersizes.get(0), lastwork.excersizesDone))) {
 
-                nextExcerSetWeight(nextExcersizes, 45+ getWeightInc(), 0);
+                nextExcerSetWeight(nextExcersizes, 45+ getWeightInc(nextExcersizes.get(0).excersizeName), 0);
                 if (Excersize.uom.equals("kg")) {
-                    nextExcerSetWeight(nextExcersizes, 20+ getWeightInc(), 0);
+                    nextExcerSetWeight(nextExcersizes, 20+ getWeightInc(nextExcersizes.get(0).excersizeName), 0);
                 }
             } else {
                 nextExcerSetWeight(nextExcersizes, 45, 0);
@@ -122,7 +122,7 @@ public class Routine5x5 {
 
         NextExcersize newEx;
         if (successfulExcer(curEx)){
-            newEx = new NextExcersize(curEx.excersizeName,  weights(curEx.curset.get(0).weight + getWeightInc(), curEx.numOfSets));
+            newEx = new NextExcersize(curEx.excersizeName,  weights(curEx.curset.get(0).weight + getWeightInc(excerName), curEx.numOfSets));
         } else {
             newEx = new NextExcersize(curEx.excersizeName, weights(curEx.curset.get(0).weight, curEx.numOfSets));
 
@@ -173,13 +173,19 @@ public class Routine5x5 {
         return lExcersizes;
     }
 
-    private static double getWeightInc(){
+    private static double getWeightInc(String excersize){
         // TODO: Add more complex increments. IE. User doesnt have 5 lb weights.
 
         if (Excersize.uom == "lb") {
+            if (excersize.equals("Deadlift")){
+                return 2 * smallestWeightLb;
+            }
             return smallestWeightLb;
         } else {
             // Must be kg
+            if (excersize.equals("Deadlift")){
+                return 2 * smallestWeightKg;
+            }
             return smallestWeightKg;
         }
     }
