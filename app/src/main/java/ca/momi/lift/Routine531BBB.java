@@ -153,7 +153,15 @@ public class Routine531BBB {
                     nextExcersizes.add(new NextExcersize(slistNewExcersizes.get(i), zeroArray(reps.length)));
                 }
                 else {
-                    double excerWeight = Double.valueOf(sharedPref.getString(slistNewExcersizes.get(i) + "1RM", "0"));
+                    // Bug with supplement
+                    String curExcersize = slistNewExcersizes.get(i);
+
+                    if (isSupplement(curExcersize)) {
+                        curExcersize = curExcersize.substring(0, curExcersize.lastIndexOf(" - Supplement"));
+
+                    }
+
+                    double excerWeight = Double.valueOf(sharedPref.getString(curExcersize + "1RM", "0"));
                     double trainingMax = getTrainingMax531(excerWeight);
                     int[] reps = assExcer.getReps(slistNewExcersizes.get(i));
                     double[] weights = new double[reps.length];
@@ -205,7 +213,7 @@ public class Routine531BBB {
         if(excersize.length() < "Supplment".length()){
             return false;
         }
-        return excersize.substring(8).equals("Supplement");
+        return excersize.substring(excersize.length()-"Supplement".length()).equals("Supplement");
     }
 
 }
