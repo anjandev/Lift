@@ -75,7 +75,7 @@ public class ExternalStore {
         String post = "- " + excersize.excersizeName + "\n";
 
         for(int i =0; i < excersize.setsDone; i++) {
-            post += "   - Rep " + i + " = " + excersize.curset.get(i).weight + excersize.uom + " done "
+            post += "   - Set " + i + " = " + excersize.curset.get(i).weight + excersize.uom + " done "
                     + excersize.curset.get(i).reps + " reps\n";
         }
         return post;
