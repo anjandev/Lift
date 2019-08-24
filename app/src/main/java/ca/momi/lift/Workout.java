@@ -216,7 +216,7 @@ public class Workout extends AppCompatActivity {
 
 
         TextView setsLabel = new TextView(this);
-        setsLabel.setText("Sets");
+        setsLabel.setText("Sets Done");
 
         setsHolder.addView(setsLabel,setsTextParams);
         setsHolder.addView(setsNum,setsTextParams);
@@ -255,7 +255,7 @@ public class Workout extends AppCompatActivity {
 
 
         TextView repsLabel = new TextView(this);
-        repsLabel.setText("Reps");
+        repsLabel.setText("Reps Done");
 
         TextView repsNum = new TextView(this);
         repsNum.setText(String.valueOf(excer.numOfReps[0]));
