@@ -20,8 +20,9 @@ public class Set {
     public double weight;
     public int reps;
 
-    public void setWeight (float sentweight){
+    public Set (int sentReps, double sentweight){
         weight = sentweight;
+        reps = sentReps;
     }
 
 }

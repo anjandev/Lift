@@ -234,8 +234,8 @@ public class Workout extends AppCompatActivity {
         repsSlideParams.addRule(RelativeLayout.BELOW, setsHolder.getId());
         repsSlideParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
 
-        repsUI.setMax(excer.numOfReps[0]);
-        repsUI.setProgress(excer.numOfReps[0]);
+        repsUI.setMax(excer.setsToDo.get(0).reps);
+        repsUI.setProgress(excer.setsToDo.get(0).reps);
 
 
         Button doneSet = new Button(this);
@@ -257,7 +257,7 @@ public class Workout extends AppCompatActivity {
         repsLabel.setText("Reps Done");
 
         TextView repsNum = new TextView(this);
-        repsNum.setText(String.valueOf(excer.numOfReps[0]));
+        repsNum.setText(String.valueOf(excer.setsToDo.get(0).reps));
         final TextView finalrepNum = repsNum;
 
         repsUI.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
@@ -312,23 +312,7 @@ public class Workout extends AppCompatActivity {
 
 
         for (int i =0; i < slistOfExcersizes.length; i++) {
-            Excersize excer = new Excersize(slistOfExcersizes[i]);
-            if (todaysWorkout == null) {
-                for (int idx = 0; idx < metaNext.size(); idx++) {
-                    if (metaNext.get(idx).excersizeName.equals(slistOfExcersizes[i])) {
-                        excer.setSetsWeightToDo(metaNext.get(idx).excersizeWeight);
-                        break;
-                    }
-                }
-            } else {
-                excer = todaysWorkout.excersizesDone.get(i);
-                for (int idx = 0; idx < metaNext.size(); idx++) {
-                    if (metaNext.get(idx).excersizeName.equals(slistOfExcersizes[i])) {
-                        excer.setSetsWeightToDo(metaNext.get(idx).excersizeWeight);
-                        break;
-                    }
-                }
-            }
+            Excersize excer = new Excersize(slistOfExcersizes[i], (metaNext.get(i).excersizeWeight));
             listOfExcersizes[i] = (excer);
 
         }

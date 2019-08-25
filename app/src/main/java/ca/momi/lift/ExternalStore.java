@@ -32,6 +32,8 @@ public class ExternalStore {
     private static final String TAG = Workout.class.getSimpleName();
 
     static final String LIFT_FOLDER = "/Lift";
+    static final String SUCESS_STRING = "SUCCEEDED";
+    static final String FAIL_STRING = "FAILED";
 
     /* Checks if external storage is available for read and write */
     public static boolean isExternalStorageWritable() {
@@ -73,9 +75,21 @@ public class ExternalStore {
     }
 
     static public String makeExcersizeString(Excersize excersize) {
-        String post = "- " + excersize.excersizeName + "\n";
 
-        for (int i = 0; i < excersize.setsDone; i++) {
+        String successOrFail;
+        String didNotAttempt;
+
+        if (excersize.success()){
+            successOrFail = SUCESS_STRING;
+            didNotAttempt= "";
+        } else {
+            successOrFail = FAIL_STRING;
+            didNotAttempt= " did not attempt " + (excersize.setsToDo.size() - excersize.setsDone) + " sets";
+        }
+
+        String post = "- " + excersize.excersizeName + ": " + successOrFail +  didNotAttempt +"\n";
+
+        for (int i = 0; i < excersize.setsToDo.size(); i++) {
             post += "   - Set " + i + " = " + excersize.curset.get(i).weight + excersize.uom + " done "
                     + excersize.curset.get(i).reps + " reps\n";
         }

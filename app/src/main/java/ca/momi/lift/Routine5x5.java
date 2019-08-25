@@ -75,7 +75,7 @@ public class Routine5x5 {
 
             nextExcersizes = begExcer(sNextExcersizes);
 
-            if (successfulExcer(findExcersize(sNextExcersizes.get(0), lastwork.excersizesDone))) {
+            if (findExcersize(sNextExcersizes.get(0), lastwork.excersizesDone).success()) {
 
                 nextExcerSetWeight(nextExcersizes, 45+ getWeightInc(nextExcersizes.get(0).excersizeName), 0);
                 if (Excersize.uom.equals("kg")) {
@@ -121,7 +121,7 @@ public class Routine5x5 {
         Excersize curEx = findExcersize(excerName, excersizes);
 
         NextExcersize newEx;
-        if (successfulExcer(curEx)){
+        if (curEx.success()){
             newEx = new NextExcersize(curEx.excersizeName,  weights(curEx.curset.get(0).weight + getWeightInc(excerName), curEx.numOfSets));
         } else {
             newEx = new NextExcersize(curEx.excersizeName, weights(curEx.curset.get(0).weight, curEx.numOfSets));
@@ -129,25 +129,6 @@ public class Routine5x5 {
         }
         return newEx;
     }
-
-
-    private static boolean successfulExcer(Excersize excer) {
-        // Check if you did all sets and you did all reps for all sets
-
-        if (excer.setsDone != excer.numOfSets){
-            return false;
-        }
-
-        for (int i = 0; i < excer.numOfSets; i++){
-            if(excer.numOfReps[i] != excer.curset.get(i).reps){
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-
 
     private static Excersize findExcersize(String excersizeName, List<Excersize> excersizes){
         // Given list of excersizes, returns excersize with matching routName

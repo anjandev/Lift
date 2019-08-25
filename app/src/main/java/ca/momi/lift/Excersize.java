@@ -36,8 +36,6 @@ public class Excersize {
     // TODO: Add condition if madcow. Put in initialization
     public int numOfSets;
     public List<Set> setsToDo = new ArrayList<>();
-    // TODO: remove these
-    public int[] numOfReps;
 
     // This variable holds the info for the sets done
     public List<Set> curset = new ArrayList<>();
@@ -52,26 +50,40 @@ public class Excersize {
     public EditText weightUI;
     public Button doneSetUI;
 
-    public void doneSet(int repsDone, float weightDone){
+
+    public boolean success(){
+        if (setsDone < setsToDo.size()){
+            return false;
+        }
+
+        for (int i = 0; i < setsToDo.size(); i++){
+            if (curset.get(i).reps < setsToDo.get(i).reps){
+                return false;
+            }
+
+            if (curset.get(i).weight < setsToDo.get(i).weight){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void doneSet(int repsDone, double weightDone){
         this.set_reps(repsDone, weightDone);
         this.setsDone = setsDone + 1;
-        if (seekReps != null & setsDone < numOfReps.length) {
-            seekReps.setMax(numOfReps[setsDone]);
-            seekReps.setProgress(numOfReps[setsDone]);
+        if (seekReps != null & setsDone < setsToDo.size()) {
+            seekReps.setMax(setsToDo.get(setsDone).reps);
+            seekReps.setProgress(setsToDo.get(setsDone).reps);
         }
         if (weightUI != null & setsDone < setsToDo.size()) {
             weightUI.setText(String.valueOf(setsToDo.get(setsDone).weight));
         }
     }
 
-    private void set_reps(int repsDone, float weightDone){
+    private void set_reps(int repsDone, double weightDone){
         // write reps to file memory
-        Set currentSet = new Set();
-
-        currentSet.reps = repsDone;
-        currentSet.weight = weightDone;
-
-        curset.add(currentSet);
+        curset.set(setsDone, new Set(repsDone, weightDone));
     }
 
     public void setUI(SeekBar seekSets1, SeekBar seekReps1, EditText weightUI1, TextView textUI1, Button doneSetUI){
@@ -83,23 +95,27 @@ public class Excersize {
     }
 
 
-    public void setSetsWeightToDo(double[] weight){
-        for (int i = 0; i < numOfReps.length; i++){
-            Set tempSet = new Set();
-            tempSet.reps = numOfReps[i];
-            tempSet.weight = weight[i];
-            setsToDo.add(tempSet);
+    private void setSetsWeightToDo(double[] weight){
+        AssignedExcers assignedExcers = new AssignedExcers(MainActivity.program);
+        int[] reps = assignedExcers.getReps(excersizeName);
+        for (int i = 0; i < reps.length; i++){
+            setsToDo.add(new Set(reps[i], weight[i]));
+        }
+        numOfSets = setsToDo.size();
+
+        for (int i=0; i < numOfSets; i++){
+            curset.add(new Set(0, weight[i]));
         }
     }
 
-    public Excersize(String excersize_sName){
+    public Excersize(String excersize_sName, double[] weights){
 
         this.excersizeName = excersize_sName;
 
         this.setsDone = 0;
 
-        AssignedExcers assignedExcers = new AssignedExcers(MainActivity.program);
-        numOfReps = assignedExcers.getReps(excersizeName);
-        numOfSets = numOfReps.length;
+        setSetsWeightToDo(weights);
+
+
     }
 }

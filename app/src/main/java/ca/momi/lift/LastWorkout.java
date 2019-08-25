@@ -44,30 +44,61 @@ public class LastWorkout {
         List<Excersize> excersizes = new ArrayList<>();
 
         Pattern pExcersizeNom = Pattern.compile("^- *");
+        String currentExcersizeName = lines[FIRST_EXCERSIZE_LINE].substring(getIdxBeg(lines[FIRST_EXCERSIZE_LINE], "- "), lines[FIRST_EXCERSIZE_LINE].indexOf(":"));
+        String curExcersizeLine = lines[FIRST_EXCERSIZE_LINE];
 
+        List<Set> curSets = new ArrayList<Set>();
 
-        for(int i=FIRST_EXCERSIZE_LINE; i< lines.length; i++) {
+        for(int i=FIRST_EXCERSIZE_LINE+1; i< lines.length; i++) {
             Matcher mExcersizeNom = pExcersizeNom.matcher(lines[i]);
-
             if (mExcersizeNom.find()) {
-                excersizes.add(new Excersize(lines[i].substring(mExcersizeNom.end())));
-            } else {
-                Excersize curExcersize =  excersizes.get(excersizes.size()-1);
+                excersizes.add(new Excersize(currentExcersizeName, setsToWeights(curSets)));
 
-                String curLine = lines[i];
+                Excersize latestExcer = excersizes.get(excersizes.size()-1);
 
-                float weight = Float.parseFloat(curLine.substring(getIdxBeg(curLine, "= "), curLine.indexOf(curExcersize.uom)));
-                int reps = Integer.parseInt(curLine.substring(getIdxBeg(curLine, "done "), curLine.indexOf("reps") - " ".length()));
+                Pattern failed = Pattern.compile("FAILED");
 
-                curExcersize.doneSet(reps,weight);
+                Matcher mFailed = failed.matcher(curExcersizeLine);
+                int setsDone = latestExcer.setsToDo.size();
+                if (mFailed.find()){
+                    int begIdx = getIdxBeg(curExcersizeLine, "attempt ");
+                    setsDone = latestExcer.setsToDo.size() - Integer.parseInt(curExcersizeLine.substring(begIdx, curExcersizeLine.indexOf(" sets")));
+                }
 
-                excersizes.set(excersizes.size()-1, curExcersize);
+                // for (setsDone)
+
+                for (int iDone = 0; iDone < setsDone; iDone++){
+                    latestExcer.doneSet(curSets.get(iDone).reps, curSets.get(iDone).weight);
+                }
+
+                excersizes.set(excersizes.size()-1, latestExcer);
+
+                curSets.clear();
+                currentExcersizeName = lines[i].substring(getIdxBeg(lines[i], "- "), lines[i].indexOf(":"));
+                curExcersizeLine = lines[i];
+                continue;
             }
+
+            String curLine = lines[i];
+
+            double weight = Float.parseFloat(curLine.substring(getIdxBeg(curLine, "= "), curLine.indexOf(Excersize.uom)));
+            int reps = Integer.parseInt(curLine.substring(getIdxBeg(curLine, "done "), curLine.indexOf("reps") - " ".length()));
+            curSets.add(new Set(reps, weight));
         }
 
         return excersizes;
 
     }
+
+
+    private double[] setsToWeights(List<Set> sets){
+        double[] A = new double[sets.size()];
+        for (int i = 0; i < sets.size(); i++){
+            A[i] = sets.get(i).weight;
+        }
+        return A;
+    }
+
 
     public LastWorkout(String sentRoutineName, String content) {
         // TODO: add error handling to check if no matches
