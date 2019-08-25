@@ -31,6 +31,7 @@ public class ExternalStore {
 
     private static final String TAG = Workout.class.getSimpleName();
 
+    static final String LIFT_FOLDER = "/Lift";
 
     /* Checks if external storage is available for read and write */
     public static boolean isExternalStorageWritable() {
@@ -52,7 +53,7 @@ public class ExternalStore {
     }
 
     public static void writeTextToExtStorage(String fileName, String text) throws IOException {
-        File path = new File(Environment.getExternalStorageDirectory()+ "/Lift");
+        File path = new File(Environment.getExternalStorageDirectory()+ LIFT_FOLDER + "/" + MainActivity.program);
         if (!path.isDirectory()) {
             if (!path.mkdirs()) {
                 Log.e(TAG, "Directory not created");
@@ -82,7 +83,7 @@ public class ExternalStore {
     }
 
     static public int getNumLastWorkoutFiles(){
-        File path = new File(Environment.getExternalStorageDirectory() + "/Lift");
+        File path = new File(Environment.getExternalStorageDirectory() + LIFT_FOLDER + "/" + MainActivity.program);
         File[] files = path.listFiles();
         if (files == null) {
             return 0;
@@ -94,7 +95,7 @@ public class ExternalStore {
         // Gets last workout number properties. If lastNum = 0, it's the latest saved workout.
 
         // TODO: Error checking if folder doesnt exist
-        File path = new File(Environment.getExternalStorageDirectory() + "/Lift");
+        File path = new File(Environment.getExternalStorageDirectory() + LIFT_FOLDER + "/" + MainActivity.program);
         File[] files = path.listFiles();
         if (files == null) {
             return null;
