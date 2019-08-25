@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setNextWorkout () {
 
-        LastWorkout latestwork = ExternalStore.getLastWorkoutProperties(0);
+        LastWorkout latestwork = ExternalStore.getLastidxProperties(0);
         RadioGroup routinesRadGroup = findViewById(R.id.routines);
 
         if(!DEBUGMODE) {

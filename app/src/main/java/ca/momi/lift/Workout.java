@@ -308,16 +308,32 @@ public class Workout extends AppCompatActivity {
         List<NextExcersize>  metaNext = new AssignedExcers(programName).nextRoutineWeightsCheck(slistOfExcersizes, this.getBaseContext());
 
 
+        LastWorkout todaysWorkout = ExternalStore.getPropFromFile(dateString + ".txt");
+
+
         for (int i =0; i < slistOfExcersizes.length; i++) {
             Excersize excer = new Excersize(slistOfExcersizes[i]);
-            for (int idx=0; idx < metaNext.size(); idx++){
-                if (metaNext.get(idx).excersizeName.equals(slistOfExcersizes[i])){
-                    excer.setSetsWeightToDo(metaNext.get(idx).excersizeWeight);
-                    break;
+            if (todaysWorkout == null) {
+                for (int idx = 0; idx < metaNext.size(); idx++) {
+                    if (metaNext.get(idx).excersizeName.equals(slistOfExcersizes[i])) {
+                        excer.setSetsWeightToDo(metaNext.get(idx).excersizeWeight);
+                        break;
+                    }
+                }
+            } else {
+                excer = todaysWorkout.excersizesDone.get(i);
+                for (int idx = 0; idx < metaNext.size(); idx++) {
+                    if (metaNext.get(idx).excersizeName.equals(slistOfExcersizes[i])) {
+                        excer.setSetsWeightToDo(metaNext.get(idx).excersizeWeight);
+                        break;
+                    }
                 }
             }
             listOfExcersizes[i] = (excer);
 
+        }
+
+        for (int i =0; i < slistOfExcersizes.length; i++) {
             createExcerUI(listOfExcersizes[i], ll);
         }
 

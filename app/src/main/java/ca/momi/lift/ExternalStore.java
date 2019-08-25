@@ -53,7 +53,7 @@ public class ExternalStore {
     }
 
     public static void writeTextToExtStorage(String fileName, String text) throws IOException {
-        File path = new File(Environment.getExternalStorageDirectory()+ LIFT_FOLDER + "/" + MainActivity.program);
+        File path = new File(Environment.getExternalStorageDirectory() + LIFT_FOLDER + "/" + MainActivity.program);
         if (!path.isDirectory()) {
             if (!path.mkdirs()) {
                 Log.e(TAG, "Directory not created");
@@ -72,17 +72,17 @@ public class ExternalStore {
         }
     }
 
-    static public String makeExcersizeString(Excersize excersize){
+    static public String makeExcersizeString(Excersize excersize) {
         String post = "- " + excersize.excersizeName + "\n";
 
-        for(int i =0; i < excersize.setsDone; i++) {
+        for (int i = 0; i < excersize.setsDone; i++) {
             post += "   - Set " + i + " = " + excersize.curset.get(i).weight + excersize.uom + " done "
                     + excersize.curset.get(i).reps + " reps\n";
         }
         return post;
     }
 
-    static public int getNumLastWorkoutFiles(){
+    static public int getNumLastWorkoutFiles() {
         File path = new File(Environment.getExternalStorageDirectory() + LIFT_FOLDER + "/" + MainActivity.program);
         File[] files = path.listFiles();
         if (files == null) {
@@ -91,33 +91,53 @@ public class ExternalStore {
         return files.length;
     }
 
-    static public LastWorkout getLastWorkoutProperties(int lastNum) {
-        // Gets last workout number properties. If lastNum = 0, it's the latest saved workout.
 
+    static public LastWorkout getLastidxProperties(int lastNum) {
+        // Gets last workout number properties. If lastNum = 0, it's the latest saved workout.
         // TODO: Error checking if folder doesnt exist
         File path = new File(Environment.getExternalStorageDirectory() + LIFT_FOLDER + "/" + MainActivity.program);
         File[] files = path.listFiles();
-        if (files == null) {
+        if(files ==null) {
             return null;
         }
-        if (files.length == 0) {
+
+        if(files.length ==0) {
             return null;
         }
 
         Arrays.sort(files);
 
-        if (files.length-1-lastNum < 0) {
+        if(files.length-1-lastNum< 0) {
             return null;
         }
 
-        File lastWorkoutFile = files[files.length-1-lastNum];
+        File lastWorkoutFile = files[files.length - 1 - lastNum];
+
+        return getFileProp(lastWorkoutFile);
+    }
+
+
+    static public LastWorkout getPropFromFile(String filename){
+
+        File file = new File(Environment.getExternalStorageDirectory() + LIFT_FOLDER + "/" + MainActivity.program + "/" + filename);
+
+        if (!file.exists()) {
+            return null;
+        }
+
+        return getFileProp(file);
+
+    }
+
+    static public LastWorkout getFileProp(File file) {
+
 
         StringBuilder content = new StringBuilder();
 
         String firstLine = null;
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(lastWorkoutFile));
+            BufferedReader br = new BufferedReader(new FileReader(file));
             String curline;
 
             while ((curline = br.readLine()) != null) {
