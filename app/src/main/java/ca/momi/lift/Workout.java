@@ -161,7 +161,7 @@ public class Workout extends AppCompatActivity {
         RelativeLayout.LayoutParams weightParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-        weight.setText(String.valueOf(excer.setsToDo.get(0).weight));
+        weight.setText(String.valueOf(excer.setsToDo.get(excer.setsDone-1).weight));
         weightParams.addRule(RelativeLayout.RIGHT_OF, title.getId());
         weightParams.addRule(RelativeLayout.ALIGN_TOP, title.getId());
         weightParams.addRule(RelativeLayout.ALIGN_BOTTOM, title.getId());
@@ -197,9 +197,10 @@ public class Workout extends AppCompatActivity {
         setsSlideParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
 
         setsUI.setMax(excer.numOfSets);
+        setsUI.setProgress(excer.setsDone);
 
         TextView setsNum = new TextView(this);
-        setsNum.setText(String.valueOf(0));
+        setsNum.setText(String.valueOf(excer.setsDone));
 
         final TextView finalSetsNum = setsNum;
         setsUI.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
@@ -234,8 +235,8 @@ public class Workout extends AppCompatActivity {
         repsSlideParams.addRule(RelativeLayout.BELOW, setsHolder.getId());
         repsSlideParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
 
-        repsUI.setMax(excer.setsToDo.get(0).reps);
-        repsUI.setProgress(excer.setsToDo.get(0).reps);
+        repsUI.setMax(excer.setsToDo.get(excer.setsDone-1).reps);
+        repsUI.setProgress(excer.setsToDo.get(excer.setsDone-1).reps);
 
 
         Button doneSet = new Button(this);
@@ -257,7 +258,7 @@ public class Workout extends AppCompatActivity {
         repsLabel.setText("Reps Done");
 
         TextView repsNum = new TextView(this);
-        repsNum.setText(String.valueOf(excer.setsToDo.get(0).reps));
+        repsNum.setText(String.valueOf(excer.setsToDo.get(excer.setsDone-1).reps));
         final TextView finalrepNum = repsNum;
 
         repsUI.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
@@ -310,11 +311,17 @@ public class Workout extends AppCompatActivity {
 
         LastWorkout todaysWorkout = ExternalStore.getPropFromFile(dateString + ".txt");
 
+        if (todaysWorkout != null) {
+            // Resume today's workout
+            for (int i = 0; i < slistOfExcersizes.length; i++) {
+                listOfExcersizes[i] = todaysWorkout.excersizesDone.get(i);
+            }
+        } else {
+            for (int i = 0; i < slistOfExcersizes.length; i++) {
+                Excersize excer = new Excersize(slistOfExcersizes[i], (metaNext.get(i).excersizeWeight));
+                listOfExcersizes[i] = (excer);
 
-        for (int i =0; i < slistOfExcersizes.length; i++) {
-            Excersize excer = new Excersize(slistOfExcersizes[i], (metaNext.get(i).excersizeWeight));
-            listOfExcersizes[i] = (excer);
-
+            }
         }
 
         for (int i =0; i < slistOfExcersizes.length; i++) {
