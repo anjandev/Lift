@@ -1,3 +1,17 @@
+<!--<Lift: A free software weight lifting tracking app>-->
+<!--Copyright (C) <2019> <Anjandev Momi>-->
+<!--email: anjan@momi.ca-->
+
+<!--Lift is free software: you can redistribute it and/or modify it under the terms of the-->
+<!--GNU General Public License as published by the Free Software Foundation, either version 3 of-->
+<!--the License, or (at your option) any later version.-->
+
+<!--Lift is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;-->
+<!--without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.-->
+<!--See the GNU General Public License for more details.-->
+
+<!--You should have received a copy of the GNU General Public License along with this program.-->
+<!--If not, see <https://www.gnu.org/licenses/>.-->
 <resources>
     <string name="app_name">Lift</string>
     <string name="action_settings">Settings</string>
@@ -11,4 +25,27 @@
     <string name="maxNumOfReps">5</string>
     <string name="maxNumOfSets">5</string>
     <string name="doneWork">Done Workout</string>
+    <string name="AboutText">
+    Lift: A free software weight lifting tracking app\n
+    Copyright © 2019 Anjandev Momi\n
+    email: <a href="mailto:anjan@momi.ca">anjan@momi.ca</a>\n
+    </string>
+    <string name="AboutText2">
+    Lift is free software: you can redistribute it and/or modify it under the terms of the
+    GNU General Public License as published by the Free Software Foundation, either version 3 of
+    the License, or (at your option) any later version.\n\n
+
+    Lift is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+    without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.\n\n
+
+    You should have received a copy of the GNU General Public License along with this program.
+    If not, see\n https://www.gnu.org/licenses\n\n\n
+
+    Main Git: https://git.sr.ht/~anjan/lift\n\n
+
+    Issue Tracker: https://todo.sr.ht/~anjan/lift\n\n
+
+    Mailing List: https://lists.sr.ht/~anjan/lift\n\n
+    </string>
 </resources>
