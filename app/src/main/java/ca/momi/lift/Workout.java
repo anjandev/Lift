@@ -161,7 +161,7 @@ public class Workout extends AppCompatActivity {
         RelativeLayout.LayoutParams weightParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-        weight.setText(String.valueOf(excer.setsToDo.get(excer.setsDone-1).weight));
+        weight.setText(String.valueOf(excer.setsToDo.get(excer.setsDone).weight));
         weightParams.addRule(RelativeLayout.RIGHT_OF, title.getId());
         weightParams.addRule(RelativeLayout.ALIGN_TOP, title.getId());
         weightParams.addRule(RelativeLayout.ALIGN_BOTTOM, title.getId());
@@ -235,8 +235,8 @@ public class Workout extends AppCompatActivity {
         repsSlideParams.addRule(RelativeLayout.BELOW, setsHolder.getId());
         repsSlideParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
 
-        repsUI.setMax(excer.setsToDo.get(excer.setsDone-1).reps);
-        repsUI.setProgress(excer.setsToDo.get(excer.setsDone-1).reps);
+        repsUI.setMax(excer.setsToDo.get(excer.setsDone).reps);
+        repsUI.setProgress(excer.setsToDo.get(excer.setsDone).reps);
 
 
         Button doneSet = new Button(this);
@@ -258,7 +258,7 @@ public class Workout extends AppCompatActivity {
         repsLabel.setText("Reps Done");
 
         TextView repsNum = new TextView(this);
-        repsNum.setText(String.valueOf(excer.setsToDo.get(excer.setsDone-1).reps));
+        repsNum.setText(String.valueOf(excer.setsToDo.get(excer.setsDone).reps));
         final TextView finalrepNum = repsNum;
 
         repsUI.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
@@ -305,11 +305,9 @@ public class Workout extends AppCompatActivity {
         bDate.setText(dateString);
 
         LinearLayout ll = findViewById(R.id.stuff);
+        LastWorkout todaysWorkout = ExternalStore.getPropFromFile(dateString + ".txt");
         listOfExcersizes = new Excersize[slistOfExcersizes.length];
         List<NextExcersize>  metaNext = new AssignedExcers(programName).nextRoutineWeightsCheck(slistOfExcersizes, this.getBaseContext());
-
-
-        LastWorkout todaysWorkout = ExternalStore.getPropFromFile(dateString + ".txt");
 
         if (todaysWorkout != null) {
             // Resume today's workout
