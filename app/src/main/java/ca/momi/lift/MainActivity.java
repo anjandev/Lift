@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void getProgram(Context context){
           SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
-          program = sharedPref.getString("program","531BBB");
+          program = sharedPref.getString("program",AssignedExcers.FIVE_x_5);
     }
 
     @Override
