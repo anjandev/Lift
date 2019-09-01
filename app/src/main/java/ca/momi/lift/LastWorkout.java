@@ -112,7 +112,7 @@ public class LastWorkout {
         routineName = sentRoutineName;
         excersizesDone = textToExcersizes(content);
 
-        List<String> routines = new AssignedExcers(MainActivity.program).routineDescriber;
+        List<String> routines = new AssignedExcers().routineDescriber;
 
         for (int i = 0; i < routines.size(); i++){
             if(routineName.equals(routines.get(i))) {

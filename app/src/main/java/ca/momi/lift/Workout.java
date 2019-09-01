@@ -152,7 +152,7 @@ public class Workout extends AppCompatActivity {
         titleParams.addRule(RelativeLayout.BELOW, R.id.date);
         title.setIncludeFontPadding(true);
 
-        titleParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
+        titleParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT, MARGIN_BOTTOM);
 
         header.addView(title, titleParams);
 
@@ -166,7 +166,7 @@ public class Workout extends AppCompatActivity {
         weightParams.addRule(RelativeLayout.ALIGN_TOP, title.getId());
         weightParams.addRule(RelativeLayout.ALIGN_BOTTOM, title.getId());
 
-        weightParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
+        weightParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT, MARGIN_BOTTOM);
 
         weight.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
@@ -176,9 +176,9 @@ public class Workout extends AppCompatActivity {
         RelativeLayout.LayoutParams headerParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-        headerParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
+        headerParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT, MARGIN_BOTTOM);
 
-        ll.addView(header,headerParams);
+        ll.addView(header, headerParams);
 
 
         LinearLayout setsHolder = new LinearLayout(this);
@@ -189,12 +189,12 @@ public class Workout extends AppCompatActivity {
         RelativeLayout.LayoutParams setsTextParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         setsTextParams.addRule(RelativeLayout.BELOW, header.getId());
-        setsTextParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
+        setsTextParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT, MARGIN_BOTTOM);
 
         RelativeLayout.LayoutParams setsSlideParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         setsSlideParams.addRule(RelativeLayout.BELOW, setsHolder.getId());
-        setsSlideParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
+        setsSlideParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT, MARGIN_BOTTOM);
 
         setsUI.setMax(excer.numOfSets);
         setsUI.setProgress(excer.setsDone);
@@ -203,24 +203,28 @@ public class Workout extends AppCompatActivity {
         setsNum.setText(String.valueOf(excer.setsDone));
 
         final TextView finalSetsNum = setsNum;
-        setsUI.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+        setsUI.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public  void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser){
+            public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
                 finalSetsNum.setText(String.valueOf(progress));
             }
+
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
 
 
         TextView setsLabel = new TextView(this);
         setsLabel.setText("Sets Done");
 
-        setsHolder.addView(setsLabel,setsTextParams);
-        setsHolder.addView(setsNum,setsTextParams);
-        setsHolder.addView(setsUI,setsSlideParams);
+        setsHolder.addView(setsLabel, setsTextParams);
+        setsHolder.addView(setsNum, setsTextParams);
+        setsHolder.addView(setsUI, setsSlideParams);
         ll.addView(setsHolder);
 
         LinearLayout repsHolder = new LinearLayout(this);
@@ -228,12 +232,12 @@ public class Workout extends AppCompatActivity {
         RelativeLayout.LayoutParams repsLabelParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         repsLabelParams.addRule(RelativeLayout.BELOW, setsHolder.getId());
-        repsLabelParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
+        repsLabelParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT, MARGIN_BOTTOM);
 
         RelativeLayout.LayoutParams repsSlideParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         repsSlideParams.addRule(RelativeLayout.BELOW, setsHolder.getId());
-        repsSlideParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT,MARGIN_BOTTOM);
+        repsSlideParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT, MARGIN_BOTTOM);
 
         repsUI.setMax(excer.setsToDo.get(excer.setsDone).reps);
         repsUI.setProgress(excer.setsToDo.get(excer.setsDone).reps);
@@ -261,16 +265,7 @@ public class Workout extends AppCompatActivity {
         repsNum.setText(String.valueOf(excer.setsToDo.get(excer.setsDone).reps));
         final TextView finalrepNum = repsNum;
 
-        repsUI.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
-            @Override
-            public  void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser){
-                finalrepNum.setText(String.valueOf(progress));
-            }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
-        });
+
 
         repsHolder.addView(repsLabel,repsLabelParams);
         repsHolder.addView(repsNum,repsLabelParams);
@@ -280,7 +275,7 @@ public class Workout extends AppCompatActivity {
 
         ll.addView(doneSet,doneSetParams);
 
-        excer.setUI(setsUI, repsUI, weight, title,doneSet);
+        excer.setUI(setsUI, repsUI, weight, title,doneSet, repsNum);
     }
 
 
@@ -307,7 +302,7 @@ public class Workout extends AppCompatActivity {
         LinearLayout ll = findViewById(R.id.stuff);
         LastWorkout todaysWorkout = ExternalStore.getPropFromFile(dateString + ".txt");
         listOfExcersizes = new Excersize[slistOfExcersizes.length];
-        List<NextExcersize>  metaNext = new AssignedExcers(programName).nextRoutineWeightsCheck(slistOfExcersizes, this.getBaseContext());
+        List<NextExcersize>  metaNext = new AssignedExcers().nextRoutineWeightsCheck(slistOfExcersizes, this.getBaseContext());
 
         if (todaysWorkout != null) {
             // Resume today's workout

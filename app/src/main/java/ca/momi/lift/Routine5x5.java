@@ -41,13 +41,13 @@ public class Routine5x5 {
         LastWorkout lastwork = ExternalStore.getLastidxProperties(0);
         LastWorkout secondlastwork = ExternalStore.getLastidxProperties(1);
 
-        AssignedExcers assExcer = new AssignedExcers("5x5");
+        AssignedExcers assExcer = new AssignedExcers();
 
         // Check if weight should be incremented
         if (lastwork == null) {
             // beginning regiment
 
-            List<String> sNextExcersizes = assExcer.getExcersizes((new AssignedExcers("5x5")).routineDescriber.get(0));
+            List<String> sNextExcersizes = assExcer.getExcersizes((new AssignedExcers()).routineDescriber.get(0));
 
             nextExcersizes = begExcer(sNextExcersizes);
 
@@ -71,7 +71,7 @@ public class Routine5x5 {
 
         if (secondlastwork == null) {
             // beginning regiment
-            List<String> sNextExcersizes = assExcer.getExcersizes((new AssignedExcers("5x5")).routineDescriber.get(1));
+            List<String> sNextExcersizes = assExcer.getExcersizes((new AssignedExcers()).routineDescriber.get(1));
 
             nextExcersizes = begExcer(sNextExcersizes);
 
@@ -101,7 +101,7 @@ public class Routine5x5 {
 
             return nextExcersizes;
         }
-        List<String> sNextExcersizes = assExcer.getExcersizes((new AssignedExcers("5x5")).routineDescriber.get(assExcer.nextRoutineIdx(lastwork.routineIdx)));
+        List<String> sNextExcersizes = assExcer.getExcersizes((new AssignedExcers()).routineDescriber.get(assExcer.nextRoutineIdx(lastwork.routineIdx)));
         nextExcersizes.add(checkandIncWeight(sNextExcersizes.get(0),lastwork));
         nextExcersizes.add(checkandIncWeight(sNextExcersizes.get(1),secondlastwork));
         nextExcersizes.add(checkandIncWeight(sNextExcersizes.get(2),secondlastwork));
@@ -144,7 +144,7 @@ public class Routine5x5 {
         // quick function to initialize multiple excercise when user hasnt put a value before
         List<NextExcersize> lExcersizes = new ArrayList<>();
 
-        AssignedExcers assexcer = new AssignedExcers(MainActivity.program);
+        AssignedExcers assexcer = new AssignedExcers();
 
         for (int i =0; i < excersizes.size(); i++) {
             NextExcersize curEx = new NextExcersize(excersizes.get(i), weights(0, assexcer.getReps(excersizes.get(i)).length));

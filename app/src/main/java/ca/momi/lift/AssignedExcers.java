@@ -15,6 +15,8 @@
 package ca.momi.lift;
 
 import android.content.Context;
+import android.preference.PreferenceGroup;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,12 +37,30 @@ public class AssignedExcers {
     public static final double smallestWeightKg = 2.5;
 
 
+    public static final String PHRAK_GSPL = "Phrak’s GSLP";
+    public static final String FIVE_x_5 = "5x5";
+    public static final String FIVE_31_BBB = "531BBB";
+
     public static List<String> routNames () {
         List<String> routineNames = new ArrayList<>();
-        routineNames.add("5x5");
-        routineNames.add("531BBB");
+        routineNames.add(FIVE_x_5);
+        routineNames.add(FIVE_31_BBB);
+        routineNames.add(PHRAK_GSPL);
         // routineNames.add("madcow");
         return routineNames;
+    }
+
+    public static List<Set> getAmrap(List<Set> sets){
+        // Amrap: as many sets as possible
+
+        // By default, Amrap is false for a set. Therefore, in this function, we only define sets
+        // for which Amrap is true
+        switch (MainActivity.program) {
+            case PHRAK_GSPL:
+                sets.get(sets.size()-1).AMRAP = true;
+        }
+
+        return sets;
     }
 
     public long[] rest(){
@@ -50,7 +70,7 @@ public class AssignedExcers {
     }
 
     public int[] getReps (String excersize){
-        if (this.program.equals("5x5")) {
+        if (this.program.equals(FIVE_x_5)) {
             if (excersize.equals("Deadlift")) {
                 int[] A = {5};
                 return A;
@@ -58,7 +78,7 @@ public class AssignedExcers {
                 int[] A = {5, 5, 5, 5, 5};
                 return A;
             }
-        } else if (this.program.equals("531BBB")) {
+        } else if (this.program.equals(FIVE_31_BBB)) {
             if(Routine531BBB.isSupplement(excersize)) {
                 int[] A = {10, 10, 10, 10, 10};
                 return A;
@@ -69,6 +89,9 @@ public class AssignedExcers {
                 int[] A = {5, 5, 3, 5, 5, 5};
                 return A;
             }
+        } else if (this.program.equals(PHRAK_GSPL)) {
+            int[] A = {5, 5, 5};
+            return A;
         }
         return null;
     }
@@ -91,9 +114,9 @@ public class AssignedExcers {
 
     public List<NextExcersize> nextRoutineWeights(Context context){
 
-        if (MainActivity.program.equals("5x5")) {
+        if (MainActivity.program.equals(FIVE_x_5)) {
             return Routine5x5.nextRoutineWeights();
-        } else if (MainActivity.program.equals("531BBB")) {
+        } else if (MainActivity.program.equals(FIVE_31_BBB)) {
             return Routine531BBB.nextRoutineWeights(context);
         }
         
@@ -112,11 +135,11 @@ public class AssignedExcers {
 
     }
 
-    public List<String> getExcersizes(String sentName){
+    public List<String> getExcersizes(String sentName) {
         this.routName = sentName;
 
-        switch(program) {
-            case "5x5":
+        switch (program) {
+            case FIVE_x_5:
                 switch (routName) {
                     case "Bench Press, Barbell Row":
                         excersizes.add("Squat");
@@ -129,7 +152,7 @@ public class AssignedExcers {
                         excersizes.add("Deadlift");
                         break;
                 }
-                break;
+                return excersizes;
             case "madcow":
                 switch (routName) {
                     case "Day 1":
@@ -148,7 +171,8 @@ public class AssignedExcers {
                         excersizes.add("Bent-over Row");
                         break;
                 }
-            case "531BBB":
+                return excersizes;
+            case FIVE_31_BBB:
                 switch (routName) {
                     case "Day 1":
                         excersizes.add("Overhead Press");
@@ -171,28 +195,46 @@ public class AssignedExcers {
                         excersizes.add("Assistance");
                         break;
                 }
+                return excersizes;
+            case PHRAK_GSPL:
+                switch (routName) {
+                    case "Day A":
+                        excersizes.add("Barbell Rows");
+                        excersizes.add("Bench Press");
+                        excersizes.add("Squats");
+                        break;
+                    case "Day B":
+                        excersizes.add("Chinups");
+                        excersizes.add("Overhead Press");
+                        excersizes.add("Deadlifts");
+                        break;
+                }
+                return excersizes;
         }
-        return excersizes;
+        return null;
     }
 
 
-    public AssignedExcers(String program) {
-        this.program = program;
+    public AssignedExcers(){
+            this.program = MainActivity.program;
 
-        if(program.equals("5x5")) {
-            routineDescriber.add("Bench Press, Barbell Row");
-            routineDescriber.add("Overhead Press, Deadlift");
-        } else if (program.equals("madcow")) {
-            routineDescriber.add("Day 1");
-            routineDescriber.add("Day 2");
-            routineDescriber.add("Day 3");
-        } else if (program.equals("531BBB")) {
-            routineDescriber.add("Day 1");
-            routineDescriber.add("Day 2");
-            routineDescriber.add("Day 3");
-            routineDescriber.add("Day 4");
-        }
+            if (program.equals(FIVE_x_5)) {
+                routineDescriber.add("Bench Press, Barbell Row");
+                routineDescriber.add("Overhead Press, Deadlift");
+            } else if (program.equals("madcow")) {
+                routineDescriber.add("Day 1");
+                routineDescriber.add("Day 2");
+                routineDescriber.add("Day 3");
+            } else if (program.equals(FIVE_31_BBB)) {
+                routineDescriber.add("Day 1");
+                routineDescriber.add("Day 2");
+                routineDescriber.add("Day 3");
+                routineDescriber.add("Day 4");
+            } else if (program.equals(PHRAK_GSPL)) {
+                routineDescriber.add("Day A");
+                routineDescriber.add("Day B");
+            }
 
-        workoutOptionsnum = routineDescriber.size();
+            workoutOptionsnum = routineDescriber.size();
     }
 }

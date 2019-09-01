@@ -125,7 +125,7 @@ public class Routine531BBB {
     static public List<NextExcersize> nextRoutineWeights (Context context){
         SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
 
-        AssignedExcers assExcer = new AssignedExcers("531BBB");
+        AssignedExcers assExcer = new AssignedExcers();
 
         int numPreviousExcersizes = ExternalStore.getNumLastWorkoutFiles();
         int TOTAL_ROUTINE = 4;

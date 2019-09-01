@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 RadioGroup routinesRadGroup = findViewById(R.id.routines);
                 int idx = (routinesRadGroup.getCheckedRadioButtonId());
 
-                AssignedExcers assExcersize = new AssignedExcers(program);
+                AssignedExcers assExcersize = new AssignedExcers();
                 RadioButton selectedOption = findViewById(idx);
                 List<String> excersizes = assExcersize.getExcersizes((String) selectedOption.getText());
 
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         RadioGroup routinesRadGroup = findViewById(R.id.routines);
-        radioUtils.setRadioGroup(routinesRadGroup, (new AssignedExcers(this.program)).routineDescriber, this);
+        radioUtils.setRadioGroup(routinesRadGroup, (new AssignedExcers()).routineDescriber, this);
         setNextWorkout();
 
     }
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             nextButton.setChecked(true);
             return;
         }
-        AssignedExcers assExcersize = new AssignedExcers(program);
+        AssignedExcers assExcersize = new AssignedExcers();
         int curIdx = -1;
 
         for (int i = 0; i < assExcersize.routineDescriber.size(); i++){

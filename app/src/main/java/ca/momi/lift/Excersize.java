@@ -20,6 +20,8 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +50,7 @@ public class Excersize {
     public SeekBar seekSets;
     public SeekBar seekReps;
     public EditText weightUI;
+    public TextView repsText;
     public Button doneSetUI;
 
 
@@ -86,17 +89,36 @@ public class Excersize {
         curset.set(setsDone, new Set(repsDone, weightDone));
     }
 
-    public void setUI(SeekBar seekSets1, SeekBar seekReps1, EditText weightUI1, TextView textUI1, Button doneSetUI){
+    public void setUI(SeekBar seekSets1, SeekBar seekReps1, EditText weightUI1, TextView textUI1,
+                      Button doneSetUI, final TextView sentRepsText){
+
         this.textUI = textUI1;
         this.seekSets = seekSets1;
         this.seekReps = seekReps1;
         this.weightUI = weightUI1;
         this.doneSetUI = doneSetUI;
+        this.repsText = sentRepsText;
+
+        seekReps1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+            @Override
+            public  void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser){
+                repsText.setText(String.valueOf(progress));
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                if (seekReps.getMax() == seekReps.getProgress() & curset.get(setsDone).AMRAP){
+                    seekReps.setMax(seekReps.getMax()+1);
+                }
+            }
+        });
+
     }
 
 
     private void setSetsWeightToDo(double[] weight){
-        AssignedExcers assignedExcers = new AssignedExcers(MainActivity.program);
+        AssignedExcers assignedExcers = new AssignedExcers();
         int[] reps = assignedExcers.getReps(excersizeName);
         for (int i = 0; i < reps.length; i++){
             setsToDo.add(new Set(reps[i], weight[i]));
@@ -106,6 +128,9 @@ public class Excersize {
         for (int i=0; i < numOfSets; i++){
             curset.add(new Set(0, weight[i]));
         }
+
+        setsToDo = AssignedExcers.getAmrap(setsToDo);
+        curset = AssignedExcers.getAmrap(curset);
     }
 
     public Excersize(String excersize_sName, double[] weights){

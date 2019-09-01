@@ -33,7 +33,7 @@ public class WorkTimer {
             currentWork.tone.release();
         }
 
-        final long[] rest = (new AssignedExcers(MainActivity.program)).rest();
+        final long[] rest = (new AssignedExcers()).rest();
         final long MILISECONDS_TO_MINUTES = 1000 *60;
         final int BEEP_TIME = 400;
         final ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);

@@ -13,18 +13,7 @@
 //  You should have received a copy of the GNU General Public License along with this program.
 //  If not, see <https://www.gnu.org/licenses/>.
 
-
 package ca.momi.lift;
 
-public class Set {
-    public double weight;
-    public int reps;
-    public boolean AMRAP;
-
-    public Set (int sentReps, double sentweight){
-        weight = sentweight;
-        reps = sentReps;
-        AMRAP = false;
-    }
-
+public class RoutinePhrak {
 }
