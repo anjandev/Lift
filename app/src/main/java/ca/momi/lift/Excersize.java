@@ -54,24 +54,23 @@ public class Excersize {
     public Button AMRAP;
 
 
-    public boolean success(){
-        if (setsDone < setsToDo.size()){
+    public boolean didEverything(){
+        if (this.setsDone < this.setsToDo.size()){
             return false;
         }
 
-        for (int i = 0; i < setsToDo.size(); i++){
-            if (curset.get(i).reps < setsToDo.get(i).reps){
+        for (int i = 0; i < this.setsToDo.size(); i++){
+            if (this.curset.get(i).reps < this.setsToDo.get(i).reps){
                 return false;
             }
 
-            if (curset.get(i).weight < setsToDo.get(i).weight){
+            if (this.curset.get(i).weight < this.setsToDo.get(i).weight){
                 return false;
             }
         }
 
         return true;
     }
-
     public void doneSet(int repsDone, double weightDone){
         this.set_reps(repsDone, weightDone);
         this.setsDone = setsDone + 1;

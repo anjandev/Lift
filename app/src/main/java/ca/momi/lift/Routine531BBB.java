@@ -28,32 +28,10 @@ public class Routine531BBB {
         return ((weight))*0.9;
     }
 
-    static private double getPercentOfWeight(double weight, double percent) {
-        double pWeight = weight * percent;
 
-        final double LB_WEIGHT_OF_BAR = 45;
-        final double KG_WEIGHT_OF_BAR = 20;
-
-        if (Excersize.uom.equals("lb")) {
-            double tempWeight = Math.round(pWeight / AssignedExcers.smallestWeightLb) * AssignedExcers.smallestWeightLb;
-            if (tempWeight < LB_WEIGHT_OF_BAR){
-                return LB_WEIGHT_OF_BAR;
-            } else {
-                return tempWeight;
-            }
-        }
-
-        double tempWeight = Math.round(pWeight / AssignedExcers.smallestWeightKg) * AssignedExcers.smallestWeightKg;
-        if (tempWeight < KG_WEIGHT_OF_BAR) {
-            return KG_WEIGHT_OF_BAR;
-        } else {
-            return tempWeight;
-        }
-
-    }
 
     static private double getfailureWeight(double curweight) {
-        return getPercentOfWeight(curweight, 0.9);
+        return AssignedExcers.getPercentOfWeight(curweight, 0.9);
     }
 
     static private double getPercentWorkSet(int weekNum, int setNum){
@@ -167,15 +145,15 @@ public class Routine531BBB {
                     double[] weights = new double[reps.length];
                     if (isSupplement(slistNewExcersizes.get(i))){
                         for (int idx =0; idx< reps.length; idx++){
-                            weights[idx] = getPercentOfWeight(trainingMax, downSetsPercentage(month));
+                            weights[idx] = AssignedExcers.getPercentOfWeight(trainingMax, downSetsPercentage(month));
                         }
                     } else {
                         int WARMUP_SETS = 3;
                         for (int idx =0; idx< WARMUP_SETS; idx++){
-                            weights[idx] = getPercentOfWeight(trainingMax, getPercentageWarmUp(idx));
+                            weights[idx] = AssignedExcers.getPercentOfWeight(trainingMax, getPercentageWarmUp(idx));
                         }
                         for(int idx=0; idx < reps.length - WARMUP_SETS; idx++){
-                            weights[idx + WARMUP_SETS] = getPercentOfWeight(trainingMax, getPercentWorkSet(week,idx));
+                            weights[idx + WARMUP_SETS] = AssignedExcers.getPercentOfWeight(trainingMax, getPercentWorkSet(week,idx));
                         }
 
                     }

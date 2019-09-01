@@ -50,6 +50,32 @@ public class AssignedExcers {
         return routineNames;
     }
 
+
+    static public double getPercentOfWeight(double weight, double percent) {
+        double pWeight = weight * percent;
+
+        final double LB_WEIGHT_OF_BAR = 45;
+        final double KG_WEIGHT_OF_BAR = 20;
+
+        if (Excersize.uom.equals("lb")) {
+            double tempWeight = Math.round(pWeight / AssignedExcers.smallestWeightLb) * AssignedExcers.smallestWeightLb;
+            if (tempWeight < LB_WEIGHT_OF_BAR){
+                return LB_WEIGHT_OF_BAR;
+            } else {
+                return tempWeight;
+            }
+        }
+
+        double tempWeight = Math.round(pWeight / AssignedExcers.smallestWeightKg) * AssignedExcers.smallestWeightKg;
+        if (tempWeight < KG_WEIGHT_OF_BAR) {
+            return KG_WEIGHT_OF_BAR;
+        } else {
+            return tempWeight;
+        }
+
+    }
+
+
     public static List<Set> getAmrap(List<Set> sets){
         // Amrap: as many sets as possible
 
@@ -118,8 +144,10 @@ public class AssignedExcers {
             return Routine5x5.nextRoutineWeights();
         } else if (MainActivity.program.equals(FIVE_31_BBB)) {
             return Routine531BBB.nextRoutineWeights(context);
+        } else if (MainActivity.program.equals(PHRAK_GSPL)) {
+            return RoutinePhrak.nextRoutineWeights();
         }
-        
+
         return null;
     }
 

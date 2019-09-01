@@ -79,7 +79,7 @@ public class ExternalStore {
         String successOrFail;
         String didNotAttempt;
 
-        if (excersize.success()){
+        if (excersize.didEverything()){
             successOrFail = SUCESS_STRING;
             didNotAttempt= "";
         } else {

@@ -24,6 +24,7 @@ import static ca.momi.lift.AssignedExcers.smallestWeightLb;
 public class Routine5x5 {
 
 
+
     public static double[] weights(double weight, int numSets){
         // Mistake. deadlift doesnt have weight.
         double[] A = new double[numSets];
@@ -75,7 +76,7 @@ public class Routine5x5 {
 
             nextExcersizes = begExcer(sNextExcersizes);
 
-            if (findExcersize(sNextExcersizes.get(0), lastwork.excersizesDone).success()) {
+            if (findExcersize(sNextExcersizes.get(0), lastwork.excersizesDone).didEverything()) {
 
                 nextExcerSetWeight(nextExcersizes, 45+ getWeightInc(nextExcersizes.get(0).excersizeName), 0);
                 if (Excersize.uom.equals("kg")) {
@@ -121,7 +122,7 @@ public class Routine5x5 {
         Excersize curEx = findExcersize(excerName, excersizes);
 
         NextExcersize newEx;
-        if (curEx.success()){
+        if (curEx.didEverything()){
             newEx = new NextExcersize(curEx.excersizeName,  weights(curEx.curset.get(0).weight + getWeightInc(excerName), curEx.numOfSets));
         } else {
             newEx = new NextExcersize(curEx.excersizeName, weights(curEx.curset.get(0).weight, curEx.numOfSets));
