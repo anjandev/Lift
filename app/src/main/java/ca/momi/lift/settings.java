@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -38,8 +37,6 @@ public class settings extends AppCompatActivity {
         radioUtils.setRadioGroup(programGroup, AssignedExcers.routNames(), this);
 
         Button setProgram = findViewById(R.id.setProgram);
-        final RadioButton selectedRadio = findViewById(programGroup.getCheckedRadioButtonId());
-
 
         setProgram.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,7 +46,12 @@ public class settings extends AppCompatActivity {
                     return;
                 }
 
-                if (selectWorkoutNeedingStartWeight(selectedRadio) & anyWeightEnterEmpty()) {
+                RadioButton selectedRadio = findViewById(programGroup.getCheckedRadioButtonId());
+
+                if (selectedRadio.getText().equals("531BBB") & (textEmpty((TextView) findViewById(R.id.begSquat))
+                   | textEmpty((TextView) findViewById(R.id.begDeadLift))
+                   | textEmpty((TextView) findViewById(R.id.begOverhead))
+                   | textEmpty((TextView) findViewById(R.id.begBench)))) {
                     Snackbar.make(view, "Please enter a starting weight for Squat, Overhead press, " +
                             " bench, and Deadlift", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                     return;
@@ -60,7 +62,7 @@ public class settings extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString("program", selectedRadio.getText().toString());
 
-                if(selectWorkoutNeedingStartWeight(selectedRadio)){
+                if(selectedRadio.getText().equals("531BBB")){
                     editor.putString("Squat1RM", ((TextView) findViewById(R.id.begSquat)).getText().toString());
                     editor.putString("Deadlift1RM", ((TextView) findViewById(R.id.begDeadLift)).getText().toString());
                     editor.putString("Overhead Press1RM", ((TextView) findViewById(R.id.begOverhead)).getText().toString());
@@ -76,31 +78,18 @@ public class settings extends AppCompatActivity {
         programGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                RadioButton selectedButton = findViewById(radioGroup.getCheckedRadioButtonId());
-                userEnterWeightVisibleOrInvis(selectedButton);
+                Button selectedButton = findViewById(radioGroup.getCheckedRadioButtonId());
+                if(selectedButton.getText().toString().equals("531BBB")){
+                    setWeightBBB531Visible(true);
+                } else {
+                    setWeightBBB531Visible(false);
+                }
             }
 
         });
 
-        setWeightVisible(false);
+        setWeightBBB531Visible(false);
 
-    }
-
-    private boolean anyWeightEnterEmpty(){
-        return (textEmpty((TextView) findViewById(R.id.begSquat))
-                | textEmpty((TextView) findViewById(R.id.begDeadLift))
-                | textEmpty((TextView) findViewById(R.id.begOverhead))
-                | textEmpty((TextView) findViewById(R.id.begBench)));
-    }
-
-    private boolean selectWorkoutNeedingStartWeight(RadioButton selectedRadio) {
-        if (selectedRadio == null){
-            // no radio button selected
-            return false;
-        }
-
-        return selectedRadio.getText().equals(AssignedExcers.FIVE_31_BBB)
-               || selectedRadio.getText().equals(AssignedExcers.PHRAK_GSPL);
     }
 
 
@@ -108,53 +97,18 @@ public class settings extends AppCompatActivity {
         return textInput.getText().toString().equals("");
     }
 
-    private void setWeightVisible(boolean setVis){
-        EditText squat = findViewById(R.id.begSquat);
-        EditText deadlift = findViewById(R.id.begDeadLift);
-        EditText overhead = findViewById(R.id.begOverhead);
-        EditText bench = findViewById(R.id.begBench);
-
-        if (setVis) {
-            squat.setVisibility(View.VISIBLE);
-            deadlift.setVisibility(View.VISIBLE);
-            overhead.setVisibility(View.VISIBLE);
-            bench.setVisibility(View.VISIBLE);
-            return;
+    private void setWeightBBB531Visible (boolean setVisi){
+        if (setVisi) {
+            findViewById(R.id.begSquat).setVisibility(View.VISIBLE);
+            findViewById(R.id.begDeadLift).setVisibility(View.VISIBLE);
+            findViewById(R.id.begOverhead).setVisibility(View.VISIBLE);
+            findViewById(R.id.begBench).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.begSquat).setVisibility(View.INVISIBLE);
+            findViewById(R.id.begDeadLift).setVisibility(View.INVISIBLE);
+            findViewById(R.id.begOverhead).setVisibility(View.INVISIBLE);
+            findViewById(R.id.begBench).setVisibility(View.INVISIBLE);
         }
-
-        squat.setVisibility(View.INVISIBLE);
-        deadlift.setVisibility(View.INVISIBLE);
-        bench.setVisibility(View.INVISIBLE);
-        overhead.setVisibility(View.INVISIBLE);
-
-    }
-
-    private void userEnterWeightVisibleOrInvis(RadioButton selectedRadio){
-        EditText squat = findViewById(R.id.begSquat);
-        EditText deadlift = findViewById(R.id.begDeadLift);
-        EditText overhead = findViewById(R.id.begOverhead);
-        EditText bench = findViewById(R.id.begBench);
-
-        setWeightVisible(selectWorkoutNeedingStartWeight(selectedRadio));
-
-
-        squat.setHint(excerWeightEnterText(selectedRadio, "Squat "));
-        deadlift.setHint(excerWeightEnterText(selectedRadio,"Deadlift "));
-        overhead.setHint(excerWeightEnterText(selectedRadio,"Overhead "));
-        bench.setHint(excerWeightEnterText(selectedRadio, "Bench "));
-
-
-    }
-
-    private String excerWeightEnterText(RadioButton selectedRadio, String excerName){
-        if (selectedRadio.getText().equals(AssignedExcers.FIVE_31_BBB)){
-            return excerName + "Real 1RM Weight";
-        } else if (selectedRadio.getText().equals(AssignedExcers.PHRAK_GSPL)) {
-            return excerName + "Starting Weight";
-        }
-
-        return null;
-
     }
 
 }
