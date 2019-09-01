@@ -227,6 +227,9 @@ public class Workout extends AppCompatActivity {
         setsHolder.addView(setsUI, setsSlideParams);
         ll.addView(setsHolder);
 
+        final TextView repsNum = new TextView(this);
+        repsNum.setText(String.valueOf(excer.setsToDo.get(excer.setsDone).reps));
+
         LinearLayout repsHolder = new LinearLayout(this);
         final SeekBar repsUI = new SeekBar(this);
         RelativeLayout.LayoutParams repsLabelParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -234,13 +237,29 @@ public class Workout extends AppCompatActivity {
         repsLabelParams.addRule(RelativeLayout.BELOW, setsHolder.getId());
         repsLabelParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT, MARGIN_BOTTOM);
 
-        RelativeLayout.LayoutParams repsSlideParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+        final RelativeLayout.LayoutParams repsSlideParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         repsSlideParams.addRule(RelativeLayout.BELOW, setsHolder.getId());
         repsSlideParams.setMargins(MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT, MARGIN_BOTTOM);
 
         repsUI.setMax(excer.setsToDo.get(excer.setsDone).reps);
         repsUI.setProgress(excer.setsToDo.get(excer.setsDone).reps);
+
+        repsUI.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
+                repsNum.setText(String.valueOf(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
 
 
         Button doneSet = new Button(this);
@@ -258,13 +277,29 @@ public class Workout extends AppCompatActivity {
         });
 
 
+        Button AMRAP = new Button(this);
+        RelativeLayout.LayoutParams AMRAPParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        AMRAP.setText("As many reps as possible set: Add +1");
+        AMRAP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                repsUI.setMax(repsUI.getMax()+1);
+                repsUI.setProgress(repsUI.getMax()+1);
+            }
+        });
+
+        if (excer.curset.get(0).AMRAP) {
+            AMRAP.setVisibility(View.VISIBLE);
+        } else {
+            AMRAP.setVisibility(View.INVISIBLE);
+        }
+
+        LinearLayout doneSetHolder = new LinearLayout(this);
+
         TextView repsLabel = new TextView(this);
         repsLabel.setText("Reps Done");
-
-        TextView repsNum = new TextView(this);
-        repsNum.setText(String.valueOf(excer.setsToDo.get(excer.setsDone).reps));
-        final TextView finalrepNum = repsNum;
-
 
 
         repsHolder.addView(repsLabel,repsLabelParams);
@@ -273,9 +308,12 @@ public class Workout extends AppCompatActivity {
 
         ll.addView(repsHolder);
 
-        ll.addView(doneSet,doneSetParams);
+        doneSetHolder.addView(doneSet, doneSetParams);
+        doneSetHolder.addView(AMRAP, AMRAPParams);
 
-        excer.setUI(setsUI, repsUI, weight, title,doneSet, repsNum);
+        ll.addView(doneSetHolder);
+
+        excer.setUI(setsUI, repsUI, weight, title,doneSet, repsNum, AMRAP);
     }
 
 

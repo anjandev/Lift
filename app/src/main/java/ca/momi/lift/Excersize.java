@@ -15,12 +15,11 @@
 
 package ca.momi.lift;
 
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +51,7 @@ public class Excersize {
     public EditText weightUI;
     public TextView repsText;
     public Button doneSetUI;
+    public Button AMRAP;
 
 
     public boolean success(){
@@ -82,6 +82,13 @@ public class Excersize {
         if (weightUI != null & setsDone < setsToDo.size()) {
             weightUI.setText(String.valueOf(setsToDo.get(setsDone).weight));
         }
+        if (AMRAP != null & setsDone < setsToDo.size()){
+            if (curset.get(setsDone).AMRAP) {
+                AMRAP.setVisibility(View.VISIBLE);
+            } else {
+                AMRAP.setVisibility(View.INVISIBLE);
+            }
+        }
     }
 
     private void set_reps(int repsDone, double weightDone){
@@ -90,7 +97,7 @@ public class Excersize {
     }
 
     public void setUI(SeekBar seekSets1, SeekBar seekReps1, EditText weightUI1, TextView textUI1,
-                      Button doneSetUI, final TextView sentRepsText){
+                      Button doneSetUI, TextView sentRepsText, Button sentAMRAP){
 
         this.textUI = textUI1;
         this.seekSets = seekSets1;
@@ -98,21 +105,7 @@ public class Excersize {
         this.weightUI = weightUI1;
         this.doneSetUI = doneSetUI;
         this.repsText = sentRepsText;
-
-        seekReps1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
-            @Override
-            public  void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser){
-                repsText.setText(String.valueOf(progress));
-            }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                if (seekReps.getMax() == seekReps.getProgress() & curset.get(setsDone).AMRAP){
-                    seekReps.setMax(seekReps.getMax()+1);
-                }
-            }
-        });
+        this.AMRAP = sentAMRAP;
 
     }
 
