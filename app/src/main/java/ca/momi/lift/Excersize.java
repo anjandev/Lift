@@ -88,6 +88,9 @@ public class Excersize {
                 AMRAP.setVisibility(View.INVISIBLE);
             }
         }
+        if (weightUI != null & weightUI.getText().toString().equals("0.0")){
+            weightUI.setText(String.valueOf(curset.get(0).weight));
+        }
     }
 
     private void set_reps(int repsDone, double weightDone){
