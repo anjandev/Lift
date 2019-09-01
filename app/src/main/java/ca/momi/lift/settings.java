@@ -34,6 +34,7 @@ public class settings extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         final RadioGroup programGroup = findViewById(R.id.programs);
+        final RadioGroup uomGroup = findViewById(R.id.uom);
         radioUtils.setRadioGroup(programGroup, AssignedExcers.routNames(), this);
 
         Button setProgram = findViewById(R.id.setProgram);
@@ -46,9 +47,9 @@ public class settings extends AppCompatActivity {
                     return;
                 }
 
-                RadioButton selectedRadio = findViewById(programGroup.getCheckedRadioButtonId());
+                RadioButton selectedProgramButton = findViewById(programGroup.getCheckedRadioButtonId());
 
-                if (selectedRadio.getText().equals("531BBB") & (textEmpty((TextView) findViewById(R.id.begSquat))
+                if (selectedProgramButton.getText().equals("531BBB") & (textEmpty((TextView) findViewById(R.id.begSquat))
                    | textEmpty((TextView) findViewById(R.id.begDeadLift))
                    | textEmpty((TextView) findViewById(R.id.begOverhead))
                    | textEmpty((TextView) findViewById(R.id.begBench)))) {
@@ -57,12 +58,22 @@ public class settings extends AppCompatActivity {
                     return;
                 }
 
+                if ( uomGroup.getCheckedRadioButtonId() == -1){
+                    Snackbar.make(view, "Please select a unit of measure",
+                            Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    return;
+                }
+
                 SharedPreferences sharedPref = view.getContext().getSharedPreferences(
                                                MainActivity.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString("program", selectedRadio.getText().toString());
+                editor.putString("program", selectedProgramButton.getText().toString());
 
-                if(selectedRadio.getText().equals("531BBB")){
+                RadioButton uomSelected = findViewById(uomGroup.getCheckedRadioButtonId());
+                editor.putString("uom", uomSelected.getText().toString());
+
+
+                if(selectedProgramButton.getText().equals("531BBB")){
                     editor.putString("Squat1RM", ((TextView) findViewById(R.id.begSquat)).getText().toString());
                     editor.putString("Deadlift1RM", ((TextView) findViewById(R.id.begDeadLift)).getText().toString());
                     editor.putString("Overhead Press1RM", ((TextView) findViewById(R.id.begOverhead)).getText().toString());

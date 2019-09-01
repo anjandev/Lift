@@ -42,12 +42,14 @@ public class MainActivity extends AppCompatActivity {
     final static String PREFERENCE_FILE_KEY = "myAppPreference";
 
     public static String program;
+    public static String uom;
 
     public static Boolean DEBUGMODE = true;
 
-    private void getProgram(Context context){
+    private void getSavedPref(Context context){
           SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
           program = sharedPref.getString("program",AssignedExcers.FIVE_x_5);
+          uom = sharedPref.getString("uom","lb");
     }
 
     @Override
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getProgram(getBaseContext());
+        getSavedPref(getBaseContext());
 
         final CalendarView wCal = findViewById(R.id.cal);
         Button bEditDate = findViewById(R.id.edDate);

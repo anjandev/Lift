@@ -30,7 +30,7 @@ import java.util.List;
 
 public class Excersize {
 
-    public static final String uom = "lb";
+    public static final String uom = MainActivity.uom;
 
     // This is the number of sets and reps need to perform in order to consider excersize as "done"
     // and allow progress.
@@ -88,8 +88,11 @@ public class Excersize {
                 AMRAP.setVisibility(View.INVISIBLE);
             }
         }
-        if (weightUI != null & weightUI.getText().toString().equals("0.0")){
-            weightUI.setText(String.valueOf(curset.get(0).weight));
+
+        if (weightUI != null){
+            if (weightUI.getText().toString().equals("0.0")) {
+                weightUI.setText(String.valueOf(curset.get(0).weight));
+            }
         }
     }
 
