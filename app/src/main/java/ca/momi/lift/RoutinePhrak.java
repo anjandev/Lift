@@ -80,25 +80,25 @@ public class RoutinePhrak {
         if (name.equals("Barbell Rows") || name.equals("Bench Press") || name.equals("Chinups")
             || name.equals("Overhead Press")){
             if (excer.uom.equals("lb")){
-                return AssignedExcers.smallestWeightLb;
+                return MainActivity.smallestWeightLb;
             } else {
-                return AssignedExcers.smallestWeightKg;
+                return MainActivity.smallestWeightKg;
             }
         }
 
         // else: the workout is lower body
         if (excer.uom.equals("lb")){
-            return AssignedExcers.smallestWeightLb*2;
+            return MainActivity.smallestWeightLb*2;
         } else {
-            return AssignedExcers.smallestWeightKg * 2;
+            return MainActivity.smallestWeightKg * 2;
         }
 
     }
 
     static private boolean moreThan10AMRAP(Excersize excer){
-        for (Set set: excer.curset) {
-            if (set.AMRAP) {
-                if (set.reps > 10){
+        for (int i = 0; i < excer.curset.size();i++) {
+            if (excer.setsToDo.get(i).AMRAP) {
+                if (excer.curset.get(i).reps > 10) {
                     return true;
                 }
             }

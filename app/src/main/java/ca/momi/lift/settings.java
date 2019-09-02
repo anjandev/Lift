@@ -20,8 +20,10 @@ import android.content.SharedPreferences;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -38,6 +40,8 @@ public class settings extends AppCompatActivity {
         radioUtils.setRadioGroup(programGroup, AssignedExcers.routNames(), this);
 
         Button setProgram = findViewById(R.id.setProgram);
+
+        final EditText smallestPlate = findViewById(R.id.smallestWeightPlate);
 
         setProgram.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +68,12 @@ public class settings extends AppCompatActivity {
                     return;
                 }
 
+                if (smallestPlate.getText().toString().equals("")) {
+                    Snackbar.make(view, "Please enter the smallest plate you have",
+                            Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    return;
+                }
+
                 SharedPreferences sharedPref = view.getContext().getSharedPreferences(
                                                MainActivity.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
@@ -71,6 +81,8 @@ public class settings extends AppCompatActivity {
 
                 RadioButton uomSelected = findViewById(uomGroup.getCheckedRadioButtonId());
                 editor.putString("uom", uomSelected.getText().toString());
+
+                editor.putString("smallestPlate", smallestPlate.getText().toString());
 
 
                 if(selectedProgramButton.getText().equals("531BBB")){
@@ -100,7 +112,16 @@ public class settings extends AppCompatActivity {
         });
 
         setWeightBBB531Visible(false);
+        smallestPlate.setVisibility(View.INVISIBLE);
 
+        uomGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                smallestPlate.setVisibility(View.VISIBLE);
+                RadioButton selectedButton = findViewById(radioGroup.getCheckedRadioButtonId());
+                smallestPlate.setHint("Weight of smallest "+ selectedButton.getText() + " plate");
+            }
+        });
     }
 
 

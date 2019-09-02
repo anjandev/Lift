@@ -17,13 +17,7 @@ package ca.momi.lift;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ca.momi.lift.AssignedExcers.smallestWeightKg;
-import static ca.momi.lift.AssignedExcers.smallestWeightLb;
-
-
 public class Routine5x5 {
-
-
 
     public static double[] weights(double weight, int numSets){
         // Mistake. deadlift doesnt have weight.
@@ -156,19 +150,17 @@ public class Routine5x5 {
     }
 
     private static double getWeightInc(String excersize){
-        // TODO: Add more complex increments. IE. User doesnt have 5 lb weights.
-
         if (Excersize.uom == "lb") {
             if (excersize.equals("Deadlift")){
-                return 2 * smallestWeightLb;
+                return 2 * MainActivity.smallestWeightLb;
             }
-            return smallestWeightLb;
+            return MainActivity.smallestWeightLb;
         } else {
             // Must be kg
             if (excersize.equals("Deadlift")){
-                return 2 * smallestWeightKg;
+                return 2 * MainActivity.smallestWeightKg;
             }
-            return smallestWeightKg;
+            return MainActivity.smallestWeightKg;
         }
     }
 

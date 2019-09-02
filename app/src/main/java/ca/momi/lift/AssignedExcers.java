@@ -33,8 +33,6 @@ public class AssignedExcers {
 
     public int workoutOptionsnum;
 
-    public static final double smallestWeightLb = 5;
-    public static final double smallestWeightKg = 2.5;
 
 
     public static final String PHRAK_GSPL = "Phrak’s GSLP";
@@ -58,7 +56,7 @@ public class AssignedExcers {
         final double KG_WEIGHT_OF_BAR = 20;
 
         if (Excersize.uom.equals("lb")) {
-            double tempWeight = Math.round(pWeight / AssignedExcers.smallestWeightLb) * AssignedExcers.smallestWeightLb;
+            double tempWeight = Math.round(pWeight / MainActivity.smallestWeightLb) * MainActivity.smallestWeightLb;
             if (tempWeight < LB_WEIGHT_OF_BAR){
                 return LB_WEIGHT_OF_BAR;
             } else {
@@ -66,7 +64,7 @@ public class AssignedExcers {
             }
         }
 
-        double tempWeight = Math.round(pWeight / AssignedExcers.smallestWeightKg) * AssignedExcers.smallestWeightKg;
+        double tempWeight = Math.round(pWeight / MainActivity.smallestWeightKg) * MainActivity.smallestWeightKg;
         if (tempWeight < KG_WEIGHT_OF_BAR) {
             return KG_WEIGHT_OF_BAR;
         } else {

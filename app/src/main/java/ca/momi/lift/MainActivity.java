@@ -44,12 +44,20 @@ public class MainActivity extends AppCompatActivity {
     public static String program;
     public static String uom;
 
+    public static double smallestWeightLb;
+    public static double smallestWeightKg;
+
     public static Boolean DEBUGMODE = true;
 
     private void getSavedPref(Context context){
           SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
           program = sharedPref.getString("program",AssignedExcers.FIVE_x_5);
           uom = sharedPref.getString("uom","lb");
+          if (uom.equals("lb")) {
+              smallestWeightLb = 2*Double.valueOf(sharedPref.getString("smallestPlate", "2.5"));
+          } else {
+              smallestWeightKg = 2*Double.valueOf(sharedPref.getString("smallestPlate", "1.25"));
+          }
     }
 
     @Override

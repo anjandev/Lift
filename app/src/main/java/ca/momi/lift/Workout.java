@@ -53,7 +53,9 @@ public class Workout extends AppCompatActivity {
         String sWeight = weight.getText().toString();
 
         if(sWeight.equals("0.0") | sWeight.isEmpty()){
-            Snackbar.make(view, "Please enter a weight before pressing done Set", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            Snackbar.make(view, "Please enter a weight before pressing done set." +
+                    " Remember weight of bar or your weight.",
+                    Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
         else if(numOfSets.getProgress() < numOfSets.getMax()){
             excersize.doneSet(numOfReps.getProgress(), Float.parseFloat(weight.getText().toString()));

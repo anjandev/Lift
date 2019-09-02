@@ -127,4 +127,16 @@
             android:layout_weight="1"
             android:text="lb" />
     </RadioGroup>
+
+    <EditText
+        android:id="@+id/smallestWeightPlate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uom"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
