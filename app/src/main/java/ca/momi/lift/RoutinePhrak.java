@@ -62,6 +62,10 @@ public class RoutinePhrak {
     static private double getNextWeight(Excersize excer){
         Double weightDone = excer.setsToDo.get(0).weight;
 
+        if (excer.excersizeName.equals("Chinups")) {
+            return weightDone;
+        }
+
         if (fail(excer)) {
             return deload(weightDone);
         } else if (moreThan10AMRAP(excer)){
