@@ -1,11 +1,11 @@
 # Lift
 A weight lifting tracking app that respects your freedoms.
 
-[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373276.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373276.png)
+[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388176.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388176.png)
+[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388222.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388222.png)
 [<img src="https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373282.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373282.png)
 [<img src="https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373372.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373372.png)
-[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373372.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373372.png)
-[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373377.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373377.png)
+[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388255.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388255.png)
 
 ## Features
 **This program is under heavy development**
@@ -13,10 +13,10 @@ A weight lifting tracking app that respects your freedoms.
 - Google's proprietary "play-services" not required
 - Internet connectivity not required
 - Program's progression and daily routine is handled by the app
-    - Currently 5x5 is supported. Looking to support madcow and 5/3/1
-    - Right now, you must change the program variable in the MainActivity.java
-      file and recompile to do a different program. I am working on programing
-      in settings so that you can change on the fly. 
+    - Programs supported: 
+      - Starting strength/5x5
+      - 531 Big But Boring 3 month challenge
+      - Phrak's GSPL (Modified)
 - Weight lifting data is saved as plain text org files 
   - Allows user to use standard unix tools to manipulate and sync with programs
     like [syncthing](https://syncthing.net/)
