@@ -17,6 +17,9 @@ package ca.momi.lift;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 import androidx.core.app.ActivityCompat;
@@ -43,6 +46,10 @@ public class Workout extends AppCompatActivity {
 
     private  WorkTimer currentWorkTimer;
     Excersize[] listOfExcersizes;
+
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_SD = 1;
+
+    private Button doneWork;
 
     private void didSet(View view, Excersize excersize) {
 
@@ -112,11 +119,8 @@ public class Workout extends AppCompatActivity {
                 // No explanation needed; request the permission
                 ActivityCompat.requestPermissions(thisActivity,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        1);
+                        MY_PERMISSIONS_REQUEST_WRITE_SD);
 
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
 
 
@@ -379,6 +383,8 @@ public class Workout extends AppCompatActivity {
                  checkStoragePermissionAndWrite((Activity) v.getContext(),  dateString, workoutSessionText);
              }
          });
+
+         this.doneWork = doneWork;
     }
 
 
@@ -389,5 +395,22 @@ public class Workout extends AppCompatActivity {
         else {
             return original;
         }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        // If request is cancelled, the result arrays are empty.
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_SD:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    doneWork.performClick();
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request.
+
     }
 }

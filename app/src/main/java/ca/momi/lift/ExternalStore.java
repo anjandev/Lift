@@ -16,6 +16,7 @@
 
 package ca.momi.lift;
 
+import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.util.Log;
 
