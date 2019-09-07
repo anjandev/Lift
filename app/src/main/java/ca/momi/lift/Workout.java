@@ -378,7 +378,9 @@ public class Workout extends AppCompatActivity {
                      workoutSessionText += ExternalStore.makeExcersizeString(listOfExcersizes[i]);
                  }
                  checkStoragePermissionAndWrite((Activity) v.getContext(),  dateString, workoutSessionText);
-                 currentWorkTimer.timer.cancel();
+                 if (currentWorkTimer != null) {
+                     currentWorkTimer.timer.cancel();
+                 }
              }
          });
 
