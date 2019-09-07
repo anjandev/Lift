@@ -12,7 +12,7 @@ secrets:
   - 336f1246-50a2-464a-b3fe-1b54cba37a45
 triggers:
   - action: email
-    condition: always
+    condition: failure
     to: Anjandev Momi <anjan@momi.ca>
 tasks:
   - build: |
