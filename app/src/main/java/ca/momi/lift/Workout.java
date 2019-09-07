@@ -17,9 +17,6 @@ package ca.momi.lift;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 import androidx.core.app.ActivityCompat;
@@ -381,6 +378,7 @@ public class Workout extends AppCompatActivity {
                      workoutSessionText += ExternalStore.makeExcersizeString(listOfExcersizes[i]);
                  }
                  checkStoragePermissionAndWrite((Activity) v.getContext(),  dateString, workoutSessionText);
+                 currentWorkTimer.timer.cancel();
              }
          });
 
