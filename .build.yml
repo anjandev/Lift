@@ -20,6 +20,6 @@ tasks:
       cd lift
       gradle assemble
   - deploy: |
-      cd lift/app/build/outputs/apk/release
+      cd lift/app/build/outputs/apk/debug
       sshopts="-o StrictHostKeyChecking=no"
       rsync --rsh="ssh $sshopts" -rP . ${deploy}:/srv/http/android/android
