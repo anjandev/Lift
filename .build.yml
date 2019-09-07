@@ -1,4 +1,4 @@
-image: debian/buster
+image: archlinux
 packages:
   - gradle
   - rsync
@@ -18,8 +18,7 @@ tasks:
   - build: |
       export ANDROID_SDK_ROOT=~/android
       cd lift
-      ./gradlew
-      ./gradlew --warning-mode all build
+      gradle assemble
   - deploy: |
       cd lift/app/build/outputs/apk/release
       sshopts="-o StrictHostKeyChecking=no"
