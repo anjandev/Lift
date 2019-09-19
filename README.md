@@ -1,11 +1,11 @@
 # Lift
 A weight lifting tracking app that respects your freedoms.
 
-[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388176.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388176.png)
-[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388222.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388222.png)
-[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373282.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373282.png)
-[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373372.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373372.png)
-[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388255.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388255.png)
+[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_1567388176.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388176.png)
+[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_1567388222.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388222.png)
+[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_1566373282.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373282.png)
+[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_1566373372.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373372.png)
+[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_1567388255.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388255.png)
 
 ## Features
 **This program is under heavy development**
