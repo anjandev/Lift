@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     public static double smallestWeightLb;
     public static double smallestWeightKg;
 
-    public static Boolean DEBUGMODE = true;
+    public static Boolean DEBUGMODE = false;
 
     private void getSavedPref(Context context){
           SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
