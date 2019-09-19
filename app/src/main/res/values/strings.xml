@@ -29,6 +29,7 @@
     Lift: A free software weight lifting tracking app\n
     Copyright © 2019 Anjandev Momi\n
     email: <a href="mailto:anjan@momi.ca">anjan@momi.ca</a>\n
+
     </string>
     <string name="AboutText2">
     Lift is free software: you can redistribute it and/or modify it under the terms of the
@@ -47,5 +48,7 @@
     Issue Tracker: https://todo.sr.ht/~anjan/lift\n\n
 
     Mailing List: https://lists.sr.ht/~anjan/lift\n\n
+
+    Home icons made by Kiranshastry (https://www.flaticon.com/authors/kiranshastry) from www.flaticon.com
     </string>
 </resources>
