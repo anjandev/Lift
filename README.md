@@ -1,11 +1,22 @@
 # Lift
 A weight lifting tracking app that respects your freedoms.
 
-[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_1567388176.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388176.png)
-[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_1567388222.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388222.png)
-[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_1566373282.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373282.png)
-[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_1566373372.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373372.png)
-[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_1567388255.png" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388255.png)
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" width="30%">](https://f-droid.org/en/packages/ca.momi.lift/)
+
+[<img src="https://raw.githubusercontent.com/anjandev/Lift/master/fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_1567388176.png"
+alt="Picture of lift's start page" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388176.png)
+[<img
+src="https://raw.githubusercontent.com/anjandev/Lift/master/fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_1567388222.png"
+alt="Setting page of lift with support for multiple workout programs" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388222.png)
+[<img
+src="https://raw.githubusercontent.com/anjandev/Lift/master/fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_1566373282.png"
+alt="Workout page of lift" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373282.png)
+[<img
+src="https://raw.githubusercontent.com/anjandev/Lift/master/fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_1566373372.png"
+alt="Timer to wait after you're done a set" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1566373372.png)
+[<img
+src="https://raw.githubusercontent.com/anjandev/Lift/master/fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_1567388255.png"
+alt="Workout log text file output from lift" width="290">](https://raw.githubusercontent.com/anjandev/Lift/master/screenshots/Screenshot_1567388255.png)
 
 ## Features
 **This program is under heavy development**
@@ -21,10 +32,6 @@ A weight lifting tracking app that respects your freedoms.
   - Allows user to use standard unix tools to manipulate and sync with programs
     like [syncthing](https://syncthing.net/)
 - Timer for how to long to rest for. Beeps at 1.5 minute intervals.
-
-Overall, I am designing this app for inclusion in fdroid when it's done.
-[F-droid inclusion policy](https://f-droid.org/en/docs/Inclusion_Policy/)
-
 
 ## Support
 Please note: Github is merely a mirror. The main git repo, issue tracker, and mailing list exists on sr.ht.
