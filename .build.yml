@@ -6,7 +6,6 @@ sources:
   - https://git.sr.ht/~anjan/lift
 environment:
   deploy: deploy@momi.ca
-  ANDROID_SDK_ROOT: ~/android
 secrets:
   - 88e37d5a-6a50-4a14-b9d5-a944dc17bf50
   - b0ee6bc9-84d5-4962-a8cb-fc0a9e002bfa
@@ -17,6 +16,7 @@ triggers:
     to: Anjandev Momi <anjan@momi.ca>
 tasks:
   - build: |
+      export ANDROID_SDK_ROOT=~/android
       cd lift
       gradle assemble
   - deploy: |
