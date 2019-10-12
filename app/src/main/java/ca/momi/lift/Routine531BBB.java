@@ -104,7 +104,6 @@ public class Routine531BBB {
 
 
     static public List<NextExcersize> nextRoutineWeights (Context context){
-        SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
 
         AssignedExcers assExcer = new AssignedExcers();
 
@@ -141,6 +140,7 @@ public class Routine531BBB {
                     curExcersize = curExcersize.substring(0, curExcersize.lastIndexOf(AssignedExcers.SUPPLEMENT));
                 }
 
+                SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
                 double excerWeight = Double.valueOf(sharedPref.getString(curExcersize + "1RM", "0"));
 
                 String lastDay = sharedPref.getString("Last Day Saved", "null");
