@@ -150,18 +150,10 @@ public class Routine5x5 {
     }
 
     private static double getWeightInc(String excersize){
-        if (Excersize.uom == "lb") {
-            if (excersize.equals("Deadlift")){
-                return 2 * MainActivity.smallestWeightLb;
-            }
-            return MainActivity.smallestWeightLb;
-        } else {
-            // Must be kg
-            if (excersize.equals("Deadlift")){
-                return 2 * MainActivity.smallestWeightKg;
-            }
-            return MainActivity.smallestWeightKg;
+        if (excersize.equals(AssignedExcers.DEADLIFT)){
+            return 2 * AssignedExcers.getSmallestWeightForUOM();
         }
+        return AssignedExcers.getSmallestWeightForUOM();
     }
 
 

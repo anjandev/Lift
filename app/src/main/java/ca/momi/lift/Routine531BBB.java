@@ -28,7 +28,13 @@ public class Routine531BBB {
         return ((weight))*0.9;
     }
 
-
+    static private double getWeightInc(String excersize){
+        if (AssignedExcers.isUpperBody(excersize)){
+            return AssignedExcers.getSmallestWeightForUOM();
+        } else {
+            return 2*AssignedExcers.getSmallestWeightForUOM();
+        }
+    }
 
     static private double getfailureWeight(double curweight) {
         return AssignedExcers.getPercentOfWeight(curweight, 0.9);
@@ -89,81 +95,97 @@ public class Routine531BBB {
         return 0;
     }
 
-    static private double downSetsPercentage(int month){
-        switch (month){
-            case 0:
-                return 0.5;
-            case 1:
-                return 0.6;
-            case 2:
-                return 0.6;
-        }
-        return 0;
+    static private double downSetsPercentage(){
+        // this abstraction exists so that we can get user's down set percentage from settings and
+        // do more complex calculations.
+        // That setting has not been implemented so here we are....
+        return 0.5;
     }
+
+
     static public List<NextExcersize> nextRoutineWeights (Context context){
         SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
 
         AssignedExcers assExcer = new AssignedExcers();
 
         int numPreviousExcersizes = ExternalStore.getNumLastWorkoutFiles();
-        int TOTAL_ROUTINE = 4;
+        final int TOTAL_ROUTINE = 4;
         int nextExcersize = numPreviousExcersizes % TOTAL_ROUTINE + 1;
 
         List<String> slistNewExcersizes = assExcer.getExcersizes("Day "+nextExcersize);
 
-        int IDX_OF_LAST_WEEK = 3;
+        final int curWeek = numPreviousExcersizes / TOTAL_ROUTINE;
 
+        final int month= curWeek / TOTAL_ROUTINE;
 
-        int week = numPreviousExcersizes / TOTAL_ROUTINE;
+        final int WEEKS_IN_MONTH = 4;
+        // First week of the month would be 0, second week 1, etc.
+        int curWeekRelativeMonth = curWeek - month * WEEKS_IN_MONTH;
 
-        int month= week / 4;
 
         List<NextExcersize> nextExcersizes = new ArrayList<>();
 
-        // If haven't been running for more than a week, just return the weight. No need to check
-        // for failure.
-        // if (numPreviousExcersizes - IDX_OF_LAST_WEEK =< 0){
-        // Always increment
-            for (int i = 0; i < slistNewExcersizes.size(); i++){
-                if (slistNewExcersizes.get(i).equals("Assistance")) {
-                    int[] reps = assExcer.getReps(slistNewExcersizes.get(i));
+        boolean lastDaySavedFailed = false;
 
-                    nextExcersizes.add(new NextExcersize(slistNewExcersizes.get(i), zeroArray(reps.length)));
-                }
-                else {
-                    // Bug with supplement
-                    String curExcersize = slistNewExcersizes.get(i);
+        for (int i = 0; i < slistNewExcersizes.size(); i++){
+            if (slistNewExcersizes.get(i).equals(AssignedExcers.ASSISTANCE)) {
+                int[] reps = assExcer.getReps(slistNewExcersizes.get(i));
 
-                    if (isSupplement(curExcersize)) {
-                        curExcersize = curExcersize.substring(0, curExcersize.lastIndexOf(" - Supplement"));
+                nextExcersizes.add(new NextExcersize(slistNewExcersizes.get(i), zeroArray(reps.length)));
+            }
+            else {
+                // Bug with supplement
+                String curExcersize = slistNewExcersizes.get(i);
 
-                    }
-
-                    double excerWeight = Double.valueOf(sharedPref.getString(curExcersize + "1RM", "0"));
-                    double trainingMax = getTrainingMax531(excerWeight);
-                    int[] reps = assExcer.getReps(slistNewExcersizes.get(i));
-                    double[] weights = new double[reps.length];
-                    if (isSupplement(slistNewExcersizes.get(i))){
-                        for (int idx =0; idx< reps.length; idx++){
-                            weights[idx] = AssignedExcers.getPercentOfWeight(trainingMax, downSetsPercentage(month));
-                        }
-                    } else {
-                        int WARMUP_SETS = 3;
-                        for (int idx =0; idx< WARMUP_SETS; idx++){
-                            weights[idx] = AssignedExcers.getPercentOfWeight(trainingMax, getPercentageWarmUp(idx));
-                        }
-                        for(int idx=0; idx < reps.length - WARMUP_SETS; idx++){
-                            weights[idx + WARMUP_SETS] = AssignedExcers.getPercentOfWeight(trainingMax, getPercentWorkSet(week,idx));
-                        }
-
-                    }
-                    nextExcersizes.add(new NextExcersize(slistNewExcersizes.get(i), weights));
+                if (isSupplement(curExcersize)) {
+                    curExcersize = curExcersize.substring(0, curExcersize.lastIndexOf(AssignedExcers.SUPPLEMENT));
                 }
 
+                double excerWeight = Double.valueOf(sharedPref.getString(curExcersize + "1RM", "0"));
+
+                String lastDay = sharedPref.getString("Last Day Saved", "null");
+                if (lastDay.equals(String.valueOf(nextExcersize)) & i == 0){
+                    // If this is true, user already opened this activity. As such, we had already incremented
+                    // weight. Only check on the first item in excersizes list.
+                    lastDaySavedFailed = true;
+                }
+
+                if (curWeekRelativeMonth == 0 & (nextExcersize == 1 || nextExcersize == 2) & !lastDaySavedFailed){
+                    // If first week of the new month, increment weight and save to memory.
+                    // Only increment on days 1 or 2 because if I allowed all days you work out first
+                    // week, I would increment weight twice in the first week of the month.
+                    // Todo: ask user if they want to progress or look at previous data.
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("Last Day Saved", String.valueOf(nextExcersize));
+
+                    excerWeight += getWeightInc(curExcersize);
+                    editor.putString(curExcersize + "1RM", String.valueOf(excerWeight));
+                    editor.apply();
+                }
+
+                double trainingMax = getTrainingMax531(excerWeight);
+                int[] reps = assExcer.getReps(slistNewExcersizes.get(i));
+                double[] weights = new double[reps.length];
+                if (isSupplement(slistNewExcersizes.get(i))){
+                    for (int idx =0; idx< reps.length; idx++){
+                        weights[idx] = AssignedExcers.getPercentOfWeight(trainingMax, downSetsPercentage());
+                    }
+                } else {
+                    int WARMUP_SETS = 3;
+                    for (int idx =0; idx< WARMUP_SETS; idx++){
+                        weights[idx] = AssignedExcers.getPercentOfWeight(trainingMax, getPercentageWarmUp(idx));
+                    }
+                    for(int idx=0; idx < reps.length - WARMUP_SETS; idx++){
+                        weights[idx + WARMUP_SETS] = AssignedExcers.getPercentOfWeight(trainingMax, getPercentWorkSet(curWeekRelativeMonth,idx));
+                    }
+
+                }
+                nextExcersizes.add(new NextExcersize(slistNewExcersizes.get(i), weights));
             }
 
+        }
 
-        // }
+
 
         return nextExcersizes;
 

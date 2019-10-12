@@ -81,8 +81,7 @@ public class RoutinePhrak {
         String name = excer.excersizeName;
 
         // Check if upper body workout
-        if (name.equals("Barbell Rows") || name.equals("Bench Press") || name.equals("Chinups")
-            || name.equals("Overhead Press")){
+        if (AssignedExcers.isUpperBody(name)){
             if (excer.uom.equals("lb")){
                 return MainActivity.smallestWeightLb;
             } else {

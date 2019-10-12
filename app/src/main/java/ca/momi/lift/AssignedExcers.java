@@ -15,9 +15,9 @@
 package ca.momi.lift;
 
 import android.content.Context;
-import android.preference.PreferenceGroup;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AssignedExcers {
@@ -31,13 +31,20 @@ public class AssignedExcers {
     public List<String> routineDescriber = new ArrayList<>();
 
 
-    public int workoutOptionsnum;
-
-
+    private int workoutOptionsnum;
 
     public static final String PHRAK_GSPL = "Phrak’s GSLP";
     public static final String FIVE_x_5 = "5x5";
     public static final String FIVE_31_BBB = "531BBB";
+    public static final String BARBELL_ROW = "Bent-over Row";
+    public static final String BENCH = "Bench Press";
+    public static final String CHINUPS = "Chinup";
+    public static final String OVERHEAD = "Overhead Press";
+    public static final String SUPPLEMENT = " - Supplement";
+    public static final String SQUAT = "Squat";
+    public static final String DEADLIFT = "Deadlift";
+    public static final String ASSISTANCE = "Assistance";
+    public static final String[] UPPER_BODY = {BENCH, CHINUPS, OVERHEAD, BARBELL_ROW};
 
     public static List<String> routNames () {
         List<String> routineNames = new ArrayList<>();
@@ -48,6 +55,21 @@ public class AssignedExcers {
         return routineNames;
     }
 
+    public static double getSmallestWeightForUOM(){
+        if (MainActivity.uom.equals("lb")){
+            return MainActivity.smallestWeightLb;
+        } else {
+            return MainActivity.smallestWeightKg;
+        }
+    }
+
+    public static boolean isUpperBody(String name){
+
+        if (Arrays.asList(UPPER_BODY).contains(name)){
+            return true;
+        }
+        return false;
+    }
 
     static public double getPercentOfWeight(double weight, double percent) {
         double pWeight = weight * percent;
@@ -95,7 +117,7 @@ public class AssignedExcers {
 
     public int[] getReps (String excersize){
         if (this.program.equals(FIVE_x_5)) {
-            if (excersize.equals("Deadlift")) {
+            if (excersize.equals(DEADLIFT)) {
                 int[] A = {5};
                 return A;
             } else {
@@ -106,7 +128,7 @@ public class AssignedExcers {
             if(Routine531BBB.isSupplement(excersize)) {
                 int[] A = {10, 10, 10, 10, 10};
                 return A;
-            } else if(excersize.equals("Assistance")){
+            } else if(excersize.equals(ASSISTANCE)){
                 int[] A = {25};
                 return A;
             } else {
@@ -168,71 +190,71 @@ public class AssignedExcers {
             case FIVE_x_5:
                 switch (routName) {
                     case "Bench Press, Barbell Row":
-                        excersizes.add("Squat");
-                        excersizes.add("Bench Press");
-                        excersizes.add("Bent-over Row");
+                        excersizes.add(SQUAT);
+                        excersizes.add(BENCH);
+                        excersizes.add(BARBELL_ROW);
                         break;
                     case "Overhead Press, Deadlift":
-                        excersizes.add("Squat");
-                        excersizes.add("Overhead Press");
-                        excersizes.add("Deadlift");
+                        excersizes.add(SQUAT);
+                        excersizes.add(OVERHEAD);
+                        excersizes.add(DEADLIFT);
                         break;
                 }
                 return excersizes;
             case "madcow":
                 switch (routName) {
                     case "Day 1":
-                        excersizes.add("Squat");
-                        excersizes.add("Bench Press");
-                        excersizes.add("Bent-over Row");
+                        excersizes.add(SQUAT);
+                        excersizes.add(BENCH);
+                        excersizes.add(BARBELL_ROW);
                         break;
                     case "Day 2":
-                        excersizes.add("Squat");
-                        excersizes.add("Overhead Press");
-                        excersizes.add("Deadlift");
+                        excersizes.add(SQUAT);
+                        excersizes.add(OVERHEAD);
+                        excersizes.add(DEADLIFT);
                         break;
                     case "Day 3":
-                        excersizes.add("Squat");
-                        excersizes.add("Bench Press");
-                        excersizes.add("Bent-over Row");
+                        excersizes.add(SQUAT);
+                        excersizes.add(BENCH);
+                        excersizes.add(BARBELL_ROW);
                         break;
                 }
                 return excersizes;
             case FIVE_31_BBB:
                 switch (routName) {
                     case "Day 1":
-                        excersizes.add("Overhead Press");
-                        excersizes.add("Bench Press - Supplement");
-                        excersizes.add("Assistance");
+                        excersizes.add(OVERHEAD);
+                        excersizes.add(BENCH + SUPPLEMENT);
+                        excersizes.add(ASSISTANCE);
                         break;
                     case "Day 2":
-                        excersizes.add("Deadlift");
-                        excersizes.add("Squat - Supplement");
-                        excersizes.add("Assistance");
+                        excersizes.add(DEADLIFT);
+                        excersizes.add(SQUAT + SUPPLEMENT);
+                        excersizes.add(ASSISTANCE);
                         break;
                     case "Day 3":
-                        excersizes.add("Bench Press");
-                        excersizes.add("Overhead Press - Supplement");
-                        excersizes.add("Assistance");
+                        excersizes.add(BENCH);
+                        excersizes.add(OVERHEAD + SUPPLEMENT);
+                        excersizes.add(ASSISTANCE);
                         break;
                     case "Day 4":
-                        excersizes.add("Squat");
-                        excersizes.add("Deadlift - Supplement");
-                        excersizes.add("Assistance");
+                        excersizes.add(SQUAT);
+                        excersizes.add(DEADLIFT + SUPPLEMENT);
+                        excersizes.add(ASSISTANCE);
                         break;
                 }
                 return excersizes;
             case PHRAK_GSPL:
                 switch (routName) {
                     case "Day A":
-                        excersizes.add("Barbell Rows");
-                        excersizes.add("Bench Press");
-                        excersizes.add("Squats");
+                        excersizes.add(BARBELL_ROW);
+                        excersizes.add(BENCH);
+                        excersizes.add(SQUAT);
                         break;
                     case "Day B":
-                        excersizes.add("Chinups");
-                        excersizes.add("Overhead Press");
-                        excersizes.add("Deadlifts");
+                        excersizes.add(CHINUPS);
+                        excersizes.add(OVERHEAD);
+                        excersizes.add(DEADLIFT);
                         break;
                 }
                 return excersizes;
