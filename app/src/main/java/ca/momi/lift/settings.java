@@ -90,6 +90,7 @@ public class settings extends AppCompatActivity {
                     editor.putString("Deadlift1RM", ((TextView) findViewById(R.id.begDeadLift)).getText().toString());
                     editor.putString("Overhead Press1RM", ((TextView) findViewById(R.id.begOverhead)).getText().toString());
                     editor.putString("Bench Press1RM", ((TextView) findViewById(R.id.begBench)).getText().toString());
+                    editor.putString("Last Day Saved", "null");
                 }
 
                 editor.commit();
