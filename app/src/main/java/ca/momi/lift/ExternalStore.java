@@ -107,7 +107,7 @@ public class ExternalStore {
     }
 
 
-    static public LastWorkout getLastidxProperties(int lastNum) {
+    static public LastWorkout getLastidxProp(int lastNum) {
         // Gets last workout number properties. If lastNum = 0, it's the latest saved workout.
         // TODO: Error checking if folder doesnt exist
         File path = new File(Environment.getExternalStorageDirectory() + LIFT_FOLDER + "/" + MainActivity.program);

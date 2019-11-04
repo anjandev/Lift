@@ -131,8 +131,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setNextWorkout () {
+        // rewrite this so it's simplier if not onpause
 
-        LastWorkout latestwork = ExternalStore.getLastidxProperties(0);
+        LastWorkout latestwork = ExternalStore.getLastidxProp(0);
         RadioGroup routinesRadGroup = findViewById(R.id.routines);
 
         if(!DEBUGMODE) {
@@ -146,13 +147,21 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         AssignedExcers assExcersize = new AssignedExcers();
-        int curIdx = -1;
 
-        for (int i = 0; i < assExcersize.routineDescriber.size(); i++){
-            if (assExcersize.routineDescriber.get(i).equals(latestwork.routineName)){
-                curIdx = i;
+        int curIdx;
+        if (latestwork.onPause) {
+            curIdx = assExcersize.routineDescriber.indexOf(latestwork.routineName);
+        } else {
+            curIdx = -1;
+
+
+            for (int i = 0; i < assExcersize.routineDescriber.size(); i++) {
+                if (assExcersize.routineDescriber.get(i).equals(latestwork.routineName)) {
+                    curIdx = i;
+                }
             }
         }
+
         int nextIdx = assExcersize.nextRoutineIdx(curIdx);
 
         RadioButton nextButton = (RadioButton) routinesRadGroup.getChildAt(nextIdx);

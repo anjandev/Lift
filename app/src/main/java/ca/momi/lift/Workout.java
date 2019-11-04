@@ -48,6 +48,14 @@ public class Workout extends AppCompatActivity {
 
     private Button doneWork;
 
+    private boolean pausing = false;
+
+    protected void onPause() {
+        super.onPause();
+        pausing = true;
+        doneWork.performClick();
+    }
+
     private void didSet(View view, Excersize excersize) {
 
         SeekBar numOfSets = excersize.seekSets;
@@ -332,29 +340,34 @@ public class Workout extends AppCompatActivity {
 
         final String programName = getIntent().getStringExtra("program");
 
-        long day = getIntent().getLongExtra("day", 0);
-        long month = getIntent().getLongExtra("month", 0);
-        long year = getIntent().getLongExtra("year", 0);
+        final String dateString = getDateString();
 
-        final String dateString = year + "-" + appendZero(String.valueOf(month)) + "-" + appendZero(String.valueOf(day));
         TextView bDate = findViewById(R.id.date);
         bDate.setText(dateString);
 
         LinearLayout ll = findViewById(R.id.stuff);
-        LastWorkout todaysWorkout = ExternalStore.getPropFromFile(dateString + ".txt");
         listOfExcersizes = new Excersize[slistOfExcersizes.length];
-        List<NextExcersize>  metaNext = new AssignedExcers().nextRoutineWeightsCheck(slistOfExcersizes, this.getBaseContext());
 
-        if (todaysWorkout != null) {
-            // Resume today's workout
+        LastWorkout todaysWorkout = ExternalStore.getLastidxProp(0);
+
+        boolean lastWorkoutOnPause;
+
+        if (todaysWorkout == null ) {
+            lastWorkoutOnPause = false;
+        } else {
+            lastWorkoutOnPause = todaysWorkout.onPause;
+        }
+
+        // Resume today's workout
+        if (lastWorkoutOnPause) {
             for (int i = 0; i < slistOfExcersizes.length; i++) {
                 listOfExcersizes[i] = todaysWorkout.excersizesDone.get(i);
             }
         } else {
+            List<NextExcersize>  metaNext = new AssignedExcers().nextRoutineWeightsCheck(slistOfExcersizes, this.getBaseContext());
             for (int i = 0; i < slistOfExcersizes.length; i++) {
                 Excersize excer = new Excersize(slistOfExcersizes[i], (metaNext.get(i).excersizeWeight));
                 listOfExcersizes[i] = (excer);
-
             }
         }
 
@@ -362,29 +375,42 @@ public class Workout extends AppCompatActivity {
             createExcerUI(listOfExcersizes[i], ll);
         }
 
-        Button doneWork = new Button(this);
+        final Button doneWork = new Button(this);
         doneWork.setText("Done Workout");
         ll.addView(doneWork);
 
-
-         doneWork.setOnClickListener(new View.OnClickListener() {
+        doneWork.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 String workoutSessionText = "* " + routineName + "\n"
-                                           + "SCHEDULED: <" + dateString + ">\n";
-
-                 workoutSessionText += "- Program: " + programName + "\n";
-                 for(int i = 0; i < listOfExcersizes.length; i++) {
-                     workoutSessionText += ExternalStore.makeExcersizeString(listOfExcersizes[i]);
-                 }
-                 checkStoragePermissionAndWrite((Activity) v.getContext(),  dateString, workoutSessionText);
-                 if (currentWorkTimer != null) {
-                     currentWorkTimer.timer.cancel();
-                 }
+                writeData(routineName, dateString, programName, pausing, v);
              }
-         });
+        });
 
-         this.doneWork = doneWork;
+        this.doneWork = doneWork;
+        // by default, the activity assumes the button will click doneWork via user input
+        // However, if activity is paused, onPause is called and sets pausing true.
+        this.pausing = false;
+    }
+
+    private void writeData(String routineName, String dateString, String programName, boolean onPause, View v) {
+        String workoutSessionText = "* " + routineName + "\n"
+                + "SCHEDULED: <" + dateString + ">\n";
+
+        workoutSessionText += "- Program: " + programName + "\n";
+        for(int i = 0; i < listOfExcersizes.length; i++) {
+            workoutSessionText += ExternalStore.makeExcersizeString(listOfExcersizes[i]);
+        }
+
+        if (onPause) {
+            workoutSessionText += "---\n" +
+                    LastWorkout.onPausetxt;
+        }
+
+
+        checkStoragePermissionAndWrite((Activity) v.getContext(),  dateString, workoutSessionText);
+        if (currentWorkTimer != null) {
+            currentWorkTimer.timer.cancel();
+        }
     }
 
 
@@ -412,5 +438,14 @@ public class Workout extends AppCompatActivity {
             // other 'case' lines to check for other
             // permissions this app might request.
 
+    }
+
+    private String getDateString() {
+
+        long day = getIntent().getLongExtra("day", 0);
+        long month = getIntent().getLongExtra("month", 0);
+        long year = getIntent().getLongExtra("year", 0);
+
+        return year + "-" + appendZero(String.valueOf(month)) + "-" + appendZero(String.valueOf(day));
     }
 }

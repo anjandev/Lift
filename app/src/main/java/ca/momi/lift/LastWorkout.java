@@ -26,10 +26,21 @@ public class LastWorkout {
     public List<Excersize> excersizesDone;
     public int routineIdx;
     public String program;
+    public boolean onPause;
+    public static final String onPausetxt = "On Pause";
 
 
     private int getIdxBeg(String searchTxt, String sub){
         return searchTxt.indexOf(sub) + sub.length();
+    }
+
+    private int lengthTillComments(String[] lines){
+        for (int i = 0; i< lines.length; i++){
+            if (lines[i].equals("---")) {
+                return i + 1;
+            }
+        }
+        return lines.length;
     }
 
     private List<Excersize> textToExcersizes(String text){
@@ -48,7 +59,7 @@ public class LastWorkout {
 
         List<Set> curSets = new ArrayList<Set>();
 
-        for(int i=FIRST_EXCERSIZE_LINE+1; i< lines.length; i++) {
+        for(int i=FIRST_EXCERSIZE_LINE+1; i< lengthTillComments(lines); i++) {
             Matcher mExcersizeNom = pExcersizeNom.matcher(lines[i]);
             if (mExcersizeNom.find()) {
 
@@ -66,7 +77,9 @@ public class LastWorkout {
             curSets.add(new Set(reps, weight));
         }
 
-        excersizes = setSetsDoneAndAddExcer(excersizes,curSets,curExcersizeLine);
+        if (!curExcersizeLine.equals("---")) {
+            excersizes = setSetsDoneAndAddExcer(excersizes, curSets, curExcersizeLine);
+        }
 
         return excersizes;
 
@@ -111,6 +124,9 @@ public class LastWorkout {
         // TODO: add error handling to check if no matches
         routineName = sentRoutineName;
         excersizesDone = textToExcersizes(content);
+
+        String[] lines = content.split("\n");
+        onPause = lines[lines.length-1].contentEquals(onPausetxt);
 
         List<String> routines = new AssignedExcers().routineDescriber;
 
