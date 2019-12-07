@@ -1,4 +1,6 @@
 # Lift
+[![builds.sr.ht status](https://builds.sr.ht/~anjan/lift/.build.yml.svg)](https://builds.sr.ht/~anjan/lift/.build.yml?)
+
 A weight lifting tracking app that respects your freedoms.
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" width="30%">](https://f-droid.org/en/packages/ca.momi.lift/)
