@@ -33,8 +33,8 @@ public class Routine5x5 {
     public static List<NextExcersize> nextRoutineWeights() {
 
         List<NextExcersize> nextExcersizes = new ArrayList<>();
-        LastWorkout lastwork = ExternalStore.getLastidxProperties(0);
-        LastWorkout secondlastwork = ExternalStore.getLastidxProperties(1);
+        LastWorkout lastwork = ExternalStore.getLastidxProp(0);
+        LastWorkout secondlastwork = ExternalStore.getLastidxProp(1);
 
         AssignedExcers assExcer = new AssignedExcers();
 

@@ -190,7 +190,7 @@ public class Routine531BBB {
         return nextExcersizes;
 
         // TODO: check failure
-        // LastWorkout lastWeekWorkout= ExternalStore.getLastidxProperties(IDX_OF_LAST_WEEK);
+        // LastWorkout lastWeekWorkout= ExternalStore.getLastidxProp(IDX_OF_LAST_WEEK);
 
 
     }

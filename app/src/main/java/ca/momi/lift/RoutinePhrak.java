@@ -34,7 +34,7 @@ public class RoutinePhrak {
         List<String> slistNewExcersizes = assExcer.getExcersizes("Day "+
                                                                  nextExcersize(numPreviousExcersizes));
 
-        LastWorkout metaLastWorkout = ExternalStore.getLastidxProperties(1);
+        LastWorkout metaLastWorkout = ExternalStore.getLastidxProp(1);
 
         List<NextExcersize> nextExcersizes = new ArrayList<>();
 
