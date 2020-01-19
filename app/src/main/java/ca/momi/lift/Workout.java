@@ -50,10 +50,9 @@ public class Workout extends AppCompatActivity {
 
     private boolean pausing = false;
 
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onResume() {
+        super.onResume();
         pausing = false;
-        doneWork.performClick();
     }
 
     protected void onPause() {
@@ -397,6 +396,7 @@ public class Workout extends AppCompatActivity {
         });
 
         this.doneWork = doneWork;
+        pausing = false;
     }
 
     private void writeData(String routineName, String dateString, String programName, boolean onPause, View v) {
