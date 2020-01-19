@@ -50,6 +50,11 @@ public class Workout extends AppCompatActivity {
 
     private boolean pausing = false;
 
+    protected void onResume() {
+        super.onResume();
+        pausing = false;
+    }
+
     protected void onPause() {
         super.onPause();
         pausing = true;
@@ -92,17 +97,17 @@ public class Workout extends AppCompatActivity {
         }
     }
 
-    public void checkStoragePermissionAndWrite(Activity thisActivity, String fileName, String text) {
+    public boolean checkStoragePermissionAndWrite(Activity thisActivity, String fileName, String text) {
 
         String state = Environment.getExternalStorageState();
 
         if (!Environment.MEDIA_MOUNTED.equals(state)){
             Log.d(TAG, "Error: external storage is unavailable");
-            return;
+            return false;
         }
         if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
             Log.d(TAG, "Error: external storage is read only.");
-            return;
+            return false;
         }
         Log.d(TAG, "External storage is not read only or unavailable");
 
@@ -131,16 +136,20 @@ public class Workout extends AppCompatActivity {
 
             try {
                 ExternalStore.writeTextToExtStorage(fileName, text);
+                return true;
             } catch (IOException e) {
                 e.printStackTrace();
+                return false;
             }
         } else {
             // Permission has already been granted
 
             try {
                 ExternalStore.writeTextToExtStorage(fileName, text);
+                return true;
             } catch (IOException e) {
                 e.printStackTrace();
+                return false;
             }
         }
 
@@ -406,10 +415,14 @@ public class Workout extends AppCompatActivity {
                     LastWorkout.onPausetxt;
         }
 
-
-        checkStoragePermissionAndWrite((Activity) v.getContext(),  dateString, workoutSessionText);
         if (currentWorkTimer != null) {
             currentWorkTimer.timer.cancel();
+        }
+
+        if (checkStoragePermissionAndWrite((Activity) v.getContext(),  dateString, workoutSessionText)){
+            finish();
+        } else {
+            Log.d(TAG, "writeData: failed. Try again");
         }
     }
 
