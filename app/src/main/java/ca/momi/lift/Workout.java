@@ -402,6 +402,7 @@ public class Workout extends AppCompatActivity {
     }
 
     private void writeData(String routineName, String dateString, String programName, boolean onPause, View v) {
+        // TODO: split into multiple functions
         String workoutSessionText = "* " + routineName + "\n"
                 + "SCHEDULED: <" + dateString + ">\n";
 
@@ -415,12 +416,14 @@ public class Workout extends AppCompatActivity {
                     LastWorkout.onPausetxt;
         }
 
-        if (currentWorkTimer != null) {
+        if (currentWorkTimer != null & !onPause) {
             currentWorkTimer.timer.cancel();
         }
 
         if (checkStoragePermissionAndWrite((Activity) v.getContext(),  dateString, workoutSessionText)){
-            finish();
+            if (!onPause) {
+                finish();
+            }
         } else {
             Log.d(TAG, "writeData: failed. Try again");
         }
