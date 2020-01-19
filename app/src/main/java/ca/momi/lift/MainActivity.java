@@ -49,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
 
     public static Boolean DEBUGMODE = false;
 
+    protected void onResume() {
+        super.onResume();
+        setNextWorkout();
+    }
+
     private void getSavedPref(Context context){
           SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
           program = sharedPref.getString("program",AssignedExcers.FIVE_x_5);
@@ -148,11 +153,11 @@ public class MainActivity extends AppCompatActivity {
         }
         AssignedExcers assExcersize = new AssignedExcers();
 
-        int curIdx;
+        int nextIdx;
         if (latestwork.onPause) {
-            curIdx = assExcersize.routineDescriber.indexOf(latestwork.routineName);
+            nextIdx = assExcersize.routineDescriber.indexOf(latestwork.routineName);
         } else {
-            curIdx = -1;
+            int curIdx = -1;
 
 
             for (int i = 0; i < assExcersize.routineDescriber.size(); i++) {
@@ -160,9 +165,10 @@ public class MainActivity extends AppCompatActivity {
                     curIdx = i;
                 }
             }
+
+            nextIdx = assExcersize.nextRoutineIdx(curIdx);
         }
 
-        int nextIdx = assExcersize.nextRoutineIdx(curIdx);
 
         RadioButton nextButton = (RadioButton) routinesRadGroup.getChildAt(nextIdx);
         nextButton.setChecked(true);

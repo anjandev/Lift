@@ -50,9 +50,10 @@ public class Workout extends AppCompatActivity {
 
     private boolean pausing = false;
 
-    protected void onResume() {
-        super.onResume();
+    protected void onDestroy() {
+        super.onDestroy();
         pausing = false;
+        doneWork.performClick();
     }
 
     protected void onPause() {
@@ -396,9 +397,6 @@ public class Workout extends AppCompatActivity {
         });
 
         this.doneWork = doneWork;
-        // by default, the activity assumes the button will click doneWork via user input
-        // However, if activity is paused, onPause is called and sets pausing true.
-        this.pausing = false;
     }
 
     private void writeData(String routineName, String dateString, String programName, boolean onPause, View v) {
@@ -422,7 +420,7 @@ public class Workout extends AppCompatActivity {
 
         if (checkStoragePermissionAndWrite((Activity) v.getContext(),  dateString, workoutSessionText)){
             if (!onPause) {
-                finish();
+                System.exit(0);
             }
         } else {
             Log.d(TAG, "writeData: failed. Try again");
