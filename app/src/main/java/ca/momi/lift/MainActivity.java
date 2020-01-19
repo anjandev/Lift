@@ -167,8 +167,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             nextIdx = assExcersize.nextRoutineIdx(curIdx);
-        }
 
+            if (latestwork.datestring.equals(DateFormat.format("yyyy-MM-dd", new Date()).toString())) {
+                // already done today's workout
+                findViewById(R.id.edDate).setVisibility(View.INVISIBLE);
+            }
+        }
 
         RadioButton nextButton = (RadioButton) routinesRadGroup.getChildAt(nextIdx);
         nextButton.setChecked(true);

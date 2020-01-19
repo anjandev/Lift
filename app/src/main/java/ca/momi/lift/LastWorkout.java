@@ -28,6 +28,7 @@ public class LastWorkout {
     public String program;
     public boolean onPause;
     public static final String onPausetxt = "On Pause";
+    public String datestring;
 
 
     private int getIdxBeg(String searchTxt, String sub){
@@ -127,6 +128,9 @@ public class LastWorkout {
 
         String[] lines = content.split("\n");
         onPause = lines[lines.length-1].contentEquals(onPausetxt);
+
+        String dateLine = lines[1];
+        datestring = dateLine.substring(dateLine.indexOf("<")+1,dateLine.indexOf(">"));
 
         List<String> routines = new AssignedExcers().routineDescriber;
 
