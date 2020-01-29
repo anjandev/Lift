@@ -46,6 +46,14 @@ public class AssignedExcers {
     public static final String ASSISTANCE = "Assistance";
     public static final String[] UPPER_BODY = {BENCH, CHINUPS, OVERHEAD, BARBELL_ROW};
 
+
+    public static String getComment(Context context) {
+        if (MainActivity.program.equals(FIVE_31_BBB)) {
+            return Routine531BBB.getComment(context);
+        }
+        return null;
+    }
+
     public static List<String> routNames () {
         List<String> routineNames = new ArrayList<>();
         routineNames.add(FIVE_x_5);

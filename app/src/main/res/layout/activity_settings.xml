@@ -60,7 +60,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Squat Real 1RM Weight"
+        android:hint="@string/Squat531Max"
         android:inputType="numberDecimal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/programs" />
@@ -73,7 +73,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Overhead Real 1RM Weight"
+        android:hint="@string/Overhead531Max"
         android:inputType="numberDecimal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/begSquat" />
@@ -86,7 +86,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Deadlift Real 1RM Weight"
+        android:hint="@string/Deadlift531Max"
         android:inputType="numberDecimal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/begOverhead" />
@@ -99,7 +99,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Bench Real  1RM Weight"
+        android:hint="@string/Bench531Max"
         android:inputType="numberDecimal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/begDeadLift" />

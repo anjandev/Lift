@@ -51,4 +51,14 @@
 
     Home icons made by Kiranshastry (https://www.flaticon.com/authors/kiranshastry) from www.flaticon.com
     </string>
+    <string name="start_comment">---\n</string>
+    <string name="Squat531Max">Squat Real 1RM Weight</string>
+    <string name="Deadlift531Max">Deadlift Real 1RM Weight</string>
+    <string name="Bench531Max">Bench Real 1RM Weight</string>
+    <string name="Overhead531Max">Overhead Real 1RM Weight</string>
+    <string name="Squat">Squat</string>
+    <string name="Bench">Bench Press</string>
+    <string name="Overhead">Overhead Press</string>
+    <string name="Deadlift">Deadlift</string>
+    <string name="Week">Week</string>
 </resources>

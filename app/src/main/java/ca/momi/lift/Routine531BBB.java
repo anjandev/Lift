@@ -16,13 +16,17 @@ package ca.momi.lift;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import static ca.momi.lift.MainActivity.PREFERENCE_FILE_KEY;
 
 public class Routine531BBB {
+
+    final static int  TOTAL_ROUTINE = 4;
 
     static private double getTrainingMax531(Double weight){
         return ((weight))*0.9;
@@ -108,23 +112,15 @@ public class Routine531BBB {
         AssignedExcers assExcer = new AssignedExcers();
 
         int numPreviousExcersizes = ExternalStore.getNumLastWorkoutFiles();
-        final int TOTAL_ROUTINE = 4;
         int nextExcersize = numPreviousExcersizes % TOTAL_ROUTINE + 1;
 
         List<String> slistNewExcersizes = assExcer.getExcersizes("Day "+nextExcersize);
 
-        final int curWeek = numPreviousExcersizes / TOTAL_ROUTINE;
-
-        final int month= curWeek / TOTAL_ROUTINE;
-
-        final int WEEKS_IN_MONTH = 4;
-        // First week of the month would be 0, second week 1, etc.
-        int curWeekRelativeMonth = curWeek - month * WEEKS_IN_MONTH;
-
-
         List<NextExcersize> nextExcersizes = new ArrayList<>();
 
         boolean lastDaySavedFailed = false;
+
+        int curWeekRelativeMonth = getCurWeekRelativeMonth();
 
         for (int i = 0; i < slistNewExcersizes.size(); i++){
             if (slistNewExcersizes.get(i).equals(AssignedExcers.ASSISTANCE)) {
@@ -195,6 +191,17 @@ public class Routine531BBB {
 
     }
 
+    private static int getCurWeekRelativeMonth() {
+        int numPreviousExcersizes = ExternalStore.getNumLastWorkoutFiles();
+
+        final int curWeek = numPreviousExcersizes / TOTAL_ROUTINE;
+
+        final int month= curWeek / TOTAL_ROUTINE;
+
+        final int WEEKS_IN_MONTH = 4;
+        // First week of the month would be 0, second week 1, etc.
+        return curWeek - month * WEEKS_IN_MONTH;
+    }
 
     private static double[] zeroArray(int length){
 
@@ -214,6 +221,23 @@ public class Routine531BBB {
             return false;
         }
         return excersize.substring(excersize.length()-"Supplement".length()).equals("Supplement");
+    }
+
+    public static String getComment(Context context) {
+
+        String comment = "";
+
+        SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
+        Resources res = context.getResources();
+
+        comment += res.getString(R.string.Week) + ": " + getCurWeekRelativeMonth() + "\n";
+        comment += res.getString(R.string.Squat531Max) + ": " + sharedPref.getString(R.string.Squat + "1RM", "0") + "\n";
+        comment += res.getString(R.string.Bench531Max) + ": " + sharedPref.getString(R.string.Bench + "1RM", "0") + "\n";
+        comment += res.getString(R.string.Deadlift531Max) + ": " + sharedPref.getString(R.string.Deadlift + "1RM", "0") + "\n";
+        comment += res.getString(R.string.Overhead531Max) + ": " + sharedPref.getString(R.string.Overhead + "1RM", "0") + "\n";
+
+
+        return comment;
     }
 
 }

@@ -16,6 +16,8 @@
 
 package ca.momi.lift;
 
+import android.content.res.Resources;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -78,7 +80,7 @@ public class LastWorkout {
             curSets.add(new Set(reps, weight));
         }
 
-        if (!curExcersizeLine.equals("---")) {
+        if (!curExcersizeLine.equals(Resources.getSystem().getString(R.string.start_comment))) {
             excersizes = setSetsDoneAndAddExcer(excersizes, curSets, curExcersizeLine);
         }
 
