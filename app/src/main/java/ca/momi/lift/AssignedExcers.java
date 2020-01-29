@@ -51,7 +51,7 @@ public class AssignedExcers {
         if (MainActivity.program.equals(FIVE_31_BBB)) {
             return Routine531BBB.getComment(context);
         }
-        return null;
+        return "";
     }
 
     public static List<String> routNames () {

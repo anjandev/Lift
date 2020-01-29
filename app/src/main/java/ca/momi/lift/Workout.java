@@ -411,14 +411,7 @@ public class Workout extends AppCompatActivity {
 
 
         workoutSessionText += getResources().getString(R.string.start_comment);
-
-        String routComment = AssignedExcers.getComment(v.getContext());
-
-        if (routComment != null){
-            workoutSessionText += routComment;
-        }
-
-
+        workoutSessionText += AssignedExcers.getComment(v.getContext());
         // OnPause text is always the last word. Otherwise parser doesnt work
         if (onPause) {
             workoutSessionText += LastWorkout.onPausetxt;
