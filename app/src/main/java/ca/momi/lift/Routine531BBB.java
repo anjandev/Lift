@@ -231,10 +231,10 @@ public class Routine531BBB {
         Resources res = context.getResources();
 
         comment += res.getString(R.string.Week) + ": " + getCurWeekRelativeMonth() + "\n";
-        comment += res.getString(R.string.Squat531Max) + ": " + sharedPref.getString(R.string.Squat + "1RM", "0") + "\n";
-        comment += res.getString(R.string.Bench531Max) + ": " + sharedPref.getString(R.string.Bench + "1RM", "0") + "\n";
-        comment += res.getString(R.string.Deadlift531Max) + ": " + sharedPref.getString(R.string.Deadlift + "1RM", "0") + "\n";
-        comment += res.getString(R.string.Overhead531Max) + ": " + sharedPref.getString(R.string.Overhead + "1RM", "0") + "\n";
+        comment += res.getString(R.string.Squat531Max) + ": " + sharedPref.getString(AssignedExcers.SQUAT + "1RM", "0") + "\n";
+        comment += res.getString(R.string.Bench531Max) + ": " + sharedPref.getString(AssignedExcers.BENCH + "1RM", "0") + "\n";
+        comment += res.getString(R.string.Deadlift531Max) + ": " + sharedPref.getString(AssignedExcers.DEADLIFT + "1RM", "0") + "\n";
+        comment += res.getString(R.string.Overhead531Max) + ": " + sharedPref.getString(AssignedExcers.OVERHEAD + "1RM", "0") + "\n";
 
 
         return comment;
