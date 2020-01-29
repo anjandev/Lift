@@ -80,7 +80,7 @@ public class LastWorkout {
             curSets.add(new Set(reps, weight));
         }
 
-        if (!curExcersizeLine.equals(Resources.getSystem().getString(R.string.start_comment))) {
+        if (!curExcersizeLine.equals("---")) {
             excersizes = setSetsDoneAndAddExcer(excersizes, curSets, curExcersizeLine);
         }
 
