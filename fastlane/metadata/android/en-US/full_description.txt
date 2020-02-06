@@ -2,5 +2,5 @@
 * Program's progression and daily routine is handled by the app
 * Programs supported: Starting strength/5x5, 531 Big But Boring 3 month challenge, and Phrak's GSPL (Modified)
 * Weight lifting data is saved as plain text org files
-* Allows user to use standard unix tools to manipulate and sync with programs like [syncthing](https://syncthing.net/)
+* Allows user to use standard unix tools to manipulate and sync with programs like <a href="https://syncthing.net/">syncthing</a>
 * Timer for how to long to rest for. Beeps at 1.5 minute intervals.
