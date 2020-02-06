@@ -20,7 +20,6 @@ import android.content.res.Resources;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import static ca.momi.lift.MainActivity.PREFERENCE_FILE_KEY;
 

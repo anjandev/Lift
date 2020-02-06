@@ -42,7 +42,7 @@ public class Workout extends AppCompatActivity {
     private static final String TAG = Workout.class.getSimpleName();
 
     private  WorkTimer currentWorkTimer;
-    Excersize[] listOfExcersizes;
+    Excersize[] lexcersizes;
 
     private static final int MY_PERMISSIONS_REQUEST_WRITE_SD = 1;
 
@@ -344,7 +344,7 @@ public class Workout extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workouta);
 
-        String[] slistOfExcersizes = getIntent().getStringArrayExtra("Excersizes");
+        String[] slExcersizes = getIntent().getStringArrayExtra("Excersizes");
         final String routineName = getIntent().getStringExtra("RoutineName");
 
         final String programName = getIntent().getStringExtra("program");
@@ -355,7 +355,7 @@ public class Workout extends AppCompatActivity {
         bDate.setText(dateString);
 
         LinearLayout ll = findViewById(R.id.stuff);
-        listOfExcersizes = new Excersize[slistOfExcersizes.length];
+        lexcersizes = new Excersize[slExcersizes.length];
 
         LastWorkout todaysWorkout = ExternalStore.getLastidxProp(0);
 
@@ -369,19 +369,18 @@ public class Workout extends AppCompatActivity {
 
         // Resume today's workout
         if (lastWorkoutOnPause) {
-            for (int i = 0; i < slistOfExcersizes.length; i++) {
-                listOfExcersizes[i] = todaysWorkout.excersizesDone.get(i);
+            for (int i = 0; i < slExcersizes.length; i++) {
+                lexcersizes[i] = todaysWorkout.excersizesDone.get(i);
             }
         } else {
-            List<NextExcersize>  metaNext = new AssignedExcers().nextRoutineWeightsCheck(slistOfExcersizes, this.getBaseContext());
-            for (int i = 0; i < slistOfExcersizes.length; i++) {
-                Excersize excer = new Excersize(slistOfExcersizes[i], (metaNext.get(i).excersizeWeight));
-                listOfExcersizes[i] = (excer);
+            List<NextExcersize>  metaNext = new AssignedExcers().nextRoutineWeightsCheck(slExcersizes, this.getBaseContext());
+            for (int i = 0; i < slExcersizes.length; i++) {
+                lexcersizes[i] = new Excersize(slExcersizes[i], metaNext.get(i).excersizeWeight);
             }
         }
 
-        for (int i =0; i < slistOfExcersizes.length; i++) {
-            createExcerUI(listOfExcersizes[i], ll);
+        for (int i =0; i < slExcersizes.length; i++) {
+            createExcerUI(lexcersizes[i], ll);
         }
 
         final Button doneWork = new Button(this);
@@ -405,8 +404,8 @@ public class Workout extends AppCompatActivity {
                 + "SCHEDULED: <" + dateString + ">\n";
 
         workoutSessionText += "- Program: " + programName + "\n";
-        for(int i = 0; i < listOfExcersizes.length; i++) {
-            workoutSessionText += ExternalStore.makeExcersizeString(listOfExcersizes[i]);
+        for(int i = 0; i < lexcersizes.length; i++) {
+            workoutSessionText += ExternalStore.makeExcersizeString(lexcersizes[i]);
         }
 
 
