@@ -1,7 +1,9 @@
 # Lift
 [![builds.sr.ht status](https://builds.sr.ht/~anjan/lift/.build.yml.svg)](https://builds.sr.ht/~anjan/lift/.build.yml?)
 
-A weight lifting tracking app that respects your freedoms.
+A weight lifting tracking app that respects your freedoms. 
+
+**This program is useful but still in alpha. I may add breaking changes like changing the format of files. This would mean your old workout files although readable will not work with newer releases**.
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" width="30%">](https://f-droid.org/en/packages/ca.momi.lift/)
 
